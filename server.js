@@ -19,4 +19,8 @@ server.use(express.json());
 server.use(cors());
 server.use(helmet());
 
+server.get("/", (_, res) => {
+    res.send("I am not a computer nerd. I prefer to be called a hacker.");
+  });
+
 module.exports = server;

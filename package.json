@@ -1,4 +1,12 @@
 {
+  "name": "nutrition-tracker-backend",
+  "version": "1",
+  "description": "backend of nutrition tracker",
+  "main": "index.js",
+  "repository": "https://github.com/Lambda-School-Labs/nutrition-tracker-be.git",
+  "author": "WEBPT5 Labs Nutrition Tracker Team",
+  "license": "MIT",
+  "private": false,
   "scripts": {
     "start": "node index.js",
     "@comment test": "--verbose: display all names in describe, it and test blocks; --i: run tests with one thread; --forceExit: force quit Jest if test can't be cleaned up; --watch: watch for file changes and rerun test on changed files",
@@ -24,12 +32,7 @@
     "nodemon": "^1.19.4",
     "supertest": "^4.0.2"
   },
-  "name": "nutrition-tracker-backend",
-  "version": "1",
-  "description": "backend of nutrition tracker",
-  "main": "index.js",
-  "repository": "https://github.com/Lambda-School-Labs/nutrition-tracker-be.git",
-  "author": "WEBPT5 Labs Nutrition Tracker Team",
-  "license": "MIT",
-  "private": false
+  "jest": {
+    "testEnvironment": "node"
+  }
 }
