@@ -40,6 +40,11 @@ To get the server running locally:
 - [morgan](https://github.com/expressjs/morgan)
 - [pg](https://node-postgres.com/)
 - [uuid](https://www.npmjs.com/package/uuid)
+- [sentry](https://blog.sentry.io/2018/03/06/the-sentry-workflow)
+- [axios](https://github.com/axios/axios)
+- [heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs)
+- [validator](https://www.npmjs.com/package/validator)
+
 
 
 ## Development Dependencies
