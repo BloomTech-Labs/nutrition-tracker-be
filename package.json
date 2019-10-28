@@ -1,5 +1,9 @@
 {
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
+    "@sentry/node": "5.7.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
@@ -16,5 +20,13 @@
     "jest": "^24.9.0",
     "nodemon": "^1.19.4",
     "supertest": "^4.0.2"
-  }
+  },
+  "name": "nutrition-tracker-backend",
+  "version": "1",
+  "description": "backend of nutrition tracker",
+  "main": "index.js",
+  "repository": "https://github.com/Lambda-School-Labs/nutrition-tracker-be.git",
+  "author": "WEBPT5 Labs Nutrition Tracker Team",
+  "license": "MIT",
+  "private": false
 }
