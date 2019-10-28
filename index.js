@@ -1,4 +1,5 @@
 require("dotenv").config();
+const server = require("./server");
 const Sentry = require("@sentry/node");
 const PORT = process.env.PORT || 4000;
 const DSN = process.env.SENTRY_DSN;
