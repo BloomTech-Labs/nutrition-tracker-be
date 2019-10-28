@@ -28,6 +28,28 @@ To get the server running locally:
 -    Point Three
 -    Point Four
 
+## Production Dependencies
+
+- [cors](https://www.npmjs.com/package/cors)
+- [dotenv](https://www.npmjs.com/package/dotenv)
+- [express](https://expressjs.com/)
+- [helmet](https://helmetjs.github.io/)
+- [knex](http://knexjs.org/)
+- [knex-cleaner](https://www.npmjs.com/package/knex-cleaner)
+- [moment](https://momentjs.com/)
+- [morgan](https://github.com/expressjs/morgan)
+- [pg](https://node-postgres.com/)
+- [uuid](https://www.npmjs.com/package/uuid)
+
+
+## Development Dependencies
+
+- [cross-env](https://www.npmjs.com/package/cross-env)
+- [jest](https://jestjs.io/)
+- [nodemon](https://nodemon.io/)
+- [supertest](https://github.com/visionmedia/supertest)
+
+
 ## 2️⃣ Endpoints
 
 🚫This is a placeholder, replace the endpoints, access controll, and descriptioin to match your project
