@@ -1,6 +1,6 @@
 {
   "name": "nutrition-tracker-backend",
-  "version": "1",
+  "version": "0.0.1",
   "description": "backend of nutrition tracker",
   "main": "index.js",
   "repository": "https://github.com/Lambda-School-Labs/nutrition-tracker-be.git",
