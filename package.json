@@ -8,6 +8,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
+    "server": "nodemon index.js",
     "start": "node index.js",
     "@comment test": "--verbose: display all names in describe, it and test blocks; --i: run tests with one thread; --forceExit: force quit Jest if test can't be cleaned up; --watch: watch for file changes and rerun test on changed files",
     "test": "cross-env DB_ENV=testing jest --verbose --i --forceExit --watch",
