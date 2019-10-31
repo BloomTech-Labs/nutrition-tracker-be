@@ -1,6 +1,6 @@
 {
   "name": "nutrition-tracker-backend",
-  "version": "1",
+  "version": "0.0.1",
   "description": "backend of nutrition tracker",
   "main": "index.js",
   "repository": "https://github.com/Lambda-School-Labs/nutrition-tracker-be.git",
@@ -8,6 +8,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
+    "server": "nodemon index.js",
     "start": "node index.js",
     "@comment test": "--verbose: display all names in describe, it and test blocks; --i: run tests with one thread; --forceExit: force quit Jest if test can't be cleaned up; --watch: watch for file changes and rerun test on changed files",
     "test": "cross-env DB_ENV=testing jest --verbose --i --forceExit --watch",
@@ -20,7 +21,6 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "helmet": "^3.21.2",
-    "heroku": "^7.33.3",
     "knex": "^0.20.0",
     "knex-cleaner": "^1.3.0",
     "moment": "^2.24.0",
