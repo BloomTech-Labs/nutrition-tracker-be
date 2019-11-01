@@ -24,6 +24,5 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-  return knex.shema
-    .dropTableIfExists("consumption_log");
+  return knex.schema.dropTableIfExists("consumption_log");
 };
