@@ -6,7 +6,7 @@ const API_PATH = 'https://platform.fatsecret.com/rest/server.api';
 const OAUTH_VERSION = '1.0';
 const OAUTH_SIGNATURE_METHOD = 'HMAC-SHA1';
 
-module.exports = (uniqueParams = {}) => {
+module.exports = (uniqueParams = {}, method = 'GET') => {
   let queryParams = orderedObject({
     ...getOauthParameters(),
     ...uniqueParams
@@ -19,11 +19,13 @@ module.exports = (uniqueParams = {}) => {
     oauth_signature: sha
   };
 
+  // Axios does not support params as of 2019-11-01
+  // return axios.request({
+  //   baseURL: API_PATH,
+  //   params: queryParams
+  // });
   return axios.create({
-    baseURL: API_PATH,
-    params: {
-      ...queryParams
-    }
+    baseURL: `${API_PATH}?${objectToString(queryParams)}`,
   });
 };
 

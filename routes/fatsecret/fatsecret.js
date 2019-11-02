@@ -13,7 +13,7 @@ router.get('/fatsecret/get-food/:food_id', async (req, res) => {
   const foodID = req.params.food_id;
   const method = 'food.get';
 
-  oathQueryBuilder({ method, food_id: foodID }).get()
+  oathQueryBuilder({ method, food_id: foodID}).get()
     .then(response => {
       console.log("response", response.params);
       let json = CircularJSON.stringify(response.data);
