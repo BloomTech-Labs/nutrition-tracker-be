@@ -2,7 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
 const CircularJSON = require('circular-json');
-const oathQueryBuilder = require('../../helpers/oauthQueryBuilder');
+const oathQueryBuilder = require('./oauthQueryBuilder');
 
 const router = express.Router();
 
