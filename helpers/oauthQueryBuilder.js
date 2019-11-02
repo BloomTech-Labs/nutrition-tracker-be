@@ -6,8 +6,8 @@ const API_PATH = 'https://platform.fatsecret.com/rest/server.api';
 const OAUTH_VERSION = '1.0';
 const OAUTH_SIGNATURE_METHOD = 'HMAC-SHA1';
 
-export default (uniqueParams = {}) => {
-  const queryParams = orderedObject({
+module.exports = (uniqueParams = {}) => {
+  let queryParams = orderedObject({
     ...getOauthParameters(),
     ...uniqueParams
   });
@@ -19,7 +19,6 @@ export default (uniqueParams = {}) => {
     oauth_signature: sha
   };
 
-  // axiosWithAuth.post() example of how to use this helper
   return axios.create({
     baseURL: API_PATH,
     params: {

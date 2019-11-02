@@ -1,15 +1,10 @@
-require('dotenv').config();
 const express = require('express');
-const request = require('request');
 const axios = require('axios');
-const hmacsha1 = require('hmacsha1');
 const cors = require('cors');
 const CircularJSON = require('circular-json');
+const oathQueryBuilder = require('../../helpers/oauthQueryBuilder');
 
 const router = express.Router();
-
-server.use(cors());
-server.use(express.json());
 
 /********************************************************
  *                 FATSECRET - FOOD.GET                 *
@@ -18,9 +13,10 @@ router.get('/fatsecret/get-food/:food_id', async (req, res) => {
   const foodID = req.params.food_id;
   const method = 'food.get';
 
-  fsAxios({ method, food_Id: foodID })
+  oathQueryBuilder({ method, food_id: foodID }).get()
     .then(response => {
-      let json = CircularJSON.stringify(response);
+      console.log("response", response.params);
+      let json = CircularJSON.stringify(response.data);
       res.send(json);
     })
     .catch(error => {

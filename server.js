@@ -3,8 +3,8 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
-
 const server = express();
+const fatSecretRoute = require('./routes/fatsecret/fatsecret');
 
 /*
 morgan("dev"):
@@ -18,6 +18,7 @@ server.use(morgan("dev"));
 server.use(express.json());
 server.use(cors());
 server.use(helmet());
+server.use('/', fatSecretRoute);
 
 server.get("/", (_, res) => {
     res.send("I am not a computer nerd. I prefer to be called a hacker.");
