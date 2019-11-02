@@ -28,13 +28,21 @@ router.get('/fatsecret/search-food/:search_expression', async (req, res) => {
   const method = 'foods.search';
 
   oathQueryBuilder({ method, search_expression: encodeURIComponent(searchExpression), max_results: 10}).get()
-  .then(response => {
-    let json = CircularJSON.stringify(response.data);
-    res.send(json);
-  })
-  .catch(error => {
-    console.log(error);
-  });
+    .then(response => {
+      const results_list = response.data.foods.food;
+
+      const frontend_results = results_list.map(e => {
+        return {
+          food_name: e.food_name,
+          food_id: e.food_id
+        };
+      });
+
+      res.send(frontend_results);
+    })
+    .catch(error => {
+      console.log(error);
+    });
 
   // res.status(200).send(response);
 });
