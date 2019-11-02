@@ -31,10 +31,16 @@ router.get('/fatsecret/search-food/:search_expression', async (req, res) => {
     .then(response => {
       const results_list = response.data.foods.food;
 
+      const calorie_regexp = /.+calories.*\s([0-9]+)k?cal\s.+/i;
+      const amount_regexp = /.*per\s(.+)\s-\scalories/i;
+
       const endpoint_results = results_list.map(e => {
         return {
           food_name: e.food_name,
-          food_id: e.food_id
+          food_id: e.food_id,
+          calories: parseInt(calorie_regexp.exec(e.food_description)[1]),
+          standard_amount: amount_regexp.exec(e.food_description)[1]
+          // standard amount is the "human" amount that corresponds to the calories above that come with the results
         };
       });
 
