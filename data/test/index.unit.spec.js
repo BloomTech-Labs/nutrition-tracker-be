@@ -2,7 +2,8 @@
 *********
 * 
 * Database test file
-* Migrations: Make sure all expected tables are being created
+* ✓ Migrations: Make sure all expected tables are being created
+* 
 *
 *********
 */
@@ -11,15 +12,33 @@ const knex = require("../knex");
 
 // This arr will hold all the tables we expect to be made on running knex migrate:latest
 const tables = [
-    "users",
-    "food_and_beverages",
-    "consumption_log",
-    "recipes",
-    "recipe_instructions",
-    "recipe_ingredients",
-    "recipes_consumption",
-    "user_budget_data",
-    "user_metric_history"
+    ["users",[
+        "username", "password","email","height_cm","sex","dob"
+    ]],
+    ["food_and_beverages",[
+        "name", "human_unit","human_quantity","standard_unity","standard_quantity","calories","fat_g","protein_g","carbs_g","sugar_g","fiber_g","sodium_g"
+    ]],
+    ["consumption_log",[
+        "user_id","id","users","food_bev_id","id","food_and_beverages", "time_consumed_at","human_quantity","standard_quantity","unit_type"
+    ]],
+    ["recipes",[
+        "name","description","prep_time_min","cook_time_min","servings","standard_quantity","serving_description"
+    ]],
+    ["recipe_instructions",[
+        "recipe_id","id","recipes","step_number","step_description"
+    ]],
+    ["recipe_ingredients",[
+        "recipe_id","id","users","food_bev_id","id","food_and_beverages","order","human_quantity","standard_quantity","unit_type"
+    ]],
+    ["recipes_consumption",[
+        "user_id","id","users","recipe_id","id","recipes","time_consumed_at","recipe_proportion"
+    ]],
+    ["user_budget_data",[
+        "user_id","id","users","start_date","goal_weekly_weight_change_lb","activity_level","caloric_budget"
+    ]],
+    ["user_metric_history",[
+        "user_id","id","users","observation_time","weight_kg"
+    ]]
 
 ];
 
@@ -60,7 +79,7 @@ beforeAll(async () => {
 // });
 
 
-test.each`
+describe.each`
     table             | expected
     ${"fakeTable"}    | ${false}
     ${tables[0]}      | ${true}
@@ -72,10 +91,22 @@ test.each`
     ${tables[6]}      | ${true}
     ${tables[7]}      | ${true}
     ${tables[8]}      | ${true}
-`("returns $expected when we look for a table named $table", async ({table, expected}) => {
-  expect(
-    await knex.schema.hasTable(table).then(exists => {
-      return exists;
-    })
-  ).toBe(expected);
+`("let's check out the table named $table", ({table, expected}) => {
+  test("returns $expected when we look for a table named $table", async () => {
+    expect(
+        await knex.schema.hasTable(table[0]).then(exists => {
+            /*exists //? console.log('success') : console.log("fail");
+             ? table[1].forEach(column=0; table[1].length > column; column++){
+                test(`${table} has a column named ${table[1][column]}`, () => {
+                    await knex.schema.hasColumn(table[0], table[1][column]).then(hasColumn => {
+                        return hasColumn;
+                    })
+                }).toBe(true);
+            }
+            : null; */  // For the above, trying to create dynamic tests for each column of each table!
+          return exists;
+        })
+      ).toBe(expected);
+  })
+  
 });
