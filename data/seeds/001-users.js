@@ -33,7 +33,7 @@ exports.seed = function(knex) {
         dob: '1998-1-07'
         },
         {
-        id: 4,
+        id: 4,  
         username:'shaylashe',
         password:'123456',
         email:'shaeshae@hotmail.com',
