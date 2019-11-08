@@ -61,6 +61,8 @@ exports.seed = function(knex) {
         },
         {
           id: 7,
+          user_id:1,
+          food_bev_id:2,
           time_consumed_at: knex.fn.now(6),
           human_quantity:3,
           standard_quantity:0.0 ,
