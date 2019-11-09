@@ -10,12 +10,13 @@
 
 const knex = require("../knex");
 
-// This arr will hold all the tables we expect to be made on running knex migrate:latest
+// This arr will hold all the tables & columns we expect to be made when we run knex migrate:latest
 const tables = [
-  ["users", ["username", "password", "email", "height_cm", "sex", "dob"]],
+  ["users", ["id", "username", "password", "email", "height_cm", "sex", "dob"]],
   [
     "food_and_beverages",
     [
+      "id",
       "name",
       "human_unit",
       "human_quantity",
@@ -33,9 +34,9 @@ const tables = [
   [
     "consumption_log",
     [
+      "id",
       "user_id",
       "food_bev_id",
-      "id",
       "time_consumed_at",
       "human_quantity",
       "standard_quantity",
@@ -45,6 +46,7 @@ const tables = [
   [
     "recipes",
     [
+      "id",
       "name",
       "description",
       "prep_time_min",
@@ -56,15 +58,15 @@ const tables = [
   ],
   [
     "recipe_instructions",
-    ["recipe_id", "id", "step_number", "step_description"]
+    ["id", "recipe_id", "step_number", "step_description"]
   ],
   [
     "recipe_ingredients",
     [
+      "id",
       "recipe_id",
-      "id",
       "food_bev_id",
-      "id",
+
       "order",
       "human_quantity",
       "standard_quantity",
@@ -73,27 +75,20 @@ const tables = [
   ],
   [
     "recipes_consumption",
-    [
-      "user_id",
-      "id",
-      "recipe_id",
-      "id",
-      "time_consumed_at",
-      "recipe_proportion"
-    ]
+    ["id", "user_id", "recipe_id", "time_consumed_at", "recipe_proportion"]
   ],
   [
     "user_budget_data",
     [
-      "user_id",
       "id",
+      "user_id",
       "start_date",
       "goal_weekly_weight_change_lb",
       "activity_level",
       "caloric_budget"
     ]
   ],
-  ["user_metric_history", ["user_id", "id", "observation_time", "weight_kg"]]
+  ["user_metric_history", ["id", "user_id", "observation_time", "weight_kg"]]
 ];
 
 // create a function to setup our migrations
@@ -130,13 +125,22 @@ beforeAll(async () => {
   await setup();
 });
 
+// helper function to count columns of a table
+const columnCount = async table => {
+  const columnObject = await knex(table)
+    .columnInfo()
+    .then(columns => columns);
+  return Object.keys(columnObject).length;
+};
+
 // If we need to, we can teardown after all tests but might not have to
 // afterAll(async () => {
 //   await teardown();
 // });
 
+// Jest's 'each' globals can accept a table of data! SICK!
 describe.each`
-  table        | expected
+  tableArray   | expected
   ${tables[0]} | ${true}
   ${tables[1]} | ${true}
   ${tables[2]} | ${true}
@@ -146,24 +150,43 @@ describe.each`
   ${tables[6]} | ${true}
   ${tables[7]} | ${true}
   ${tables[8]} | ${true}
-`(`let's check out the table named $table`, ({ table, expected }) => {
+`(`Let's check out the table named $tableArray`, ({ tableArray, expected }) => {
+  // We want to know if the current pg table we're looking at exists
+  // We'll need this var in other functions, so init it in a higher scope : )
   let tableExists = [];
-  test(`returns ${expected} when we look for a table named ${
-    table[0]
+
+  // For the sake of being verbose, these vars should clarify what we're looking for
+    let table = tableArray[0];
+    let tableColumns = tableArray[1];
+    
+  // knex returns promises, so a lot of these tests would break without async/await
+  test(`Returns ${expected} when we look for a table named ${
+    table
   }`, async () => {
     expect(
-      await knex.schema.hasTable(table[0]).then(exists => {
+      await knex.schema.hasTable(table).then(exists => {
         tableExists = exists;
         return exists;
       })
     ).toBe(expected);
   });
 
-  test.each(table[1])(`Does the column %s exist?`, async column => {
+  test(`Does the table ${table} have ${tableColumns.length} columns?`, async () => {
     expect(
-      await knex.schema.hasColumn(table[0], column).then(hasColumn => {
-        return hasColumn;
+      await columnCount(table).then(count => {
+        return count;
       })
-    ).toBe(expected);
+    ).toBe(tableColumns.length);
   });
+
+  test.each(tableColumns)(
+    `Does the column '%s' in ${table} exist?`,
+    async column => {
+      expect(
+        await knex.schema.hasColumn(table, column).then(hasColumn => {
+          return hasColumn;
+        })
+      ).toBe(expected);
+    }
+  );
 });
