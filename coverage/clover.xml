@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1573213352085" clover="3.2.0">
-  <project timestamp="1573213352085" name="All files">
+<coverage generated="1573246724714" clover="3.2.0">
+  <project timestamp="1573246724714" name="All files">
     <metrics statements="134" coveredstatements="104" conditionals="4" coveredconditionals="2" methods="30" coveredmethods="27" elements="168" coveredelements="133" complexity="0" loc="134" ncloc="134" packages="3" files="13" classes="13"/>
     <package name="nutrition-tracker-be">
       <metrics statements="33" coveredstatements="3" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="0"/>
