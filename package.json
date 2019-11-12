@@ -10,8 +10,8 @@
   "scripts": {
     "server": "nodemon index.js",
     "start": "node index.js",
-    "@comment test": "--verbose: display all names in describe, it and test blocks; --i: run tests with one thread; --forceExit: force quit Jest if test can't be cleaned up; --watch: watch for file changes and rerun test on changed files",
-    "test": "cross-env DB_ENV=testing jest --verbose --i --forceExit --watch",
+    "@comment test": "--verbose: display all names in describe, it and test blocks; --i: run tests with one thread; --forceExit: force quit Jest if test can't be cleaned up; --watchAll: watch for file changes and rerun all tests (only way for coverage report to work); --coverage: show us how much of the codebase is covered by tests",
+    "test": "cross-env DB_ENV=testing jest --verbose --i --forceExit --watchAll --coverage",
     "dev": "nodemon index.js"
   },
   "dependencies": {
@@ -37,6 +37,12 @@
     "supertest": "^4.0.2"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "**/*.{js,jsx}",
+      "!**/node_modules/**",
+      "!**/vendor/**",
+      "!**/coverage/**"
+    ]
   }
 }
