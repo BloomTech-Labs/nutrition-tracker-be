@@ -1,4 +1,8 @@
+require("dotenv").config();
 const express = require("express");
+const Mixpanel = require('mixpanel');
+const MIXPANEL_TOKEN = process.env.MIXPANEL_TOKEN;
+const mixpanel = Mixpanel.init(MIXPANEL_TOKEN);
 // middleware set up
 const cors = require("cors");
 const helmet = require("helmet");
@@ -21,6 +25,10 @@ server.use(helmet());
 server.use('/', fatSecretRoute);
 
 server.get("/", (_, res) => {
+    mixpanel.track("get request on root", {
+      distinct_id: "izzy",
+      property_1: "doot"
+    });
     res.send("I am not a computer nerd. I prefer to be called a hacker.");
   });
 

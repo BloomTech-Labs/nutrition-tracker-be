@@ -36,6 +36,7 @@ To get the server running locally:
 - [helmet](https://helmetjs.github.io/)
 - [knex](http://knexjs.org/)
 - [knex-cleaner](https://www.npmjs.com/package/knex-cleaner)
+- [mixpanel](https://docs.google.com/document/d/1YabpIkgGi6J4AJ-mhcspcWf-z0NP56gIY344lf20E5o/edit)
 - [moment](https://momentjs.com/)
 - [morgan](https://github.com/expressjs/morgan)
 - [pg](https://node-postgres.com/)
