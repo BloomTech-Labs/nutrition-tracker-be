@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1573273335399" clover="3.2.0">
-  <project timestamp="1573273335399" name="All files">
-    <metrics statements="134" coveredstatements="104" conditionals="4" coveredconditionals="2" methods="30" coveredmethods="27" elements="168" coveredelements="133" complexity="0" loc="134" ncloc="134" packages="3" files="13" classes="13"/>
+<coverage generated="1573612966133" clover="3.2.0">
+  <project timestamp="1573612966133" name="All files">
+    <metrics statements="225" coveredstatements="161" conditionals="7" coveredconditionals="4" methods="63" coveredmethods="37" elements="295" coveredelements="202" complexity="0" loc="225" ncloc="225" packages="5" files="25" classes="25"/>
     <package name="nutrition-tracker-be">
-      <metrics statements="33" coveredstatements="3" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="0"/>
-      <file name="index.js" path="/Users/israelgonzalez/Documents/lambda/gitFlow/labs/project/nutrition-tracker-be/index.js">
-        <metrics statements="13" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
+      <metrics statements="33" coveredstatements="20" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
+      <file name="index.js" path="/Library/WebServer/Documents/lambda-nutritional-tracker/nutrition-tracker-be/index.js">
+        <metrics statements="11" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
         <line num="3" count="0" type="stmt"/>
@@ -17,39 +17,39 @@
         <line num="13" count="0" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
         <line num="16" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="23" count="0" type="stmt"/>
       </file>
-      <file name="knexfile.js" path="/Users/israelgonzalez/Documents/lambda/gitFlow/labs/project/nutrition-tracker-be/knexfile.js">
+      <file name="knexfile.js" path="/Library/WebServer/Documents/lambda-nutritional-tracker/nutrition-tracker-be/knexfile.js">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
       </file>
-      <file name="server.js" path="/Users/israelgonzalez/Documents/lambda/gitFlow/labs/project/nutrition-tracker-be/server.js">
-        <metrics statements="17" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="23" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="26" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
+      <file name="server.js" path="/Library/WebServer/Documents/lambda-nutritional-tracker/nutrition-tracker-be/server.js">
+        <metrics statements="19" coveredstatements="17" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
       </file>
     </package>
     <package name="nutrition-tracker-be.data">
       <metrics statements="4" coveredstatements="4" conditionals="2" coveredconditionals="2" methods="0" coveredmethods="0"/>
-      <file name="knex.js" path="/Users/israelgonzalez/Documents/lambda/gitFlow/labs/project/nutrition-tracker-be/data/knex.js">
+      <file name="knex.js" path="/Library/WebServer/Documents/lambda-nutritional-tracker/nutrition-tracker-be/data/knex.js">
         <metrics statements="4" coveredstatements="4" conditionals="2" coveredconditionals="2" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="cond" truecount="2" falsecount="0"/>
         <line num="2" count="1" type="stmt"/>
@@ -59,7 +59,7 @@
     </package>
     <package name="nutrition-tracker-be.data.migrations">
       <metrics statements="97" coveredstatements="97" conditionals="0" coveredconditionals="0" methods="27" coveredmethods="27"/>
-      <file name="20191028225403_users.js" path="/Users/israelgonzalez/Documents/lambda/gitFlow/labs/project/nutrition-tracker-be/data/migrations/20191028225403_users.js">
+      <file name="20191028225403_users.js" path="/Library/WebServer/Documents/lambda-nutritional-tracker/nutrition-tracker-be/data/migrations/20191028225403_users.js">
         <metrics statements="11" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -73,7 +73,7 @@
         <line num="18" count="1" type="stmt"/>
         <line num="19" count="1" type="stmt"/>
       </file>
-      <file name="20191029215637_food_and_beverages.js" path="/Users/israelgonzalez/Documents/lambda/gitFlow/labs/project/nutrition-tracker-be/data/migrations/20191029215637_food_and_beverages.js">
+      <file name="20191029215637_food_and_beverages.js" path="/Library/WebServer/Documents/lambda-nutritional-tracker/nutrition-tracker-be/data/migrations/20191029215637_food_and_beverages.js">
         <metrics statements="17" coveredstatements="17" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -93,7 +93,7 @@
         <line num="22" count="1" type="stmt"/>
         <line num="23" count="1" type="stmt"/>
       </file>
-      <file name="20191029221802_consumption_log.js" path="/Users/israelgonzalez/Documents/lambda/gitFlow/labs/project/nutrition-tracker-be/data/migrations/20191029221802_consumption_log.js">
+      <file name="20191029221802_consumption_log.js" path="/Library/WebServer/Documents/lambda-nutritional-tracker/nutrition-tracker-be/data/migrations/20191029221802_consumption_log.js">
         <metrics statements="11" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -107,7 +107,7 @@
         <line num="29" count="1" type="stmt"/>
         <line num="30" count="1" type="stmt"/>
       </file>
-      <file name="20191101111107_recipes.js" path="/Users/israelgonzalez/Documents/lambda/gitFlow/labs/project/nutrition-tracker-be/data/migrations/20191101111107_recipes.js">
+      <file name="20191101111107_recipes.js" path="/Library/WebServer/Documents/lambda-nutritional-tracker/nutrition-tracker-be/data/migrations/20191101111107_recipes.js">
         <metrics statements="12" coveredstatements="12" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -122,7 +122,7 @@
         <line num="17" count="1" type="stmt"/>
         <line num="18" count="1" type="stmt"/>
       </file>
-      <file name="20191101111431_recipe_instructions.js" path="/Users/israelgonzalez/Documents/lambda/gitFlow/labs/project/nutrition-tracker-be/data/migrations/20191101111431_recipe_instructions.js">
+      <file name="20191101111431_recipe_instructions.js" path="/Library/WebServer/Documents/lambda-nutritional-tracker/nutrition-tracker-be/data/migrations/20191101111431_recipe_instructions.js">
         <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -133,7 +133,7 @@
         <line num="17" count="1" type="stmt"/>
         <line num="18" count="1" type="stmt"/>
       </file>
-      <file name="20191101114349_recipe_ingredients.js" path="/Users/israelgonzalez/Documents/lambda/gitFlow/labs/project/nutrition-tracker-be/data/migrations/20191101114349_recipe_ingredients.js">
+      <file name="20191101114349_recipe_ingredients.js" path="/Library/WebServer/Documents/lambda-nutritional-tracker/nutrition-tracker-be/data/migrations/20191101114349_recipe_ingredients.js">
         <metrics statements="11" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -147,7 +147,7 @@
         <line num="27" count="1" type="stmt"/>
         <line num="28" count="1" type="stmt"/>
       </file>
-      <file name="20191101115044_recipes_consumption.js" path="/Users/israelgonzalez/Documents/lambda/gitFlow/labs/project/nutrition-tracker-be/data/migrations/20191101115044_recipes_consumption.js">
+      <file name="20191101115044_recipes_consumption.js" path="/Library/WebServer/Documents/lambda-nutritional-tracker/nutrition-tracker-be/data/migrations/20191101115044_recipes_consumption.js">
         <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -159,7 +159,7 @@
         <line num="27" count="1" type="stmt"/>
         <line num="28" count="1" type="stmt"/>
       </file>
-      <file name="20191101115603_user_budget_data.js" path="/Users/israelgonzalez/Documents/lambda/gitFlow/labs/project/nutrition-tracker-be/data/migrations/20191101115603_user_budget_data.js">
+      <file name="20191101115603_user_budget_data.js" path="/Library/WebServer/Documents/lambda-nutritional-tracker/nutrition-tracker-be/data/migrations/20191101115603_user_budget_data.js">
         <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -172,7 +172,7 @@
         <line num="19" count="1" type="stmt"/>
         <line num="20" count="1" type="stmt"/>
       </file>
-      <file name="20191101120511_user_metric_history.js" path="/Users/israelgonzalez/Documents/lambda/gitFlow/labs/project/nutrition-tracker-be/data/migrations/20191101120511_user_metric_history.js">
+      <file name="20191101120511_user_metric_history.js" path="/Library/WebServer/Documents/lambda-nutritional-tracker/nutrition-tracker-be/data/migrations/20191101120511_user_metric_history.js">
         <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -182,6 +182,139 @@
         <line num="15" count="1" type="stmt"/>
         <line num="19" count="1" type="stmt"/>
         <line num="20" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="nutrition-tracker-be.data.seeds">
+      <metrics statements="39" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="19" coveredmethods="0"/>
+      <file name="000-cleanup.js" path="/Library/WebServer/Documents/lambda-nutritional-tracker/nutrition-tracker-be/data/seeds/000-cleanup.js">
+        <metrics statements="12" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+      </file>
+      <file name="001-users.js" path="/Library/WebServer/Documents/lambda-nutritional-tracker/nutrition-tracker-be/data/seeds/001-users.js">
+        <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+      </file>
+      <file name="002-user-metric-history.js" path="/Library/WebServer/Documents/lambda-nutritional-tracker/nutrition-tracker-be/data/seeds/002-user-metric-history.js">
+        <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+      </file>
+      <file name="003-user-budget-data.js" path="/Library/WebServer/Documents/lambda-nutritional-tracker/nutrition-tracker-be/data/seeds/003-user-budget-data.js">
+        <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+      </file>
+      <file name="004-food_and_beverages.js" path="/Library/WebServer/Documents/lambda-nutritional-tracker/nutrition-tracker-be/data/seeds/004-food_and_beverages.js">
+        <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+      </file>
+      <file name="005-consumption_log.js" path="/Library/WebServer/Documents/lambda-nutritional-tracker/nutrition-tracker-be/data/seeds/005-consumption_log.js">
+        <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+      </file>
+      <file name="006-recipes.js" path="/Library/WebServer/Documents/lambda-nutritional-tracker/nutrition-tracker-be/data/seeds/006-recipes.js">
+        <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+      </file>
+      <file name="007-recipe_instructions.js" path="/Library/WebServer/Documents/lambda-nutritional-tracker/nutrition-tracker-be/data/seeds/007-recipe_instructions.js">
+        <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+      </file>
+      <file name="008-recipe_ingredients.js" path="/Library/WebServer/Documents/lambda-nutritional-tracker/nutrition-tracker-be/data/seeds/008-recipe_ingredients.js">
+        <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+      </file>
+      <file name="009-recipes_consumption.js" path="/Library/WebServer/Documents/lambda-nutritional-tracker/nutrition-tracker-be/data/seeds/009-recipes_consumption.js">
+        <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="nutrition-tracker-be.routes.fatsecret">
+      <metrics statements="52" coveredstatements="40" conditionals="3" coveredconditionals="2" methods="15" coveredmethods="10"/>
+      <file name="fatsecret.js" path="/Library/WebServer/Documents/lambda-nutritional-tracker/nutrition-tracker-be/routes/fatsecret/fatsecret.js">
+        <metrics statements="30" coveredstatements="18" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="3"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="37" count="1" type="stmt"/>
+        <line num="38" count="2" type="stmt"/>
+        <line num="39" count="2" type="stmt"/>
+        <line num="41" count="2" type="stmt"/>
+        <line num="43" count="2" type="stmt"/>
+        <line num="45" count="2" type="stmt"/>
+        <line num="46" count="2" type="stmt"/>
+        <line num="48" count="2" type="stmt"/>
+        <line num="49" count="20" type="stmt"/>
+        <line num="58" count="2" type="stmt"/>
+        <line num="61" count="0" type="stmt"/>
+        <line num="67" count="1" type="stmt"/>
+      </file>
+      <file name="oauthQueryBuilder.js" path="/Library/WebServer/Documents/lambda-nutritional-tracker/nutrition-tracker-be/routes/fatsecret/oauthQueryBuilder.js">
+        <metrics statements="22" coveredstatements="22" conditionals="3" coveredconditionals="2" methods="7" coveredmethods="7"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="9" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="10" count="2" type="stmt"/>
+        <line num="15" count="2" type="stmt"/>
+        <line num="17" count="2" type="stmt"/>
+        <line num="27" count="2" type="stmt"/>
+        <line num="36" count="2" type="stmt"/>
+        <line num="38" count="2" type="stmt"/>
+        <line num="49" count="2" type="stmt"/>
+        <line num="54" count="2" type="stmt"/>
+        <line num="55" count="2" type="stmt"/>
+        <line num="59" count="4" type="stmt"/>
+        <line num="60" count="38" type="stmt"/>
+        <line num="65" count="2" type="stmt"/>
+        <line num="67" count="2" type="stmt"/>
+        <line num="70" count="18" type="stmt"/>
+        <line num="73" count="2" type="stmt"/>
       </file>
     </package>
   </project>
