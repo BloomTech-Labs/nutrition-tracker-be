@@ -1,0 +1,37 @@
+exports.up = function(knex) {
+  return knex.schema.createTable('food_log', tbl => {
+    tbl.increments();
+    tbl
+      .integer('user_id')
+      .unsigned()
+      .notNullable()
+      .references('id')
+      .inTable('users')
+      .onUpdate('CASCADE')
+      .onDelete('CASCADE');
+    tbl
+      .integer('food_id')
+      .unsigned()
+      .notNullable()
+      .references('id')
+      .inTable('foods')
+      .onUpdate('CASCADE')
+      .onDelete('CASCADE');
+    tbl
+      .int('fatsecret_food_id')
+      .unsigned()
+      .notNullable();
+    tbl
+      .int('serving_id')
+      .unsigned()
+      .notNullable();
+    tbl
+      .datetime('time_consumed_at', { precision: 6 })
+      .defaultTo(knex.fn.now(6));
+    tbl.decimal('quantity');
+  });
+};
+
+exports.down = function(knex) {
+  return knex.schema.dropTableIfExists('food_log');
+};
