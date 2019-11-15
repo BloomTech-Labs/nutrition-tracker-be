@@ -21,7 +21,7 @@ const tables = [
     [
       "id",
       "fatsecret_food_id",
-      "name",
+      "food_name",
       "serving_id",
       "serving_desc",
       "serving_unit",
