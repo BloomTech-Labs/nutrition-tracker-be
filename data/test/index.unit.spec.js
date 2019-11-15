@@ -97,9 +97,12 @@ const tables = [
       "id",
       "user_id",
       "start_date",
-      "goal_weekly_weight_change_lb",
+      "weekly_goal_rate",
       "activity_level",
-      "caloric_budget"
+      "caloric_budget",
+      "fat_ratio",
+      "carb_ratio",
+      "protein_ratio"
     ]
   ],
   ["user_metric_history", ["id", "user_id", "observation_time", "weight_kg"]]
