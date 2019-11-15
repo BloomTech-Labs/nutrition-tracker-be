@@ -29,7 +29,7 @@ exports.up = function(knex) {
     tbl.decimal("iron_mg");
     tbl.decimal("calcium_mg");
     tbl.decimal("potassium_mg");
-    tbl.decimal("cholesterol_g");
+    tbl.decimal("cholesterol_mg");
     tbl.decimal("vitamin_a_iu");
     tbl.decimal("vitamin_c_iu");
   });
