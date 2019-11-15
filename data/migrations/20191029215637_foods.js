@@ -16,7 +16,7 @@ exports.up = function(knex) {
     tbl.text('serving_unit');
     tbl.decimal('serving_qty');
     tbl.datetime('retrieved_at').notNullable();
-    tbl.decimal('calories');
+    tbl.decimal('calories_kcal');
     tbl.decimal('fat_g');
     tbl.decimal('saturated_fat_g');
     tbl.decimal('monounsaturated_fat_g');
@@ -29,9 +29,9 @@ exports.up = function(knex) {
     tbl.decimal('iron_mg');
     tbl.decimal('calcium_mg');
     tbl.decimal('potassium_mg');
-    tbl.decimal('cholesterol');
-    tbl.decimal('vitamin_a');
-    tbl.decimal('vitamin_c');
+    tbl.decimal('cholesterol_g');
+    tbl.decimal('vitamin_a_iu');
+    tbl.decimal('vitamin_c_iu');
   });
 };
 
