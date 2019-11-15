@@ -61,6 +61,7 @@ const tables = [
     "recipes",
     [
       "id",
+      "fatsecret_recipe_id",
       "name",
       "description",
       "prep_time_min",
@@ -79,17 +80,23 @@ const tables = [
     [
       "id",
       "recipe_id",
-      "food_bev_id",
-
+      "fatsecret_recipe_id",
+      "food_id",
+      "fatsecret_food_id",
       "order",
-      "human_quantity",
-      "standard_quantity",
-      "unit_type"
+      "quantity"
     ]
   ],
   [
-    "recipes_consumption",
-    ["id", "user_id", "recipe_id", "time_consumed_at", "recipe_proportion"]
+    "recipes_log",
+    [
+      "id",
+      "user_id",
+      "recipe_id",
+      "fatsecret_recipe_id",
+      "time_consumed_at",
+      "recipe_proportion"
+    ]
   ],
   [
     "user_budget_data",
