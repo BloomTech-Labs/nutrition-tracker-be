@@ -1,18 +1,14 @@
 exports.up = function(knex) {
-  return knex.schema.createTable('recipe_ingredients', tbl => {
+  return knex.schema.createTable('food_log', tbl => {
     tbl.increments();
     tbl
-      .integer('recipe_id')
+      .integer('user_id')
       .unsigned()
       .notNullable()
       .references('id')
       .inTable('users')
       .onUpdate('CASCADE')
       .onDelete('CASCADE');
-    tbl
-      .integer('fatsecret_recipe_id')
-      .unsigned()
-      .notNullable();
     tbl
       .integer('food_id')
       .unsigned()
@@ -29,11 +25,13 @@ exports.up = function(knex) {
       .integer('serving_id')
       .unsigned()
       .notNullable();
-    tbl.integer('order').unsigned();
+    tbl
+      .datetime('time_consumed_at', { precision: 6 })
+      .defaultTo(knex.fn.now(6));
     tbl.decimal('quantity');
   });
 };
 
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists('recipe_ingredients');
+  return knex.schema.dropTableIfExists('food_log');
 };

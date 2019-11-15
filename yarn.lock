@@ -897,6 +897,11 @@ ci-info@^2.0.0:
   resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-2.0.0.tgz#67a9e964be31a51e15e5010d58e6f12834002f46"
   integrity sha512-5tK7EtrZ0N+OLFMthtqOj4fI2Jeb88C4CAZPu25LDVUgXJ0A3Js4PMGqrn0JU1W0Mh1/Z8wZzYPxqUrXeBboCQ==
 
+circular-json@^0.5.9:
+  version "0.5.9"
+  resolved "https://registry.yarnpkg.com/circular-json/-/circular-json-0.5.9.tgz#932763ae88f4f7dead7a0d09c8a51a4743a53b1d"
+  integrity sha512-4ivwqHpIFJZBuhN3g/pEcdbnGUywkBblloGbkglyloVjjR3uT6tieI89MVOfbP2tHX5sgb01FuLgAOzebNlJNQ==
+
 class-utils@^0.3.5:
   version "0.3.6"
   resolved "https://registry.yarnpkg.com/class-utils/-/class-utils-0.3.6.tgz#f93369ae8b9a7ce02fd41faad0ca83033190c463"
@@ -1990,6 +1995,11 @@ hide-powered-by@1.1.0:
   resolved "https://registry.yarnpkg.com/hide-powered-by/-/hide-powered-by-1.1.0.tgz#be3ea9cab4bdb16f8744be873755ca663383fa7a"
   integrity sha512-Io1zA2yOA1YJslkr+AJlWSf2yWFkKjvkcL9Ni1XSUqnGLr/qRQe2UI3Cn/J9MsJht7yEVCe0SscY1HgVMujbgg==
 
+hmacsha1@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/hmacsha1/-/hmacsha1-1.0.0.tgz#c1b7ae03a4ea116348090af14f8148c12938a917"
+  integrity sha1-wbeuA6TqEWNICQrxT4FIwSk4qRc=
+
 homedir-polyfill@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/homedir-polyfill/-/homedir-polyfill-1.0.3.tgz#743298cef4e5af3e194161fbadcc2151d3a058e8"
@@ -2942,10 +2952,10 @@ knex-cleaner@^1.3.0:
     bluebird "^2.9.13"
     lodash "^4.17.13"
 
-knex@^0.20.0:
-  version "0.20.0"
-  resolved "https://registry.yarnpkg.com/knex/-/knex-0.20.0.tgz#f1c83718ab60da2fc81ff00de1dd4616400564dd"
-  integrity sha512-2IQUDItwSAuhTxtH/T4VibEuFMngI9LUkpgM0qD/JH1xWARRtWIJ9mU8hNNnFgrKh9RZdPYZToBgsV/UEaje4g==
+knex@^0.20.1:
+  version "0.20.1"
+  resolved "https://registry.yarnpkg.com/knex/-/knex-0.20.1.tgz#e2765492a810b3ae6b4c1b49a7bc4719c83f5c12"
+  integrity sha512-vQvlzsCw4kkqWLmUFVhPX8H4KrfSLVSVGbMJVo4fhJ8N5fN+CH0LzgAmQBh0iwbJY7x8Sk3T4pEjnUlUKjnCPw==
   dependencies:
     bluebird "^3.7.1"
     colorette "1.1.0"
