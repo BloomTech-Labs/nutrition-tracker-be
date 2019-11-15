@@ -72,7 +72,13 @@ const tables = [
   ],
   [
     "recipe_instructions",
-    ["id", "recipe_id", "step_number", "step_description"]
+    [
+      "id",
+      "recipe_id",
+      "fatsecret_recipe_id",
+      "step_number",
+      "step_description"
+    ]
   ],
   [
     "recipe_ingredients",
@@ -82,6 +88,7 @@ const tables = [
       "fatsecret_recipe_id",
       "food_id",
       "fatsecret_food_id",
+      "serving_id",
       "order",
       "quantity"
     ]
