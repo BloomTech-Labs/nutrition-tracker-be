@@ -18,11 +18,11 @@ exports.up = function(knex) {
       .onUpdate('CASCADE')
       .onDelete('CASCADE');
     tbl
-      .int('fatsecret_food_id')
+      .integer('fatsecret_food_id')
       .unsigned()
       .notNullable();
     tbl
-      .int('serving_id')
+      .integer('serving_id')
       .unsigned()
       .notNullable();
     tbl
