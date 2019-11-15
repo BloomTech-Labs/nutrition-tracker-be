@@ -46,15 +46,14 @@ const tables = [
     ]
   ],
   [
-    "consumption_log",
+    "food_log",
     [
       "id",
       "user_id",
-      "food_bev_id",
+      "food_id",
+      "fatsecret_food_id",
       "time_consumed_at",
-      "human_quantity",
-      "standard_quantity",
-      "unit_type"
+      "quantity"
     ]
   ],
   [
