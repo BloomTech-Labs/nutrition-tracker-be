@@ -17,19 +17,32 @@ const tables = [
     ["id", "firebase_id", "email", "height_cm", "sex", "dob", "unit_system"]
   ],
   [
+    "foods",
+    [
       "id",
+      "fatsecret_food_id",
       "name",
-      "human_unit",
-      "human_quantity",
-      "standard_unit",
-      "standard_quantity",
-      "calories",
+      "serving_id",
+      "serving_desc",
+      "serving_unit",
+      "serving_qty",
+      "retrieved_at",
+      "calories_kcal",
       "fat_g",
+      "saturated_fat_g",
+      "monounsaturated_fat_g",
+      "polyunsaturated_fat_g",
       "protein_g",
       "carbs_g",
-      "sugar_g",
       "fiber_g",
-      "sodium_mg"
+      "sugar_g",
+      "sodium_mg",
+      "iron_mg",
+      "calcium_mg",
+      "potassium_mg",
+      "cholesterol_mg",
+      "vitamin_a_iu",
+      "vitamin_c_iu"
     ]
   ],
   [
