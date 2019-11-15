@@ -3,9 +3,15 @@ exports.up = function(knex) {
   //refresh the data to satisfy FatSecret's API's ToS
   return knex.schema.createTable('foods', tbl => {
     tbl.increments();
-    tbl.integer('fatsecret_food_id').notNullable();
+    tbl
+      .integer('fatsecret_food_id')
+      .unsigned()
+      .notNullable();
     tbl.text('food_name');
-    tbl.integer('serving_id').notNullable();
+    tbl
+      .integer('serving_id')
+      .unsigned()
+      .notNullable();
     tbl.text('serving_desc');
     tbl.text('serving_unit');
     tbl.decimal('serving_qty');
