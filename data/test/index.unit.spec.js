@@ -156,13 +156,11 @@ describe.each`
   let tableExists = [];
 
   // For the sake of being verbose, these vars should clarify what we're looking for
-    let table = tableArray[0];
-    let tableColumns = tableArray[1];
-    
+  let table = tableArray[0];
+  let tableColumns = tableArray[1];
+
   // knex returns promises, so a lot of these tests would break without async/await
-  test(`Returns ${expected} when we look for a table named ${
-    table
-  }`, async () => {
+  test(`Returns ${expected} when we look for a table named ${table}`, async () => {
     expect(
       await knex.schema.hasTable(table).then(exists => {
         tableExists = exists;
