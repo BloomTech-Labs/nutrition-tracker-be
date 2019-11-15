@@ -1,19 +1,20 @@
 exports.up = function(knex) {
-  return knex.schema.createTable("recipes", tbl => {
+  return knex.schema.createTable('recipes', tbl => {
     tbl.increments();
     tbl
-      .text("name")
-      .unique()
+      .integer('fatsecret_recipe_id')
+      .unsigned()
       .notNullable();
-    tbl.text("description");
-    tbl.decimal("prep_time_min");
-    tbl.decimal("cook_time_min");
-    tbl.decimal("servings");
-    tbl.decimal("standard_quantity");
-    tbl.text("serving_description");
+    tbl.text('name');
+    tbl.text('description');
+    tbl.decimal('prep_time_min');
+    tbl.decimal('cook_time_min');
+    tbl.decimal('servings');
+    tbl.decimal('standard_quantity');
+    tbl.text('serving_description');
   });
 };
 
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists("recipes");
+  return knex.schema.dropTableIfExists('recipes');
 };
