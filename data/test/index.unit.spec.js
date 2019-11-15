@@ -52,6 +52,7 @@ const tables = [
       "user_id",
       "food_id",
       "fatsecret_food_id",
+      "serving_id",
       "time_consumed_at",
       "quantity"
     ]
