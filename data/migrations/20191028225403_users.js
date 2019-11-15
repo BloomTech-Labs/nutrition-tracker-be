@@ -6,16 +6,15 @@ exports.up = function(knex) {
       .unique()
       .notNullable();
     tbl.text('email');
-    tbl.decimal('height_cm');
+    tbl.decimal('height_cm')
+      .notNullable()
     tbl.enu('sex', ['male', 'female'], {
       useNative: true,
       enumName: 'sex_type'
-    });
-    tbl.date('dob');
-    tbl.enu('unit_system', ['Imperial', 'Metric'], {
-      useNative: true,
-      enumName: 'unit_system_type'
-    });
+    })
+    .notNullable()
+    tbl.date('dob')
+      .notNullable()
   });
 };
 
