@@ -12,10 +12,11 @@ const knex = require("../knex");
 
 // This arr will hold all the tables & columns we expect to be made when we run knex migrate:latest
 const tables = [
-  ["users", ["id", "username", "password", "email", "height_cm", "sex", "dob"]],
   [
-    "food_and_beverages",
-    [
+    "users",
+    ["id", "firebase_id", "email", "height_cm", "sex", "dob", "unit_system"]
+  ],
+  [
       "id",
       "name",
       "human_unit",
