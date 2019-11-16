@@ -1,39 +1,39 @@
 exports.up = function(knex) {
-  return knex.schema.createTable('recipe_ingredients', tbl => {
+  return knex.schema.createTable("recipe_ingredients", tbl => {
     tbl.increments();
     tbl
-      .integer('recipe_id')
+      .integer("recipe_id")
       .unsigned()
       .notNullable()
-      .references('id')
-      .inTable('users')
-      .onUpdate('CASCADE')
-      .onDelete('CASCADE');
+      .references("id")
+      .inTable("users")
+      .onUpdate("CASCADE")
+      .onDelete("CASCADE");
     tbl
-      .integer('fatsecret_recipe_id')
+      .integer("fatsecret_recipe_id")
       .unsigned()
       .notNullable();
     tbl
-      .integer('food_id')
+      .integer("food_id")
       .unsigned()
       .notNullable()
-      .references('id')
-      .inTable('foods')
-      .onUpdate('CASCADE')
-      .onDelete('CASCADE');
+      .references("id")
+      .inTable("foods")
+      .onUpdate("CASCADE")
+      .onDelete("CASCADE");
     tbl
-      .integer('fatsecret_food_id')
+      .integer("fatsecret_food_id")
       .unsigned()
       .notNullable();
     tbl
-      .integer('serving_id')
+      .integer("serving_id")
       .unsigned()
       .notNullable();
-    tbl.integer('order').unsigned();
-    tbl.decimal('quantity');
+    tbl.integer("order").unsigned();
+    tbl.decimal("quantity");
   });
 };
 
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists('recipe_ingredients');
+  return knex.schema.dropTableIfExists("recipe_ingredients");
 };
