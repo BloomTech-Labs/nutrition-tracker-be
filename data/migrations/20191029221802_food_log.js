@@ -1,37 +1,37 @@
 exports.up = function(knex) {
-  return knex.schema.createTable('food_log', tbl => {
+  return knex.schema.createTable("food_log", tbl => {
     tbl.increments();
     tbl
-      .integer('user_id')
+      .integer("user_id")
       .unsigned()
       .notNullable()
-      .references('id')
-      .inTable('users')
-      .onUpdate('CASCADE')
-      .onDelete('CASCADE');
+      .references("id")
+      .inTable("users")
+      .onUpdate("CASCADE")
+      .onDelete("CASCADE");
     tbl
-      .integer('food_id')
+      .integer("food_id")
       .unsigned()
       .notNullable()
-      .references('id')
-      .inTable('foods')
-      .onUpdate('CASCADE')
-      .onDelete('CASCADE');
+      .references("id")
+      .inTable("foods")
+      .onUpdate("CASCADE")
+      .onDelete("CASCADE");
     tbl
-      .integer('fatsecret_food_id')
+      .integer("fatsecret_food_id")
       .unsigned()
       .notNullable();
     tbl
-      .integer('serving_id')
+      .integer("serving_id")
       .unsigned()
       .notNullable();
     tbl
-      .datetime('time_consumed_at', { precision: 6 })
+      .datetime("time_consumed_at", { precision: 6 })
       .defaultTo(knex.fn.now(6));
-    tbl.decimal('quantity');
+    tbl.decimal("quantity");
   });
 };
 
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists('food_log');
+  return knex.schema.dropTableIfExists("food_log");
 };
