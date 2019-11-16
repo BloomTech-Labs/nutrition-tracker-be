@@ -9,7 +9,7 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const server = express();
 const fatSecretRoute = require('./routes/fatsecret/fatsecret');
-
+const authRouter = require('./routes/auth/authRouter');
 /*
 morgan("dev"):
 Concise output colored by response status for development use. 
@@ -23,6 +23,7 @@ server.use(express.json());
 server.use(cors());
 server.use(helmet());
 server.use('/', fatSecretRoute);
+server.use('/auth', authRouter);
 
 server.get("/", (_, res) => {
     mixpanel.track("get request on root", {
