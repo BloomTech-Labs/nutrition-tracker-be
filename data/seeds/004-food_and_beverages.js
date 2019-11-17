@@ -1,31 +1,30 @@
-
 exports.seed = function(knex) {
   // Deletes ALL existing entries
-  return knex.raw('TRUNCATE TABLE food_and_beverages RESTART IDENTITY CASCADE')
-    .then(function () {
+  return knex
+    .raw("TRUNCATE TABLE food_and_beverages RESTART IDENTITY CASCADE")
+    .then(function() {
       // Inserts seed entries
-      return knex('food_and_beverages').insert([
+      return knex("food_and_beverages").insert([
         {
-         id: 1, 
-         name: "white bread",
-         human_unit: "slice" ,
-         human_quantity: 1 ,
-         standard_unit: "g",
-         standard_quantity: 0.0,
-         calories: 66,
-         fat_g: 0.82,
-         protein_g: 1.91,
-         carbs_g: 12.65,
-         sugar_g: 1.08,
-         fiber_g: 0.6,
-         sodium_mg: 170
-
+          id: 1,
+          name: "white bread",
+          human_unit: "slice",
+          human_quantity: 1,
+          standard_unit: "g",
+          standard_quantity: 0.0,
+          calories: 66,
+          fat_g: 0.82,
+          protein_g: 1.91,
+          carbs_g: 12.65,
+          sugar_g: 1.08,
+          fiber_g: 0.6,
+          sodium_mg: 170
         },
         {
-          id: 2, 
+          id: 2,
           name: "cheese pizza",
-          human_unit: "piece" ,
-          human_quantity: 1 ,
+          human_unit: "piece",
+          human_quantity: 1,
           standard_unit: "g",
           standard_quantity: 0.0,
           calories: 237,
@@ -37,9 +36,9 @@ exports.seed = function(knex) {
           sodium_mg: 462
         },
         {
-          id: 3, 
+          id: 3,
           name: "chicken breast",
-          human_unit: "small" ,
+          human_unit: "small",
           human_quantity: 1,
           standard_unit: "g",
           standard_quantity: 0.0,
@@ -52,10 +51,10 @@ exports.seed = function(knex) {
           sodium_mg: 330
         },
         {
-          id: 4, 
+          id: 4,
           name: "salmon",
-          human_unit: "1 oz boneless" ,
-          human_quantity: 1 ,
+          human_unit: "1 oz boneless",
+          human_quantity: 1,
           standard_unit: "g",
           standard_quantity: 0.0,
           calories: 41,
@@ -65,8 +64,7 @@ exports.seed = function(knex) {
           sugar_g: 0,
           fiber_g: 0,
           sodium_mg: 13
-         },
-        
+        }
       ]);
     });
 };

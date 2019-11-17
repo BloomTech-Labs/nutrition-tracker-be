@@ -12,41 +12,53 @@ const knex = require("../knex");
 
 // This arr will hold all the tables & columns we expect to be made when we run knex migrate:latest
 const tables = [
-  ["users", ["id", "username", "password", "email", "height_cm", "sex", "dob"]],
+  ["users", ["id", "firebase_id", "email", "height_cm", "sex", "dob"]],
   [
-    "food_and_beverages",
+    "foods",
     [
       "id",
-      "name",
-      "human_unit",
-      "human_quantity",
-      "standard_unit",
-      "standard_quantity",
-      "calories",
+      "fatsecret_food_id",
+      "food_name",
+      "serving_id",
+      "serving_desc",
+      "serving_unit",
+      "serving_qty",
+      "retrieved_at",
+      "calories_kcal",
       "fat_g",
+      "saturated_fat_g",
+      "monounsaturated_fat_g",
+      "polyunsaturated_fat_g",
       "protein_g",
       "carbs_g",
-      "sugar_g",
       "fiber_g",
-      "sodium_mg"
+      "sugar_g",
+      "sodium_mg",
+      "iron_mg",
+      "calcium_mg",
+      "potassium_mg",
+      "cholesterol_mg",
+      "vitamin_a_iu",
+      "vitamin_c_iu"
     ]
   ],
   [
-    "consumption_log",
+    "food_log",
     [
       "id",
       "user_id",
-      "food_bev_id",
+      "food_id",
+      "fatsecret_food_id",
+      "serving_id",
       "time_consumed_at",
-      "human_quantity",
-      "standard_quantity",
-      "unit_type"
+      "quantity"
     ]
   ],
   [
     "recipes",
     [
       "id",
+      "fatsecret_recipe_id",
       "name",
       "description",
       "prep_time_min",
@@ -58,24 +70,37 @@ const tables = [
   ],
   [
     "recipe_instructions",
-    ["id", "recipe_id", "step_number", "step_description"]
+    [
+      "id",
+      "recipe_id",
+      "fatsecret_recipe_id",
+      "step_number",
+      "step_description"
+    ]
   ],
   [
     "recipe_ingredients",
     [
       "id",
       "recipe_id",
-      "food_bev_id",
-
+      "fatsecret_recipe_id",
+      "food_id",
+      "fatsecret_food_id",
+      "serving_id",
       "order",
-      "human_quantity",
-      "standard_quantity",
-      "unit_type"
+      "quantity"
     ]
   ],
   [
-    "recipes_consumption",
-    ["id", "user_id", "recipe_id", "time_consumed_at", "recipe_proportion"]
+    "recipes_log",
+    [
+      "id",
+      "user_id",
+      "recipe_id",
+      "fatsecret_recipe_id",
+      "time_consumed_at",
+      "recipe_proportion"
+    ]
   ],
   [
     "user_budget_data",
@@ -83,9 +108,12 @@ const tables = [
       "id",
       "user_id",
       "start_date",
-      "goal_weekly_weight_change_lb",
+      "weekly_goal_rate",
       "activity_level",
-      "caloric_budget"
+      "caloric_budget",
+      "fat_ratio",
+      "carb_ratio",
+      "protein_ratio"
     ]
   ],
   ["user_metric_history", ["id", "user_id", "observation_time", "weight_kg"]]
@@ -156,13 +184,11 @@ describe.each`
   let tableExists = [];
 
   // For the sake of being verbose, these vars should clarify what we're looking for
-    let table = tableArray[0];
-    let tableColumns = tableArray[1];
-    
+  let table = tableArray[0];
+  let tableColumns = tableArray[1];
+
   // knex returns promises, so a lot of these tests would break without async/await
-  test(`Returns ${expected} when we look for a table named ${
-    table
-  }`, async () => {
+  test(`Returns ${expected} when we look for a table named ${table}`, async () => {
     expect(
       await knex.schema.hasTable(table).then(exists => {
         tableExists = exists;
