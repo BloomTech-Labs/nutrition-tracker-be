@@ -4,7 +4,7 @@ const supertest = require('supertest');
 const request = supertest(app);
 
 describe('authRouter.js', () => {
-  it('should set the testing environment', () => {
+  it('should set the environment to testing', () => {
     expect(process.env.DB_ENV).toBe('testing');
   });
 
@@ -56,19 +56,19 @@ describe('authRouter.js', () => {
       expect(res.type).toBe('application/json');
     });
 
-    it('should return 201 Created response', async () => {
+    it('should return a 201 status code in response to a valid request', async () => {
       const res = await request.post('/auth/register').send(requestBody_1);
       expect(res.status).toBe(201);
     });
 
-    it('should return 400 Bad Request response', async () => {
+    it('should return a 400 status code in response to request with missing fields on the request body', async () => {
       const res = await request
         .post('/auth/register')
         .send(requestBody_1_malformed); // with missing fields
       expect(res.status).toBe(400);
     });
 
-    it('should return 500 Internal Server response', async () => {
+    it('should return a 500 status code in response to a request with a duplicate firebase_id field', async () => {
       await request.post('/auth/register').send(requestBody_1);
       const res = await request.post('/auth/register').send(requestBody_2); // with duplicate firebase_id
       expect(res.status).toBe(500);
