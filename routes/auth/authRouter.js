@@ -10,6 +10,8 @@ router.post('/register', validateRequest, async (req, res) => {
 
   newUser.caloric_budget = getCaloricBudget(newUser);
 
+  console.log(newUser.caloric_budget);
+
   try {
     newUser = await Auth.addUser(newUser);
     res.status(201).json({
@@ -55,11 +57,11 @@ function getCaloricBudget(newUser) {
   let { sex, activity_level, dob, weight_kg, height_cm } = newUser;
 
   // (Mifflin-St. Jeor Equation for TDEE) * Activity Level
-  return (
+  return Math.round(
     (10 * weight_kg +
       6.25 * height_cm +
       (sex === 'male' ? 5 : -161) * getAge(dob)) *
-    activity_level
+      activity_level
   );
 }
 
