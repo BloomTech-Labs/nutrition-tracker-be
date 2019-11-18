@@ -1,6 +1,7 @@
 const express = require('express');
 const Auth = require('./authDB');
 const router = express.Router();
+const {getCaloricBudget, getAge} = require('./helper')
 
 /********************************************************
 *                      AUTH/REGISTER                    *
@@ -9,8 +10,6 @@ router.post('/register', validateRequest, async (req, res) => {
   let newUser = req.body;
 
   newUser.caloric_budget = getCaloricBudget(newUser);
-
-  console.log(newUser.caloric_budget);
 
   try {
     newUser = await Auth.addUser(newUser);
@@ -48,32 +47,6 @@ function validateRequest(req, res, next) {
         "The request body must contain values for 'sex', 'activity_level', 'dob', 'weight_kg', and 'height_cm'"
     });
   }
-}
-
-/********************************************************
-*                        FUNCTIONS                      *
-********************************************************/
-function getCaloricBudget(newUser) {
-  let { sex, activity_level, dob, weight_kg, height_cm } = newUser;
-
-  // (Mifflin-St. Jeor Equation for TDEE) * Activity Level
-  return Math.round(
-    (10 * weight_kg +
-      6.25 * height_cm +
-      (sex === 'male' ? 5 : -161) * getAge(dob)) *
-      activity_level
-  );
-}
-
-function getAge(dob) {
-  const today = new Date();
-  const birthDate = new Date(dob);
-  const age = today.getFullYear() - birthDate.getFullYear();
-  const m = today.getMonth() - birthDate.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-    age--;
-  }
-  return age;
 }
 
 module.exports = router;
