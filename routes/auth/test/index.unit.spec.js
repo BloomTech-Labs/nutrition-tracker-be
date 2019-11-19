@@ -1,5 +1,6 @@
 const app = require('../../../server');
 const db = require('../../../data/knex.js');
+const {getAge} = require('../helper');
 const supertest = require('supertest');
 const request = supertest(app);
 
@@ -73,5 +74,13 @@ describe('authRouter.js', () => {
       const res = await request.post('/auth/register').send(requestBody_2); // with duplicate firebase_id
       expect(res.status).toBe(500);
     });
+
+    it('should return the correct age for a given date of birth', async () => {
+      const dateOfBirth = "1987-09-29";
+
+      const age = getAge(dateOfBirth);
+
+      expect(age).toBe(32);
+    })
   });
 });
