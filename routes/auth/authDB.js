@@ -1,22 +1,36 @@
-const db = require('../../data/knex');
-
+const db = require("../../data/knex");
 module.exports = {
   addUser
 };
 
-async function addUser({
-  firebase_id,
-  email,
-  dob,
-  height_cm,
-  sex,
-  activity_level,
-  weekly_goal_rate,
-  caloric_budget,
-  weight_kg
-}) {
-  
-  const [user_id] = await db('users')
+async function addUser(newUser) {
+  const trx = await db.transaction();
+
+  return insertUser(newUser, trx)
+    .then(([id]) => {
+      newUser.user_id = id;
+      return insertUserBudgetData(newUser, trx);
+    })
+    .then(() => {
+      return insertUserMetricData(newUser, trx);
+    })
+    .then(() => {
+      return findUserById(newUser.user_id, trx);
+    })
+    .then(newUser => {
+      trx.commit();
+      return newUser;
+    })
+    .catch(err => {
+      trx.rollback();
+      throw new Error(err);
+    });
+}
+
+function insertUser(newUser, trx) {
+  const { firebase_id, email, dob, height_cm, sex } = newUser;
+  return db("users")
+    .transacting(trx)
     .insert({
       firebase_id,
       email,
@@ -24,9 +38,12 @@ async function addUser({
       height_cm,
       sex
     })
-    .returning('id');
+    .returning("id");
+}
 
-  await db('user_budget_data').insert({
+function insertUserBudgetData(newUser, trx) {
+  const { user_id, activity_level, weekly_goal_rate, caloric_budget } = newUser;
+  return trx("user_budget_data").insert({
     user_id,
     start_date: new Date(),
     activity_level,
@@ -37,25 +54,34 @@ async function addUser({
     protein_ratio: 0.3,
     fat_ratio: 0.2
   });
+}
 
-  await db('user_metric_history').insert({
+function insertUserMetricData(newUser, trx) {
+  const { user_id, weight_kg } = newUser;
+  return trx("user_metric_history").insert({
     user_id,
     weight_kg,
     observation_time: toSQLDateTime(new Date())
   });
-
-  return findById(user_id);
 }
 
-/********************************************************
-*                      FUNCTIONS                        *
-********************************************************/
-function findById(id) {
-  return db('users').where({ id }).first();
-}
-
-// converts ISO Date-Time format to SQL datetime format
-// ex: 2019-11-19T03:27:02.313Z ---> 2019-11-19 03:31:51
-function toSQLDateTime(now) {
-  return now.toISOString().split('T').join(' ').split('.')[0];
+function findUserById(id, trx) {
+  return trx("users as u")
+    .join("user_budget_data as ubd", "ubd.user_id", "=", id)
+    .join("user_metric_history as umh", "umh.user_id", "=", id)
+    .select(
+      "u.firebase_id",
+      "u.email",
+      "u.sex",
+      "u.dob",
+      "u.height_cm",
+      "umh.weight_kg",
+      "ubd.activity_level",
+      "ubd.weekly_goal_rate",
+      "ubd.caloric_budget",
+      "ubd.fat_ratio",
+      "ubd.carb_ratio",
+      "ubd.protein_ratio"
+    )
+    .where("u.id", "=", id);
 }
