@@ -27,7 +27,7 @@ server.use('/', fatSecretRoute);
 // Test End-Point for Authentication
 server.get('/test', authenticate, (req, res) => {
   res.status(200).json({
-    message: "You"
+    message: "Authorized."
   })
 });
 
