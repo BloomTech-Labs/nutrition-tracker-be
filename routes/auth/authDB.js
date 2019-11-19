@@ -54,6 +54,8 @@ function findById(id) {
   return db('users').where({ id }).first();
 }
 
+// converts ISO Date-Time format to SQL datetime format
+// ex: 2019-11-19T03:27:02.313Z ---> 2019-11-19 03:31:51
 function toSQLDateTime(now) {
   return now.toISOString().split('T').join(' ').split('.')[0];
 }
