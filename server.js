@@ -24,6 +24,14 @@ server.use(cors());
 server.use(helmet());
 server.use('/', fatSecretRoute);
 
+// Test End-Point for Authentication
+server.get('/test', authenticate, (req, res) => {
+  res.status(200).json({
+    message: "You"
+  })
+});
+
+
 server.get("/", (_, res) => {
     mixpanel.track("get request on root", {
       distinct_id: "izzy",
