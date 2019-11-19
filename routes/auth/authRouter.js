@@ -31,6 +31,7 @@ router.post('/register', validateRequest, async (req, res) => {
 function validateRequest(req, res, next) {
   let newUser = req.body;
   if (
+    newUser &&
     newUser.firebase_id &&
     newUser.sex &&
     newUser.activity_level &&
