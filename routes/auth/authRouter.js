@@ -1,26 +1,25 @@
-const express = require('express');
-const Auth = require('./authDB');
+const express = require("express");
+const Auth = require("./authDB");
 const router = express.Router();
-const {getCaloricBudget, getAge} = require('./helper')
+const { getCaloricBudget, getAge } = require("./helper");
 
 /********************************************************
 *                      AUTH/REGISTER                    *
 ********************************************************/
-router.post('/register', validateRequest, async (req, res) => {
+router.post("/register", validateRequest, async (req, res) => {
   let newUser = req.body;
 
   newUser.caloric_budget = getCaloricBudget(newUser);
 
   try {
-    newUser = await Auth.addUser(newUser);
     res.status(201).json({
-      message: 'new user created',
-      newUser
+      message: "new user created",
+      newUser: await Auth.addUser(newUser)
     });
   } catch (err) {
+    console.log("[/register] err", err);
     res.status(500).json({
-      errorMessage: err.message,
-      error: err
+      message: "Internal Server Error"
     });
   }
 });
