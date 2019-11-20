@@ -9,6 +9,7 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const server = express();
 const fatSecretRoute = require('./routes/fatsecret/fatsecret');
+const settingsRouter = require('./routes/settings/settingsRouter');
 
 /*
 morgan("dev"):
@@ -23,6 +24,7 @@ server.use(express.json());
 server.use(cors());
 server.use(helmet());
 server.use('/', fatSecretRoute);
+server.use('/settings', settingsRouter);
 
 server.get("/", (_, res) => {
     mixpanel.track("get request on root", {
