@@ -8,10 +8,10 @@ const mixpanel = Mixpanel.init(MIXPANEL_TOKEN);
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
+const authenticate = require("./services/authenticate");
 const server = express();
 const fatSecretRoute = require("./routes/fatsecret/fatsecret");
-const authenticate = require("./services/authenticate");
-
+const authRouter = require('./routes/auth/authRouter');
 /*
 morgan("dev"):
 Concise output colored by response status for development use. 
@@ -25,6 +25,7 @@ server.use(express.json());
 server.use(cors());
 server.use(helmet());
 server.use("/", fatSecretRoute);
+server.use('/auth', authRouter);
 
 // Test End-Point for Authentication
 server.get("/test", authenticate, (req, res) => {
