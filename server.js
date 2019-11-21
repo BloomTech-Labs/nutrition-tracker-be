@@ -8,6 +8,7 @@ const mixpanel = Mixpanel.init(MIXPANEL_TOKEN);
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
+const authenticate = require("./services/authenticate");
 const server = express();
 const authenticate = require("./services/authenticate");
 const fatSecretRoute = require("./routes/fatsecret/fatsecret");
