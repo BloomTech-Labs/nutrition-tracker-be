@@ -9,6 +9,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const authenticate = require("./services/authenticate");
+const translateFirebaseID = require("./middleware/translateFirebaseID");
 const server = express();
 const fatSecretRoute = require("./routes/fatsecret/fatsecret");
 const authRouter = require('./routes/auth/authRouter');
@@ -24,13 +25,23 @@ server.use(morgan("dev"));
 server.use(express.json());
 server.use(cors());
 server.use(helmet());
-server.use("/", fatSecretRoute);
+server.use("/",  fatSecretRoute);
 server.use('/auth', authRouter);
 
 // Test End-Point for Authentication
 server.get("/test", authenticate, (req, res) => {
   res.status(200).json({
     message: "Authorized."
+  });
+});
+
+// Test End-Point for Firebase ID conversion
+server.get("/test2", translateFirebaseID, (req, res) => {
+  const {user_id} = req;
+
+  res.status(200).json({
+    message: "Converted",
+    user_id
   });
 });
 
