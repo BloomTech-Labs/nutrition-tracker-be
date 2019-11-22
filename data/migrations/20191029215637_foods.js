@@ -27,12 +27,12 @@ exports.up = function(knex) {
     tbl.decimal("fiber_g");
     tbl.decimal("sugar_g");
     tbl.decimal("sodium_mg");
-    tbl.decimal("iron_mg");
-    tbl.decimal("calcium_mg");
     tbl.decimal("potassium_mg");
     tbl.decimal("cholesterol_mg");
-    tbl.decimal("vitamin_a_iu");
-    tbl.decimal("vitamin_c_iu");
+    tbl.decimal("vitamin_a_daily_pct");
+    tbl.decimal("vitamin_c_daily_pct");
+    tbl.decimal("iron_daily_pct");
+    tbl.decimal("calcium_daily_pct");
   });
 };
 

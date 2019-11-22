@@ -35,12 +35,12 @@ const tables = [
       "fiber_g",
       "sugar_g",
       "sodium_mg",
-      "iron_mg",
-      "calcium_mg",
       "potassium_mg",
       "cholesterol_mg",
-      "vitamin_a_iu",
-      "vitamin_c_iu"
+      "vitamin_a_daily_pct",
+      "vitamin_c_daily_pct",
+      "iron_daily_pct",
+      "calcium_daily_pct"
     ]
   ],
   [
