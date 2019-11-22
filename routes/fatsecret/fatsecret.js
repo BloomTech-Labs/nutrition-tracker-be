@@ -18,15 +18,18 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
     .then(response => {
       const food_data = response.data.food;
       const serving_measures = food_data.servings.serving;
-      let flattened_food_data = serving_measures.map(e => {
+      const flattenFoodData = serving => {
         const data_first_pass = {
           food_id: food_data.food_id,
           food_name: food_data.food_name,
-          ...e
+          ...serving
         }; // flattening food data by repeating food id and name for each serving measure record
         const { serving_url, ...without_extra_attributes } = data_first_pass; //excludes serving url
         return without_extra_attributes;
-      });
+      };
+      let flattened_food_data = Array.isArray(serving_measures)
+        ? serving_measures.map(flattenFoodData)
+        : [flattenFoodData(serving_measures)];
       res.send(flattened_food_data);
     })
     .catch(error => {
