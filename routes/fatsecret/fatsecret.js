@@ -24,6 +24,8 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
           food_name: food_data.food_name,
           serving_id: serving.serving_id,
           serving_desc: serving.serving_description,
+          metric_serving_amt: serving.metric_serving_amount,
+          metric_serving_unit: serving.metric_serving_unit,
           ...serving
         }; // denormalize food data by repeating food id and name for each serving measure record
         const {
