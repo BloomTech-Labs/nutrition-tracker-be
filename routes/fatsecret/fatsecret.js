@@ -26,7 +26,12 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
           serving_desc: serving.serving_description,
           ...serving
         }; // denormalize food data by repeating food id and name for each serving measure record
-        const { serving_url, ...without_extra_attributes } = data_first_pass; //excludes serving url
+        const {
+          serving_url,
+          measurement_description,
+          number_of_units,
+          ...without_extra_attributes
+        } = data_first_pass; //excludes serving_url, measurement_description, number_of_units
         return without_extra_attributes;
       };
       let flattened_food_data = Array.isArray(serving_measures)
