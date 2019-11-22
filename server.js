@@ -1,15 +1,17 @@
 require("dotenv").config();
 const express = require("express");
-const Mixpanel = require('mixpanel');
+const Mixpanel = require("mixpanel");
 const MIXPANEL_TOKEN = process.env.MIXPANEL_TOKEN;
 const mixpanel = Mixpanel.init(MIXPANEL_TOKEN);
+
 // middleware set up
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const server = express();
-const fatSecretRoute = require('./routes/fatsecret/fatsecret');
-const authRouter = require('./routes/auth/authRouter');
+const authenticate = require("./services/authenticate");
+const fatSecretRoute = require("./routes/fatsecret/fatsecret");
+const authRouter = require("./routes/auth/authRouter");
 /*
 morgan("dev"):
 Concise output colored by response status for development use. 
@@ -22,15 +24,22 @@ server.use(morgan("dev"));
 server.use(express.json());
 server.use(cors());
 server.use(helmet());
-server.use('/', fatSecretRoute);
-server.use('/auth', authRouter);
+server.use("/", fatSecretRoute);
+server.use("/auth", authRouter);
+
+// Test End-Point for Authentication
+server.get("/test", authenticate, (req, res) => {
+  res.status(200).json({
+    message: "Authorized."
+  });
+});
 
 server.get("/", (_, res) => {
-    mixpanel.track("get request on root", {
-      distinct_id: "izzy",
-      property_1: "doot"
-    });
-    res.send("I am not a computer nerd. I prefer to be called a hacker.");
+  mixpanel.track("get request on root", {
+    distinct_id: "izzy",
+    property_1: "doot"
   });
+  res.send("I am not a computer nerd. I prefer to be called a hacker.");
+});
 
 module.exports = server;
