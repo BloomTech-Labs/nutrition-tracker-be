@@ -22,6 +22,8 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
         const data_first_pass = {
           fatsecret_food_id: food_data.food_id,
           food_name: food_data.food_name,
+          serving_id: serving.serving_id,
+          serving_desc: serving.serving_description,
           ...serving
         }; // denormalize food data by repeating food id and name for each serving measure record
         const { serving_url, ...without_extra_attributes } = data_first_pass; //excludes serving url
