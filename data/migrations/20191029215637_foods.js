@@ -13,6 +13,8 @@ exports.up = function(knex) {
       .unsigned()
       .notNullable();
     tbl.text("serving_desc");
+    tbl.decimal("metric_serving_amt");
+    tbl.text("metric_serving_unit");
     tbl.datetime("retrieved_at").notNullable();
     tbl.decimal("calories_kcal");
     tbl.decimal("fat_g");

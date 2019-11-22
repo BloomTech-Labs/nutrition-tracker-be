@@ -21,6 +21,8 @@ const tables = [
       "food_name",
       "serving_id",
       "serving_desc",
+      "metric_serving_amt",
+      "metric_serving_unit",
       "retrieved_at",
       "calories_kcal",
       "fat_g",
