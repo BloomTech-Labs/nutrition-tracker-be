@@ -21,6 +21,7 @@ exports.up = function(knex) {
     tbl.decimal("saturated_fat_g");
     tbl.decimal("monounsaturated_fat_g");
     tbl.decimal("polyunsaturated_fat_g");
+    tbl.decimal("trans_fat_g");
     tbl.decimal("protein_g");
     tbl.decimal("carbs_g");
     tbl.decimal("fiber_g");

@@ -29,6 +29,7 @@ const tables = [
       "saturated_fat_g",
       "monounsaturated_fat_g",
       "polyunsaturated_fat_g",
+      "trans_fat_g",
       "protein_g",
       "carbs_g",
       "fiber_g",
