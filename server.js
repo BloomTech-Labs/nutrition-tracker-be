@@ -8,7 +8,6 @@ const mixpanel = Mixpanel.init(MIXPANEL_TOKEN);
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
-const authenticate = require("./middleware/authenticate");
 const mapTokenToUserID = require("./middleware/mapTokenToUserID");
 const server = express();
 const authenticate = require("./services/authenticate");
