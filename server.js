@@ -11,8 +11,9 @@ const morgan = require("morgan");
 const authenticate = require("./middleware/authenticate");
 const mapTokenToUserID = require("./middleware/mapTokenToUserID");
 const server = express();
+const authenticate = require("./services/authenticate");
 const fatSecretRoute = require("./routes/fatsecret/fatsecret");
-const authRouter = require('./routes/auth/authRouter');
+const authRouter = require("./routes/auth/authRouter");
 /*
 morgan("dev"):
 Concise output colored by response status for development use. 
@@ -25,8 +26,8 @@ server.use(morgan("dev"));
 server.use(express.json());
 server.use(cors());
 server.use(helmet());
-server.use("/",  fatSecretRoute);
-server.use('/auth', authRouter);
+server.use("/", fatSecretRoute);
+server.use("/auth", authRouter);
 
 // Test End-Point for Authentication
 server.get("/test/authentication", authenticate, (req, res) => {
