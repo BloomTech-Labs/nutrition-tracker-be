@@ -27,6 +27,10 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
           serving_desc: s.serving_description,
           metric_serving_amt: s.metric_serving_amount,
           metric_serving_unit: s.metric_serving_unit,
+
+          // all fields that are being returned by fatsecret can be found here:
+          // https://platform.fatsecret.com/api/Default.aspx?screen=rapiref&method=food.get
+
           // start macros. these are guaranteed to be in data
           calories_kcal: s.calories,
           carbs_g: s.carbohydrate,
