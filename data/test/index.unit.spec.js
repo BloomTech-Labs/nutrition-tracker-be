@@ -20,6 +20,7 @@ const tables = [
       "fatsecret_food_id",
       "food_name",
       "serving_id",
+      "serving_url",
       "serving_desc",
       "metric_serving_amt",
       "metric_serving_unit",

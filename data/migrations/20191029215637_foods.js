@@ -12,6 +12,7 @@ exports.up = function(knex) {
       .integer("serving_id")
       .unsigned()
       .notNullable();
+    tbl.text("serving_url");
     tbl.text("serving_desc");
     tbl.decimal("metric_serving_amt");
     tbl.text("metric_serving_unit");
