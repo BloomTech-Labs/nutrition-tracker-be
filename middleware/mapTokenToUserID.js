@@ -1,25 +1,25 @@
-const db = require("../data/knex");
 const admin = require("../services/firebaseAdmin");
 const getAuthToken = require("./helpers/getAuthToken");
+const maptoUserID = require("./helpers/mapToUserID");
 
+/********************************************************
+*                 MAP TOKEN TO USER ID                  *
+********************************************************/
 module.exports = (req, res, next) => {
   getAuthToken(req, res, async () => {
     try {
-      const userInfo = await admin.auth().verifyIdToken(req.authToken);
-      const firebase_id = userInfo.uid;
-      const { id } = await db("users")
-        .select("id")
-        .where({
-          firebase_id
-        })
-        .first();
+      const authToken = req.authToken;
+      const userInfo = await admin.auth().verifyIdToken(authToken);
+      const firebaseID = userInfo.uid;
 
-      req.body.user_id = id;
-      return next();
+      req.body.user_id = await maptoUserID(firebaseID, res);
+      
+      next();
+
     } catch (err) {
-      return res
+      res
         .status(401)
-        .send({ error: `User with firebase_id: ${firebase_id} not found.` });
+        .send({ error: `The Firebase ID token has invalid signature.` });
     }
   });
 };
