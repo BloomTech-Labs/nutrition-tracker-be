@@ -1,3 +1,7 @@
+
+/********************************************************
+*                   GET AUTH TOKEN                      *
+********************************************************/
 module.exports = (req, res, next) => {
   const tokenHeader = req.headers.authorization;
 
