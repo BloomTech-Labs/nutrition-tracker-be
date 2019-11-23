@@ -32,7 +32,29 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
           carbs_g: s.carbohydrate,
           fat_g: s.fat,
           protein_g: s.protein,
-          ...s
+          // conditionally setting values for the serving's micronutrient values
+          // if they've been provided by fatsecret
+          // we also are renaming the values to match our database schema
+          // for more details on how this operation works & what the syntax means, see this
+          // stackoverflow answer: https://stackoverflow.com/a/40560953/2865345 or this medium
+          // post which was written to explain using the functionality in that stackoverflow answer"
+          ...(s.saturated_fat && { saturated_fat_g: s.saturated_fat }),
+          ...(s.polyunsaturated_fat && {
+            polyunsaturated_fat_g: s.polyunsaturated_fat
+          }),
+          ...(s.monounsaturated_fat && {
+            monounsaturated_fat_g: s.monounsaturated_fat
+          }),
+          ...(s.trans_fat && { trans_fat_g: s.trans_fat }),
+          ...(s.cholesterol && { cholesterol_mg: s.cholesterol }),
+          ...(s.sodium && { sodium_mg: s.sodium }),
+          ...(s.potassium && { potassium_mg: s.potassium }),
+          ...(s.fiber && { fiber_g: s.fiber }),
+          ...(s.sugar && { sugar_g: s.sugar }),
+          ...(s.vitamin_a && { vitamin_a_daily_pct: s.vitamin_a }),
+          ...(s.vitamin_c && { vitamin_c_daily_pct: s.vitamin_c }),
+          ...(s.calcium && { calcium_daily_pct: s.calcium }),
+          ...(s.iron && { iron_daily_pct: s.iron })
         }; // denormalize food data by repeating food id and name for each serving measure record
         const {
           serving_url,
