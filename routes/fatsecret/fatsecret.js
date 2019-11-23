@@ -18,15 +18,16 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
     .then(response => {
       const food_data = response.data.food;
       const serving_measures = food_data.servings.serving;
-      const denormalizeFoodData = serving => {
+      const denormalizeFoodData = s => {
+        // 's' argument stands for the serving we're work with
         const data_first_pass = {
           fatsecret_food_id: food_data.food_id,
           food_name: food_data.food_name,
-          serving_id: serving.serving_id,
-          serving_desc: serving.serving_description,
-          metric_serving_amt: serving.metric_serving_amount,
-          metric_serving_unit: serving.metric_serving_unit,
-          ...serving
+          serving_id: s.serving_id,
+          serving_desc: s.serving_description,
+          metric_serving_amt: s.metric_serving_amount,
+          metric_serving_unit: s.metric_serving_unit,
+          ...s
         }; // denormalize food data by repeating food id and name for each serving measure record
         const {
           serving_url,
