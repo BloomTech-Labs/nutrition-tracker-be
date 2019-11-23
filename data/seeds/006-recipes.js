@@ -7,6 +7,7 @@ exports.seed = function(knex) {
       return knex("recipes").insert([
         {
           id: 1,
+          fatsecret_food_id: 9876,
           name: "Stuffed Chicken Breast",
           description:
             "Scrumptious chicken breast stuffed with light feta cheese, spiced red peppers and black olives with a light crispy coating",
@@ -19,6 +20,7 @@ exports.seed = function(knex) {
 
         {
           id: 2,
+          fatsecret_food_id: 8765,
           name: "Baked Salmon",
           description: "A healthy, easy salmon dish",
           prep_time_min: 5.0,
