@@ -10,7 +10,7 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const mapTokenToUserID = require("./middleware/mapTokenToUserID");
 const server = express();
-const authenticate = require("./services/authenticate");
+const authenticate = require("./middleware/authenticate");
 const fatSecretRoute = require("./routes/fatsecret/fatsecret");
 const authRouter = require("./routes/auth/authRouter");
 /*
