@@ -27,6 +27,11 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
           serving_desc: s.serving_description,
           metric_serving_amt: s.metric_serving_amount,
           metric_serving_unit: s.metric_serving_unit,
+          // start macros. these are guaranteed to be in data
+          calories_kcal: s.calories,
+          carbs_g: s.carbohydrate,
+          fat_g: s.fat,
+          protein_g: s.protein,
           ...s
         }; // denormalize food data by repeating food id and name for each serving measure record
         const {
