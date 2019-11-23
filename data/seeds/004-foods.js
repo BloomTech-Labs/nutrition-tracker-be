@@ -1,10 +1,10 @@
 exports.seed = function(knex) {
   // Deletes ALL existing entries
   return knex
-    .raw("TRUNCATE TABLE food_and_beverages RESTART IDENTITY CASCADE")
+    .raw("TRUNCATE TABLE foods RESTART IDENTITY CASCADE")
     .then(function() {
       // Inserts seed entries
-      return knex("food_and_beverages").insert([
+      return knex("foods").insert([
         {
           id: 1,
           name: "white bread",
