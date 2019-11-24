@@ -1,10 +1,9 @@
-const fs = require("fs");
-
 //DELETE AND REMAKE DB ROLE & DB
 // -U = user
 // -d = database
 // -a => Print all nonempty input lines to standard output as they are read. (This does not apply to lines read interactively.) This is equivalent to setting the variable ECHO to all.
 // -f = filename
+// // RIGHT CLICK ON THIS FILE IN VS CODE, CLICK "OPEN IN TERMINAL", THEN RUN THIS COMMAND:
 const run_sql_file = `
 
 psql -U postgres -a -f remake_database.sql
@@ -79,6 +78,8 @@ const full_query_list = [
 ];
 
 let full_query = full_query_list.join(" "); //sql just needs a space between statements. extra spaces dont hurt, so thus we add a space on join()
+
+const fs = require("fs");
 
 fs.writeFile("remake_database.sql", full_query, err => {
   // throws an error, you could also catch it here
