@@ -7,8 +7,7 @@ exports.seed = function(knex) {
       return knex("users").insert([
         {
           id: 1,
-          username: "jakecali",
-          password: "123456",
+          firebase_id:12345,
           email: "jake@myemail.com",
           height_cm: 182.88,
           sex: "male",
@@ -16,8 +15,7 @@ exports.seed = function(knex) {
         },
         {
           id: 2,
-          username: "amirking",
-          password: "123456",
+          firebase_id:23456,
           email: "amir@lycos.com",
           height_cm: 170.688,
           sex: "male",
@@ -25,8 +23,7 @@ exports.seed = function(knex) {
         },
         {
           id: 3,
-          username: "janetjarrel",
-          password: "123456",
+          firebase_id:34567,
           email: "janetj@someemail.com",
           height_cm: 152.4,
           sex: "female",
@@ -34,8 +31,7 @@ exports.seed = function(knex) {
         },
         {
           id: 4,
-          username: "shaylashe",
-          password: "123456",
+          firebase_id:45678,
           email: "shaeshae@hotmail.com",
           height_cm: 161.54,
           sex: "female",
