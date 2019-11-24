@@ -22,6 +22,7 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
         // 's' argument stands for the serving we're work with
         const data_first_pass = {
           fatsecret_food_id: food_data.food_id,
+          //  retrieved_at: ... // automatically generated
           food_name: food_data.food_name,
           serving_id: s.serving_id,
           serving_url: s.serving_url,
