@@ -14,6 +14,8 @@ exports.seed = function(knex) {
           metric_serving_unit: "a slice",
           retrieved_at: knex.fn.now(6),
           serving_id: 2,
+          serving_url:
+            "https://www.fatsecret.com/calories-nutrition/generic/pizza-cheese?portionid=17170&portionamount=1.000", // not actually the correct url. just there to make sure the field works.
           calories_kcal: 66,
           fat_g: 0.82,
           trans_fat_g: 0.82,
@@ -39,6 +41,8 @@ exports.seed = function(knex) {
           metric_serving_unit: "a slice",
           retrieved_at: knex.fn.now(6),
           serving_id: 2,
+          serving_url:
+            "https://www.fatsecret.com/calories-nutrition/generic/pizza-cheese?portionid=17170&portionamount=1.000", // not actually the correct url. just there to make sure the field works.
           calories_kcal: 66,
           fat_g: 0.82,
           trans_fat_g: 0.82,
@@ -64,6 +68,8 @@ exports.seed = function(knex) {
           metric_serving_unit: "one",
           retrieved_at: knex.fn.now(6),
           serving_id: 2,
+          serving_url:
+            "https://www.fatsecret.com/calories-nutrition/generic/pizza-cheese?portionid=17170&portionamount=1.000", // not actually the correct url. just there to make sure the field works.
           calories_kcal: 66,
           fat_g: 0.82,
           trans_fat_g: 0.82,
@@ -89,6 +95,8 @@ exports.seed = function(knex) {
           metric_serving_unit: "one",
           retrieved_at: knex.fn.now(6),
           serving_id: 2,
+          serving_url:
+            "https://www.fatsecret.com/calories-nutrition/generic/pizza-cheese?portionid=17170&portionamount=1.000", // not actually the correct url. just there to make sure the field works.
           calories_kcal: 66,
           fat_g: 0.82,
           trans_fat_g: 0.82,
