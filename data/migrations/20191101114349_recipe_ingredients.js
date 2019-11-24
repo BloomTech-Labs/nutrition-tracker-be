@@ -6,7 +6,7 @@ exports.up = function(knex) {
       .unsigned()
       .notNullable()
       .references("id")
-      .inTable("users")
+      .inTable("recipes")
       .onUpdate("CASCADE")
       .onDelete("CASCADE");
     tbl
