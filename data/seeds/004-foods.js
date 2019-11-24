@@ -57,7 +57,7 @@ exports.seed = function(knex) {
         },
         {
           id: 3,
-          fatsecret_food_id: 8362,
+          fatsecret_food_id: 8862,
           food_name: "chicken breast",
           serving_desc: "one",
           metric_serving_amt: 1,
@@ -82,7 +82,7 @@ exports.seed = function(knex) {
         },
         {
           id: 4,
-          fatsecret_food_id: 8362,
+          fatsecret_food_id: 8372,
           food_name: "salmon",
           serving_desc: "1oz boneless",
           metric_serving_amt: 1,
