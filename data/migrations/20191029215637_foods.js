@@ -18,7 +18,6 @@ exports.up = function(knex) {
     tbl.datetime("retrieved_at").notNullable();
     tbl.decimal("calories_kcal");
     tbl.decimal("fat_g");
-    tbl.decimal("trans_fat_g");
     tbl.decimal("saturated_fat_g");
     tbl.decimal("monounsaturated_fat_g");
     tbl.decimal("polyunsaturated_fat_g");
