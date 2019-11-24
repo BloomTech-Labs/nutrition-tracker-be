@@ -22,9 +22,9 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
         // 's' argument stands for the serving we're work with
         const data_first_pass = {
           fatsecret_food_id: food_data.food_id,
+          serving_id: s.serving_id,
           //  retrieved_at: ... // automatically generated
           food_name: food_data.food_name,
-          serving_id: s.serving_id,
           serving_url: s.serving_url,
           serving_desc: s.serving_description,
           metric_serving_amt: s.metric_serving_amount,
@@ -35,8 +35,8 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
 
           // start macros. these are guaranteed to be in data
           calories_kcal: s.calories,
-          carbs_g: s.carbohydrate,
           fat_g: s.fat,
+          carbs_g: s.carbohydrate,
           protein_g: s.protein,
           // conditionally setting values for the serving's micronutrient values
           // if they've been provided by fatsecret
@@ -45,18 +45,18 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
           // stackoverflow answer: https://stackoverflow.com/a/40560953/2865345 or this medium
           // post which was written to explain using the functionality in that stackoverflow answer"
           ...(s.saturated_fat && { saturated_fat_g: s.saturated_fat }),
-          ...(s.polyunsaturated_fat && {
-            polyunsaturated_fat_g: s.polyunsaturated_fat
-          }),
           ...(s.monounsaturated_fat && {
             monounsaturated_fat_g: s.monounsaturated_fat
           }),
+          ...(s.polyunsaturated_fat && {
+            polyunsaturated_fat_g: s.polyunsaturated_fat
+          }),
           ...(s.trans_fat && { trans_fat_g: s.trans_fat }),
-          ...(s.cholesterol && { cholesterol_mg: s.cholesterol }),
-          ...(s.sodium && { sodium_mg: s.sodium }),
-          ...(s.potassium && { potassium_mg: s.potassium }),
           ...(s.fiber && { fiber_g: s.fiber }),
           ...(s.sugar && { sugar_g: s.sugar }),
+          ...(s.sodium && { sodium_mg: s.sodium }),
+          ...(s.potassium && { potassium_mg: s.potassium }),
+          ...(s.cholesterol && { cholesterol_mg: s.cholesterol }),
           ...(s.vitamin_a && { vitamin_a_daily_pct: s.vitamin_a }),
           ...(s.vitamin_c && { vitamin_c_daily_pct: s.vitamin_c }),
           ...(s.calcium && { calcium_daily_pct: s.calcium }),

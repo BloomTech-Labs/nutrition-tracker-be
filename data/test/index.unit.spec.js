@@ -27,12 +27,12 @@ const tables = [
       "metric_serving_unit",
       "calories_kcal",
       "fat_g",
+      "carbs_g",
+      "protein_g",
       "saturated_fat_g",
       "monounsaturated_fat_g",
       "polyunsaturated_fat_g",
       "trans_fat_g",
-      "protein_g",
-      "carbs_g",
       "fiber_g",
       "sugar_g",
       "sodium_mg",
@@ -40,8 +40,8 @@ const tables = [
       "cholesterol_mg",
       "vitamin_a_daily_pct",
       "vitamin_c_daily_pct",
-      "iron_daily_pct",
-      "calcium_daily_pct"
+      "calcium_daily_pct",
+      "iron_daily_pct"
     ]
   ],
   [

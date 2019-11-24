@@ -19,21 +19,21 @@ exports.up = function(knex) {
     tbl.text("metric_serving_unit");
     tbl.decimal("calories_kcal");
     tbl.decimal("fat_g");
+    tbl.decimal("carbs_g");
+    tbl.decimal("protein_g");
     tbl.decimal("saturated_fat_g");
     tbl.decimal("monounsaturated_fat_g");
     tbl.decimal("polyunsaturated_fat_g");
     tbl.decimal("trans_fat_g");
-    tbl.decimal("protein_g");
-    tbl.decimal("carbs_g");
     tbl.decimal("fiber_g");
     tbl.decimal("sugar_g");
+    tbl.decimal("cholesterol_mg");
     tbl.decimal("sodium_mg");
     tbl.decimal("potassium_mg");
-    tbl.decimal("cholesterol_mg");
     tbl.decimal("vitamin_a_daily_pct");
     tbl.decimal("vitamin_c_daily_pct");
-    tbl.decimal("iron_daily_pct");
     tbl.decimal("calcium_daily_pct");
+    tbl.decimal("iron_daily_pct");
   });
 };
 
