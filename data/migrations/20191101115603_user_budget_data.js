@@ -11,6 +11,7 @@ exports.up = function(knex) {
       .onDelete("CASCADE");
     tbl.date("start_date");
     tbl.decimal("weekly_goal_rate");
+    tbl.decimal("weight_goal_kg");
     tbl.decimal("activity_level");
     tbl.decimal("caloric_budget");
     tbl.float("fat_ratio");
