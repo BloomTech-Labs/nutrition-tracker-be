@@ -34,9 +34,21 @@ exports.up = function(knex) {
     tbl.decimal("vitamin_c_daily_pct");
     tbl.decimal("calcium_daily_pct");
     tbl.decimal("iron_daily_pct");
+
+    tbl.unique(
+      ["fatsecret_food_id", "serving_id"],
+      "fatsecret_food_id_serving_id_unique"
+    );
   });
 };
 
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists("foods");
+  return knex.schema
+    .raw(
+      `
+      ALTER TABLE foods
+      DROP CONSTRAINT IF EXISTS fatsecret_food_id_serving_id_unique;
+      `
+    )
+    .dropTableIfExists("foods");
 };
