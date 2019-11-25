@@ -1,4 +1,8 @@
+-- command to run the script in terminal
+-- psql -U postgres -a -f remake_database.sql
 
+-- powershell (as admin) command to restart postgres service:
+-- Restart-Service -Name postgresql-x64-12
 
   DROP DATABASE IF EXISTS nutrition_tracker;
 
