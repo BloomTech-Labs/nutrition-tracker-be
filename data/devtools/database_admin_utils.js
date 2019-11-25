@@ -70,6 +70,13 @@ const drop_role_sql = `
 
 `;
 
+//dumps the "food_log" creation script into "food_log.sql" file
+const generate_create_table_script = `
+
+pg_dump -U postgres -t 'public.food_log' --schema-only nutrition_tracker > food_log.sql
+
+`;
+
 const full_query_list = [
   drop_database_sql,
   drop_role_sql,
