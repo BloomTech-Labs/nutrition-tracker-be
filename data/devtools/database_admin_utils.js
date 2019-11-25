@@ -71,9 +71,13 @@ const drop_role_sql = `
 `;
 
 //dumps the "food_log" creation script into "food_log.sql" file
+const database_name = "nutrition_tracker";
+const superuser = "postgres";
+
+const table_name = "foods";
 const generate_create_table_script = `
 
-pg_dump -U postgres -t 'public.food_log' --schema-only nutrition_tracker > food_log.sql
+pg_dump -U ${superuser} -t 'public.${table_name}' --schema-only ${database_name} > ${table_name}.sql
 
 `;
 
@@ -95,3 +99,15 @@ fs.writeFile("remake_database.sql", full_query, err => {
   // success case, the file was saved
   console.log("sql output to file!");
 });
+
+fs.writeFile(
+  `dump_create_table_script_for_${table_name}`,
+  generate_create_table_script,
+  err => {
+    // throws an error, you could also catch it here
+    if (err) throw err;
+
+    // success case, the file was saved
+    console.log(" output to file!");
+  }
+);
