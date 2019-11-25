@@ -21,9 +21,7 @@ exports.up = function(knex) {
       .integer("fatsecret_recipe_id")
       .unsigned()
       .notNullable();
-    tbl
-      .datetime("time_consumed_at", { precision: 6 })
-      .defaultTo(knex.fn.now(6));
+    tbl.datetime("time_consumed_at").defaultTo(knex.fn.now());
     tbl.float("recipe_proportion");
   });
 };
