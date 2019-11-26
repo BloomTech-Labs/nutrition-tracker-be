@@ -24,7 +24,7 @@ server.use(express.json());
 server.use(cors());
 server.use(helmet());
 server.use('/', fatSecretRoute);
-server.use('/updateUserSettings', settingsRouter);
+server.use('/user', settingsRouter);
 
 server.get("/", (_, res) => {
     mixpanel.track("get request on root", {

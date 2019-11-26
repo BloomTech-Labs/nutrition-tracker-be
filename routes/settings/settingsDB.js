@@ -2,8 +2,10 @@ const db = require("../../data/knex");
 
 module.exports = {
     find,
-    findById,
-    updateUserSettings
+    findByUserId,
+	updateUser,
+	findMetricHistoryById,
+	updateMetrics
 }
 
 
@@ -11,15 +13,28 @@ function find() {
 	return db('users');
 }
 
-function findById(id) {
+function findByUserId(id) {
 	return db("users")
 		.where({ id })
 		.first();
 }
 
-async function updateUserSettings(updates, id) {
+function findMetricHistoryById(id) {
+	return db("user_metric_history")
+		.where({ id })
+		.first();
+}
+
+async function updateUser(updates, id) {
 	await db("users")
 		.where({ id })
 		.update(updates);
-	return findById(id);
+	return findByUserId(id);
+}
+
+async function updateMetrics(updates, id) {
+	await db("user_metric_history")
+		.where({ id })
+		.update(updates);
+	return findMetricHistoryById(id);
 }
