@@ -1,6 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const UserInfo = require("./settingsDB");
+const {
+  heightToImperial,
+  kgToLbs,
+  macroRatiosToGrams,
+  applyLocalOffset,
+  calculateConsumption
+} = require("./helper");
+
+/********************************************************
+ *                   User Endpoints                     *
+ ********************************************************/
 
 //Gets all users. For Testing purposes mostly.
 router.get("/", async (req, res) => {
@@ -14,82 +25,104 @@ router.get("/", async (req, res) => {
 
 //Get specific user from users table.
 router.get("/:id", async (req, res) => {
-	const { id } = req.params;
-	try {
-		const user = await UserInfo.findByUserId(id);
-		//Calls function to convert height in cm to height in ft/inches, and adds it to user obj.
-		user.height = heightToImperial(user.height_cm);
-		res.json(user);
-	} catch (err) {
-		res.status(500).json({ message: "Failed to get Users"  });
-	}
-});
-
-//Get specific users metric history from user_metric_history table.
-router.get("/metrics/:id", async (req, res) => {
-	const { id } = req.params;
-	try {
-		const user = await UserInfo.findMetricHistoryById(id);
-		//Calls function to convert weight in kg to weight in lbs, and adds it to user obj.
-		user.weight = kgToLbs(user.weight_kg);
-		res.json(user);
-	} catch (err) {
-		res.status(500).json({ message: "Failed to get user's metrics"  });
-	}
-});
-
-//Get specific users metric history from user_metric_history table.
-router.get("/budget/:id", async (req, res) => {
-	const { id } = req.params;
-	try {
-		const user = await UserInfo.findBudgetDataById(id);
-		//Calls function to convert weight in kg to weight in lbs, and adds it to user obj.
-		res.json(user);
-	} catch (err) {
-		res.status(500).json({ message: "Failed to get user's budget"  });
-	}
+  const { id } = req.params;
+  try {
+    const user = await UserInfo.findByUserId(id);
+    //Calls function from helper file to convert height in cm to height in ft/inches, and adds it to user obj.
+    user.height = heightToImperial(user.height_cm);
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to get Users" });
+  }
 });
 
 //Update specific user in users table.
 router.put("/:id", async (req, res) => {
-	const id = req.params.id;
-	const updatedSettings = req.body;
-	if(!updatedSettings) {
-		res.status(400).json({
-			message: "Item required for update are missing"
-		})
-	}
-	try {
-		const updated = await UserInfo.updateUser(updatedSettings, id);
-		res.status(201).json({updated});
-	} catch (err) {
-		console.log(err)
-		res.status(500).json({ message: "Failed to update user settings" });
-	}
+  const id = req.params.id;
+  const updatedSettings = req.body;
+  if (!updatedSettings) {
+    res.status(400).json({
+      message: "Item required for update are missing"
+    });
+  }
+  try {
+    const updated = await UserInfo.updateUser(updatedSettings, id);
+    res.status(201).json(updated);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Failed to update user settings" });
+  }
 });
-
-//Update specific user in users table.
-router.put("/metrics/:id", async (req, res) => {
-	const id = req.params.id;
-	const updatedSettings = req.body;
-	if(!updatedSettings) {
-		res.status(400).json({
-			message: "Item required for update are missing"
-		})
-	}
-	try {
-		const updated = await UserInfo.updateMetrics(updatedSettings, id);
-		res.status(201).json(updated);
-	} catch (err) {
-		res.status(500).json({ message: "Failed to update user metrics" });
-	}
-});
-
-
 
 /********************************************************
-*                       DAILY LOG                       *
-********************************************************/
+ *                  Metric Endpoints                    *
+ ********************************************************/
+
+//Get specific user's metric history from user_metric_history table.
+router.get("/metrics/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await UserInfo.findMetricHistoryById(id);
+    //Calls function from helper file to convert weight in kg to weight in lbs, and adds it to user obj.
+    user.weight = kgToLbs(user.weight_kg);
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to get user's metrics" });
+  }
+});
+
+//Update specific user's metric history in user_metric_history table.
+router.put("/metrics/:id", async (req, res) => {
+  const id = req.params.id;
+  const updatedSettings = req.body;
+  if (!updatedSettings) {
+    res.status(400).json({
+      message: "Item required for update are missing"
+    });
+  }
+  try {
+    const updated = await UserInfo.updateMetrics(updatedSettings, id);
+    res.status(201).json(updated);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to update user metrics" });
+  }
+});
+
+/********************************************************
+ *                  Budget Endpoints                    *
+ ********************************************************/
+
+//Get specific user's budget data from user_metric_history table.
+router.get("/budget/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await UserInfo.findBudgetDataById(id);
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to get user's budget" });
+  }
+});
+
+//Update specific user's budget data in user_metric_history table.
+router.put("/budget/:id", async (req, res) => {
+  const id = req.params.id;
+  const updatedSettings = req.body;
+  if (!updatedSettings) {
+    res.status(400).json({
+      message: "Item required for update are missing"
+    });
+  }
+  try {
+    const updated = await UserInfo.updateBudgetData(updatedSettings, id);
+    res.status(201).json(updated);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to update user's budget" });
+  }
+});
+
+/********************************************************
+ *                       DAILY LOG                       *
+ ********************************************************/
 
 // front-end knows the local offset and can display to user GMT+00
 // where 00 is the offset in hours
@@ -113,7 +146,12 @@ router.get("/daily-log/:date/:local_offset", async (req, res) => {
 
     dailyLog = applyLocalOffset(dailyLog);
 
-    let {caloriesConsumed, fatsConsumed, carbsConsumed, proteinConsumed} = calculateConsumption(dailyLog);
+    let {
+      caloriesConsumed,
+      fatsConsumed,
+      carbsConsumed,
+      proteinConsumed
+    } = calculateConsumption(dailyLog);
 
     const { fatBudget, proteinBudget, carbBudget } = macroRatiosToGrams(
       caloric_budget,
@@ -142,104 +180,10 @@ router.get("/daily-log/:date/:local_offset", async (req, res) => {
   }
 });
 
-/********************************************************
-*                      HELPER FUNCTIONS                 *
-********************************************************/
-function macroRatiosToGrams(
-  caloric_budget,
-  fat_ratio,
-  protein_ratio,
-  carb_ratio
-) {
-  const fatBudget = Math.round(caloric_budget * fat_ratio / 9);
-  const proteinBudget = Math.round(caloric_budget * protein_ratio / 4);
-  const carbBudget = Math.round(caloric_budget * carb_ratio / 4);
-
-  return { fatBudget, proteinBudget, carbBudget };
-}
-
-// consider refactoring  with moment-js
-function applyLocalOffset(dailyLog) {
-  dailyLog.forEach(log => { 
-    let time_consumed_at_utc;
-    let time_consumed_at_local;
-    let time_consumed_at_local_hour;
-    let time_consumed_at_local_minute;
-    let time_consumed_at_local_period;
-
-    time_consumed_at_utc = new Date(log.time_consumed_at);
-
-    time_consumed_at_local = time_consumed_at_utc.setSeconds(
-      time_consumed_at_utc.getSeconds() + log.utc_offset_seconds * -1
-    );
-
-    time_consumed_at_local = new Date(time_consumed_at_local);
-    time_consumed_at_local_hour = Number(time_consumed_at_local .getHours()) + 1;
-    time_consumed_at_local_minute = Number(time_consumed_at_local .getMinutes());
-    time_consumed_at_local_period;
-
-    if (time_consumed_at_local_hour >= 12) {
-      time_consumed_at_local_hour = time_consumed_at_local_hour % 12;
-      time_consumed_at_local_period = "pm";
-    } else {
-      time_consumed_at_local_period = "am";
-    }
-
-    if (time_consumed_at_local_minute < 10) {
-      time_consumed_at_local_minute = `0${time_consumed_at_local_minute}`;
-    }
-
-    log.time_consumed_at = `${time_consumed_at_local_hour}:${time_consumed_at_local_minute}${time_consumed_at_local_period}`;
-  });
-
-  return dailyLog;
-}
-
-function calculateConsumption(dailyLog) {
-  let caloriesConsumed = 0;
-  let fatsConsumed = 0;
-  let carbsConsumed = 0;
-  let proteinConsumed = 0;
-
-  dailyLog.forEach(log => {
-    caloriesConsumed += Number(log.calories_kcal) * Number(log.quantity);
-    fatsConsumed += Number(log.fat_g) * Number(log.quantity);
-    carbsConsumed += Number(log.carbs_g) * Number(log.quantity);
-    proteinConsumed += Number(log.protein_g) * Number(log.quantity);
-  })
-
-  return {
-    caloriesConsumed: Math.round(caloriesConsumed),
-    fatsConsumed: Math.round(fatsConsumed),
-    carbsConsumed: Math.round(carbsConsumed),
-    proteinConsumed: Math.round(proteinConsumed)
-  }
-}
-
-function heightToImperial(n) {
-  const height = [];
-  var realFeet = n * 0.3937 / 12;
-  var convFeet = Math.floor(realFeet);
-  var convInches = Math.round((realFeet - convFeet) * 12);
-  height.push({
-    feet: convFeet,
-    inches: convInches
-  });
-  return height;
-}
-
-//Converts kg to lbs
-function kgToLbs(kg) {
-    var nearExact = kg/0.45359237;
-    var lbs = Math.floor(nearExact);
-    return lbs
-}
-
-
 module.exports = router;
 
 /*
-  FRONT-END SHIT:
+  FRONT-END THINGS:
 
   const date = new Date();
   const offsetMinutes = new Date().getTimezoneOffset();
