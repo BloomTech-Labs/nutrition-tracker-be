@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const UserInfo = require('./settingsDB');
+//const {heightToImperial, kgToLbs} = require('./helper');
 
 //Gets all users. For Testing purposes mostly.
 router.get("/", async (req, res) => {
@@ -34,7 +35,19 @@ router.get("/metrics/:id", async (req, res) => {
 		user.weight = kgToLbs(user.weight_kg);
 		res.json(user);
 	} catch (err) {
-		res.status(500).json({ message: "Failed to get Users"  });
+		res.status(500).json({ message: "Failed to get user's metrics"  });
+	}
+});
+
+//Get specific users metric history from user_metric_history table.
+router.get("/budget/:id", async (req, res) => {
+	const { id } = req.params;
+	try {
+		const user = await UserInfo.findBudgetDataById(id);
+		//Calls function to convert weight in kg to weight in lbs, and adds it to user obj.
+		res.json(user);
+	} catch (err) {
+		res.status(500).json({ message: "Failed to get user's budget"  });
 	}
 });
 
@@ -49,8 +62,9 @@ router.put("/:id", async (req, res) => {
 	}
 	try {
 		const updated = await UserInfo.updateUser(updatedSettings, id);
-		res.status(201).json(updated);
+		res.status(201).json({updated});
 	} catch (err) {
+		console.log(err)
 		res.status(500).json({ message: "Failed to update user settings" });
 	}
 });

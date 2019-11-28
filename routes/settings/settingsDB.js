@@ -5,7 +5,9 @@ module.exports = {
     findByUserId,
 	updateUser,
 	findMetricHistoryById,
-	updateMetrics
+	updateMetrics,
+	findBudgetDataById,
+	updateBudgetData
 }
 
 
@@ -25,6 +27,12 @@ function findMetricHistoryById(id) {
 		.first();
 }
 
+function findBudgetDataById(id) {
+	return db("user_budget_data")
+		.where({ id })
+		.first();
+}
+
 async function updateUser(updates, id) {
 	await db("users")
 		.where({ id })
@@ -38,3 +46,11 @@ async function updateMetrics(updates, id) {
 		.update(updates);
 	return findMetricHistoryById(id);
 }
+
+async function updateBudgetData(updates, id) {
+	await db("user_budget_data")
+		.where({ id })
+		.update(updates);
+	return findBudgetDataById(id);
+}
+
