@@ -7,47 +7,52 @@ exports.seed = function(knex) {
       return knex("food_log").insert([
         {
           id: 1,
-          user_id: 2,
+          user_id: 1,
           food_id: 1,
           fatsecret_food_id: 9876,
           serving_id: 10,
-          time_consumed_at: knex.fn.now(6),
+          time_consumed_at: "2019-11-24T08:14:00.000Z",
+          utc_offset_seconds: 10800,
           quantity: 2.0
         },
         {
           id: 2,
-          user_id: 3,
+          user_id: 1,
           food_id: 2,
           fatsecret_food_id: 8765,
           serving_id: 11,
-          time_consumed_at: knex.fn.now(6),
+          time_consumed_at: "2019-11-24T08:14:00.000Z",
+          utc_offset_seconds: 10800,
           quantity: 1.0
         },
         {
           id: 3,
-          user_id: 3,
+          user_id: 1,
           food_id: 3,
           fatsecret_food_id: 7654,
           serving_id: 12,
-          time_consumed_at: knex.fn.now(6),
+          time_consumed_at: "2019-11-24T12:01:00.000Z",
+          utc_offset_seconds: 10800,
           quantity: 4.0
         },
         {
           id: 4,
-          user_id: 2,
+          user_id: 1,
           food_id: 4,
           fatsecret_food_id: 6543,
           serving_id: 13,
-          time_consumed_at: knex.fn.now(6),
+          time_consumed_at: "2019-11-24T13:16:00.000Z",
+          utc_offset_seconds: 10800,
           quantity: 2.0
         },
         {
           id: 5,
-          user_id: 4,
+          user_id: 1,
           food_id: 2,
           fatsecret_food_id: 5432,
           serving_id: 14,
-          time_consumed_at: knex.fn.now(6),
+          time_consumed_at: "2019-11-26T13:16:00.000Z",
+          utc_offset_seconds: 10800,
           quantity: 2.0
         },
         {
@@ -56,7 +61,8 @@ exports.seed = function(knex) {
           food_id: 1,
           fatsecret_food_id: 4321,
           serving_id: 15,
-          time_consumed_at: knex.fn.now(6),
+          time_consumed_at: "2019-11-24T15:30:00.000Z",
+          utc_offset_seconds: 10800,
           quantity: 1.0
         },
         {
@@ -65,8 +71,19 @@ exports.seed = function(knex) {
           food_id: 1,
           fatsecret_food_id: 3210,
           serving_id: 16,
-          time_consumed_at: knex.fn.now(6),
+          time_consumed_at: "2019-11-24T15:30:00.000Z",
+          utc_offset_seconds: 10800,
           quantity: 1.5
+        },
+        {
+          id: 8,
+          user_id: 1,
+          food_id: 5,
+          fatsecret_food_id: 5735,
+          serving_id: 21131,
+          time_consumed_at: "2019-11-24T15:30:00.000Z",
+          utc_offset_seconds: 10800,
+          quantity: 2
         }
       ]);
     });

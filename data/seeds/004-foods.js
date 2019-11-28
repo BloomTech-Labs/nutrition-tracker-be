@@ -104,6 +104,31 @@ exports.seed = function(knex) {
           vitamin_c_daily_pct: 0,
           iron_daily_pct: 5,
           calcium_daily_pct: 0
+        },
+        {
+          id: 5,
+          fatsecret_food_id: 5735,
+          food_name: "Roasted Potato",
+          serving_desc: "1 small (1-3/4\\\" to 2-1/4\\\" dia, raw)",
+          metric_serving_amt: 110.000,
+          metric_serving_unit: "g",
+          retrieved_at: knex.fn.now(6),
+          serving_id: 21131,
+          calories_kcal: 164,
+          fat_g: 0.82,
+          trans_fat_g: 7.70,
+          saturated_fat_g: 0.990,
+          monounsaturated_fat_g: 2.562,
+          polyunsaturated_fat_g: 3.786,
+          protein_g: 2.55,
+          carbs_g: 22.07,
+          sugar_g: 0.99,
+          fiber_g: 2.7,
+          sodium_mg: 111,
+          vitamin_a_daily_pct: 0,
+          vitamin_c_daily_pct: 0,
+          iron_daily_pct: 6,
+          calcium_daily_pct: 2
         }
       ]);
     });

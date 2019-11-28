@@ -27,9 +27,10 @@ server.use(cors());
 server.use(helmet());
 server.use("/", fatSecretRoute);
 server.use("/auth", authRouter);
+server.use("/user", settingsRouter);
 
 // Test End-Point for Authentication
-server.get("/test", authenticate, (req, res) => {
+server.get("/test", (req, res) => {
   res.status(200).json({
     message: "Authorized."
   });

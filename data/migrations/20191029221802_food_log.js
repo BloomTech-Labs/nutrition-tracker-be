@@ -26,8 +26,8 @@ exports.up = function(knex) {
       .unsigned()
       .notNullable();
     tbl
-      .datetime("time_consumed_at", { precision: 6 })
-      .defaultTo(knex.fn.now(6));
+      .datetime("time_consumed_at").defaultTo(knex.fn.now(6));
+    tbl.integer("utc_offset_seconds").notNullable();
     tbl.decimal("quantity");
   });
 };
