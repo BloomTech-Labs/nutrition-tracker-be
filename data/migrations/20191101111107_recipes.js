@@ -2,9 +2,10 @@ exports.up = function(knex) {
   return knex.schema.createTable("recipes", tbl => {
     tbl.increments();
     tbl
-      .text("name")
-      .unique()
+      .integer("fatsecret_recipe_id")
+      .unsigned()
       .notNullable();
+    tbl.text("name");
     tbl.text("description");
     tbl.decimal("prep_time_min");
     tbl.decimal("cook_time_min");

@@ -6,21 +6,31 @@ exports.up = function(knex) {
       .unsigned()
       .notNullable()
       .references("id")
-      .inTable("users")
+      .inTable("recipes")
       .onUpdate("CASCADE")
       .onDelete("CASCADE");
     tbl
-      .integer("food_bev_id")
+      .integer("fatsecret_recipe_id")
+      .unsigned()
+      .notNullable();
+    tbl
+      .integer("food_id")
       .unsigned()
       .notNullable()
       .references("id")
-      .inTable("food_and_beverages")
+      .inTable("foods")
       .onUpdate("CASCADE")
       .onDelete("CASCADE");
+    tbl
+      .integer("fatsecret_food_id")
+      .unsigned()
+      .notNullable();
+    tbl
+      .integer("serving_id")
+      .unsigned()
+      .notNullable();
     tbl.integer("order").unsigned();
-    tbl.decimal("human_quantity");
-    tbl.decimal("standard_quantity");
-    tbl.text("unit_type");
+    tbl.decimal("quantity");
   });
 };
 

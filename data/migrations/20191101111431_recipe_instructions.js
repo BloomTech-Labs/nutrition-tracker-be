@@ -9,6 +9,10 @@ exports.up = function(knex) {
       .inTable("recipes")
       .onUpdate("CASCADE")
       .onDelete("CASCADE");
+    tbl
+      .integer("fatsecret_recipe_id")
+      .unsigned()
+      .notNullable();
     tbl.integer("step_number");
     tbl.text("step_description");
   });
