@@ -1,0 +1,94 @@
+
+
+
+
+
+/********************************************************
+*                       DAILY LOG                       *
+********************************************************/
+router.get("/daily-log/:date", async (req, res) => {
+  let from = new Date(req.params.date); // these will now have to be offset by the user's current timezone offset
+  let to = new Date(req.params.date);   // these will now have to be offset by the user's current timezone offset
+  to.setDate(to.getDate() + 1);
+
+  try {
+    const {
+      caloric_budget,
+      fat_ratio,
+      protein_ratio,
+      carb_ratio
+    } = await UserInfo.getCaloricBudget(1); // 1 represents user_id
+
+    let dailyLog = await UserInfo.getDailyLog(1, from, to);
+
+    const { fatBudget, proteinBudget, carbBudget } = macroRatiosToGrams(
+      caloric_budget,
+      fat_ratio,
+      protein_ratio,
+      carb_ratio
+    );
+
+    res.status(200).json({
+      caloricBudget: caloric_budget,
+      fatBudget,
+      proteinBudget,
+      carbBudget,
+      dailyLog
+    });
+
+  } catch (err) {
+    res.status(500).json({
+      errorMessage: "Internal Server Error",
+      err
+    });
+  }
+});
+
+/********************************************************
+*                      HELPER FUNCTIONS                 *
+********************************************************/
+function macroRatiosToGrams(
+  caloric_budget,
+  fat_ratio,
+  protein_ratio,
+  carb_ratio
+) {
+  const fatBudget = Math.round(caloric_budget * fat_ratio / 9);
+  const proteinBudget = Math.round(caloric_budget * protein_ratio / 4);
+  const carbBudget = Math.round(caloric_budget * carb_ratio / 4);
+
+  return { fatBudget, proteinBudget, carbBudget };
+}
+
+/***********************************************
+*                   DATABASE QUERIES           *
+***********************************************/
+function getCaloricBudget(user_id) {
+  return db("user_budget_data")
+    .select(
+      "caloric_budget", 
+      "fat_ratio", 
+      "protein_ratio", 
+      "carb_ratio")
+    .where({ user_id })
+    .first();
+}
+
+function getDailyLog(user_id, from, to) {
+  return db("food_log as fl")
+    .join("foods as f", {
+      "fl.food_id": "f.id"
+    })
+    .select(
+      "fl.food_id",
+      "fl.fatsecret_food_id",
+      "fl.serving_id",
+      "fl.time_consumed_at",
+      "fl.quantity",
+      "f.food_name",
+      "f.serving_desc"
+    )
+    .where("fl.user_id", "=", user_id)
+    .whereBetween("fl.time_consumed_at", [from, to])
+    .orderBy("fl.time_consumed_at");
+}

@@ -9,8 +9,8 @@ const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const server = express();
-const authenticate = require("./services/authenticate");
-const fatSecretRoute = require("./routes/fatsecret/fatsecret");
+const fatSecretRoute = require('./routes/fatsecret/fatsecret');
+const settingsRouter = require('./routes/settings/settingsRouter');
 const authRouter = require("./routes/auth/authRouter");
 /*
 morgan("dev"):
@@ -20,15 +20,17 @@ yellow for client error codes,
 cyan for redirection codes, 
 and uncolored for all other codes.
 */
+
 server.use(morgan("dev"));
 server.use(express.json());
 server.use(cors());
 server.use(helmet());
 server.use("/", fatSecretRoute);
 server.use("/auth", authRouter);
+server.use("/user", settingsRouter);
 
 // Test End-Point for Authentication
-server.get("/test", authenticate, (req, res) => {
+server.get("/test", (req, res) => {
   res.status(200).json({
     message: "Authorized."
   });
