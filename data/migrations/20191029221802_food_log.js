@@ -27,7 +27,8 @@ exports.up = function(knex) {
       .notNullable();
     tbl
       .datetime("time_consumed_at").defaultTo(knex.fn.now(6));
-    tbl.integer("utc_offset_seconds").notNullable();
+    tbl.text("time_zone_name").notNullable();
+    tbl.text("time_zone_abbr").notNullable();
     tbl.decimal("quantity");
   });
 };
