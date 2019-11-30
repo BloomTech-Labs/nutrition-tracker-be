@@ -9,7 +9,7 @@ exports.up = function(knex) {
       .inTable("users")
       .onUpdate("CASCADE")
       .onDelete("CASCADE");
-    tbl.date("start_date");
+    tbl.date("start_date").defaultTo(knex.fn.now());
     tbl.decimal("weekly_goal_rate");
     tbl.decimal("weight_goal_kg");
     tbl.decimal("activity_level");
