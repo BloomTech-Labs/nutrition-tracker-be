@@ -26,8 +26,9 @@ exports.up = function(knex) {
       .unsigned()
       .notNullable();
     tbl
-      .datetime("time_consumed_at", { precision: 6 })
-      .defaultTo(knex.fn.now(6));
+      .datetime("time_consumed_at").defaultTo(knex.fn.now(6));
+    tbl.text("time_zone_name").notNullable();
+    tbl.text("time_zone_abbr").notNullable();
     tbl.decimal("quantity");
   });
 };
