@@ -10,7 +10,7 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const server = express();
 const fatSecretRoute = require('./routes/fatsecret/fatsecret');
-const settingsRouter = require('./routes/settings/settingsRouter');
+const usersRouter = require('./routes/settings/usersRouter');
 const authRouter = require("./routes/auth/authRouter");
 /*
 morgan("dev"):
@@ -27,7 +27,7 @@ server.use(cors());
 server.use(helmet());
 server.use("/", fatSecretRoute);
 server.use("/auth", authRouter);
-server.use("/user", settingsRouter);
+server.use("/user", usersRouter);
 
 // Test End-Point for Authentication
 server.get("/test", (req, res) => {

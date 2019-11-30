@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const UserInfo = require("./settingsDB");
+const UserInfo = require("./usersDB");
 const {
   heightToImperial,
   kgToLbs,
@@ -12,16 +12,6 @@ const {
 /********************************************************
  *                   User Endpoints                     *
  ********************************************************/
-
-//Gets all users. For Testing purposes mostly.
-router.get("/", async (req, res) => {
-  try {
-    const users = await UserInfo.find();
-    res.json(users);
-  } catch (err) {
-    res.status(500).json({ message: "Failed to get Users" });
-  }
-});
 
 //Get specific user from users table.
 router.get("/:id", async (req, res) => {
@@ -55,68 +45,97 @@ router.put("/:id", async (req, res) => {
 });
 
 /********************************************************
- *                  Metric Endpoints                    *
+ *                  Macro Endpoints                     *
  ********************************************************/
 
 //Get specific user's metric history from user_metric_history table.
-router.get("/metrics/:id", async (req, res) => {
+router.get("/macro-ratios/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const user = await UserInfo.findMetricHistoryById(id);
-    //Calls function from helper file to convert weight in kg to weight in lbs, and adds it to user obj.
-    user.weight = kgToLbs(user.weight_kg);
+    const user = await UserInfo.findMacroRatiosById(id);
     res.json(user);
   } catch (err) {
-    res.status(500).json({ message: "Failed to get user's metrics" });
+    res.status(500).json({ message: "Failed to get user's macro ratios" });
   }
 });
 
-//Update specific user's metric history in user_metric_history table.
-router.put("/metrics/:id", async (req, res) => {
+router.post("/macro-ratios/:id", async (req, res) => {
   const id = req.params.id;
-  const updatedSettings = req.body;
-  if (!updatedSettings) {
+  const newMacros = req.body;
+  if (!newMacros) {
     res.status(400).json({
       message: "Item required for update are missing"
     });
   }
   try {
-    const updated = await UserInfo.updateMetrics(updatedSettings, id);
-    res.status(201).json(updated);
+    const added = await UserInfo.addMacroRatios(newMacros);
+    res.status(201).json(added);
   } catch (err) {
-    res.status(500).json({ message: "Failed to update user metrics" });
+    console.log(err)
+    res.status(500).json({ message: "Failed to update use's macro ratios" });
   }
 });
 
 /********************************************************
- *                  Budget Endpoints                    *
+ *                Weight Goal Endpoints                 *
  ********************************************************/
 
-//Get specific user's budget data from user_metric_history table.
-router.get("/budget/:id", async (req, res) => {
+//Get specific user's metric history from user_metric_history table.
+router.get("/weight-goal/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const user = await UserInfo.findBudgetDataById(id);
+    const user = await UserInfo.findWeightGoalById(id);
     res.json(user);
   } catch (err) {
-    res.status(500).json({ message: "Failed to get user's budget" });
+    res.status(500).json({ message: "Failed to get user's weight goal" });
   }
 });
 
-//Update specific user's budget data in user_metric_history table.
-router.put("/budget/:id", async (req, res) => {
+router.post("/weight-goal/:id", async (req, res) => {
   const id = req.params.id;
-  const updatedSettings = req.body;
-  if (!updatedSettings) {
+  const newWeightGoal = req.body;
+  if (!newWeightGoal) {
     res.status(400).json({
       message: "Item required for update are missing"
     });
   }
   try {
-    const updated = await UserInfo.updateBudgetData(updatedSettings, id);
-    res.status(201).json(updated);
+    const added = await UserInfo.addWeightGoal(newWeightGoal);
+    res.status(201).json(added);
   } catch (err) {
-    res.status(500).json({ message: "Failed to update user's budget" });
+    console.log(err)
+    res.status(500).json({ message: "Failed to update user's weight goal" });
+  }
+});
+
+/********************************************************
+ *                Current Weight Endpoints              *
+ ********************************************************/
+
+//Get specific user's budget data from user_metric_history table.
+router.get("/current-weight/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const weight = await UserInfo.findCurrentWeightById(id);
+    res.json(weight);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to get user's current weight" });
+  }
+});
+
+router.post("/current-weight/:id", async (req, res) => {
+  const newCurrentWeight = req.body;
+  if (!newCurrentWeight) {
+    res.status(400).json({
+      message: "Item required for update are missing"
+    });
+  }
+  try {
+    const added = await UserInfo.addCurrentWeight(newCurrentWeight);
+    res.status(201).json(added);
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ message: "Failed to update user's current weight" });
   }
 });
 
