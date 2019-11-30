@@ -2,8 +2,8 @@ const db = require("../../data/knex");
 
 module.exports = {
   find,
-  findById,
-  updateUserSettings,
+  findByUserId,
+  updateUser,
   getCaloricBudget,
   getDailyLog
 };
@@ -12,11 +12,11 @@ function find() {
   return db("users");
 }
 
-function findById(id) {
+function findByUserId(id) {
   return db("users").where({ id }).first();
 }
 
-async function updateUserSettings(updates, id) {
+async function updateUser(updates, id) {
   await db("users").where({ id }).update(updates);
   return findById(id);
 }
@@ -40,18 +40,18 @@ function getDailyLog(user_id, from, to) {
       "fl.food_id": "f.id"
     })
     .select(
-      "fl.food_id",
-      "fl.fatsecret_food_id",
-      "fl.serving_id",
-      "fl.time_consumed_at",
-      "utc_offset_seconds",
+      "fl.food_id as foodID",
+      "fl.fatsecret_food_id as fatSecretFoodID",
+      "fl.time_consumed_at as timeConsumedAt",
+      "fl.time_zone_name as timeZoneName",
+      "fl.time_zone_abbr as timeZoneAbbr",
       "fl.quantity",
-      "f.food_name",
-      "f.serving_desc",
-      "f.calories_kcal",
-      "f.fat_g",
-      "f.carbs_g",
-      "f.protein_g"
+      "f.food_name as foodName",
+      "f.serving_desc as servingDescription",
+      "f.calories_kcal as caloriesKcal",
+      "f.fat_g as fatGrams",
+      "f.carbs_g as carbsGrams",
+      "f.protein_g as proteinGrams"
     )
     .where("fl.user_id", "=", user_id)
     .whereBetween("fl.time_consumed_at", [from, to])
