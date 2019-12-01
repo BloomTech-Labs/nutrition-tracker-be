@@ -51,6 +51,7 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
           fat_g: s.fat,
           carbs_g: s.carbohydrate,
           protein_g: s.protein,
+
           // conditionally setting values for the serving's micronutrient values
           // if they've been provided by fatsecret
           // we also are renaming the values to match our database schema
