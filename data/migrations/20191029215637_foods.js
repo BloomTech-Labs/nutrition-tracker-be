@@ -11,7 +11,10 @@ exports.up = function(knex) {
       .integer("serving_id")
       .unsigned()
       .notNullable();
-    tbl.datetime("retrieved_at").notNullable();
+    tbl
+      .datetime("retrieved_at")
+      .defaultTo(knex.fn.now())
+      .notNullable();
     tbl.text("food_name");
     tbl.text("serving_url");
     tbl.text("serving_desc");
