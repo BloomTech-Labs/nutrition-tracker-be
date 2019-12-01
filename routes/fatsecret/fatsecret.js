@@ -4,6 +4,11 @@ const cors = require("cors");
 const CircularJSON = require("circular-json");
 const oathQueryBuilder = require("./oauthQueryBuilder");
 
+// this import to be utilized soon,
+// to permit "upsert" of fatsecret data
+// into our "Foods" table
+const db = require("../../data/knex");
+
 const router = express.Router();
 
 /********************************************************
@@ -95,6 +100,12 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
         ? serving_measures.map(denormalizeFoodData)
         : [denormalizeFoodData(serving_measures)];
 
+      //  UPSERT into `Foods` table here
+
+      //  currently we merely send the flattened food data from this endpoint
+      //  once we have our "upsert" into "Foods" table working, we may instead
+      //  return this data from our table. just notes for future intent to
+      //  avoid confusion
       res.send(flattened_food_data);
     })
     .catch(error => {
