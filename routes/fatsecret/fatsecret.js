@@ -18,9 +18,16 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
     .then(response => {
       const food_data = response.data.food;
       const serving_measures = food_data.servings.serving;
+
+      // denormalizes food data by repeating food id and name, for each serving id
+      // 's' argument stands for the serving we're work with
       const denormalizeFoodData = s => {
-        // 's' argument stands for the serving we're work with
+        // adds in the fields that we're denormalizing for,
+        // as well as conditionally includes & renames data
+        // that may or may not be present in the fatsecret results
+        // but matches the form of our "Foods" table
         const data_first_pass = {
+          // START: the fields that we're denormalizing for
           fatsecret_food_id: food_data.food_id,
           serving_id: s.serving_id,
           //  retrieved_at: ... // automatically generated
@@ -29,6 +36,7 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
           serving_desc: s.serving_description,
           metric_serving_amt: s.metric_serving_amount,
           metric_serving_unit: s.metric_serving_unit,
+          // END: the fields that we're denormalizing for
 
           // all fields that are being returned by fatsecret can be found here:
           // https://platform.fatsecret.com/api/Default.aspx?screen=rapiref&method=food.get
@@ -61,17 +69,32 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
           ...(s.vitamin_c && { vitamin_c_daily_pct: s.vitamin_c }),
           ...(s.calcium && { calcium_daily_pct: s.calcium }),
           ...(s.iron && { iron_daily_pct: s.iron })
-        }; // denormalize food data by repeating food id and name for each serving measure record
+        };
+
+        // grabs all fields from "first pass" excluding:
+        // measurement_description, number_of_units
+        // and stores the ones we're interested in,
+        // in "without_extra_attributes" constant
         const {
           measurement_description,
           number_of_units,
           ...without_extra_attributes
-        } = data_first_pass; //excludes measurement_description, number_of_units
+        } = data_first_pass;
+
         return without_extra_attributes;
-      };
+      }; // END denormalizeFoodData() definition
+
+      //    if fatsecret has only one record for given "fatsecret_food_id",
+      //  fatsecret returns single object, instead of single-entry array
+      //  which includes that object
+      //    to make these results consistent for us, we convert the single
+      //  object into an array that contains it as its sole element
+      //    also in this step, we are passing the fatsecret through
+      //  denormalizeFoodData().
       let flattened_food_data = Array.isArray(serving_measures)
         ? serving_measures.map(denormalizeFoodData)
         : [denormalizeFoodData(serving_measures)];
+
       res.send(flattened_food_data);
     })
     .catch(error => {
@@ -102,6 +125,9 @@ router.get("/fatsecret/search-food/:search_expression", async (req, res) => {
           calories: parseInt(calorie_regexp.exec(e.food_description)[1]),
           standard_amount: amount_regexp.exec(e.food_description)[1]
           // standard amount is the "human" amount that corresponds to the calories above that come with the results
+          // NOTE: standard_amount is a deprecated term, and we may want to change it
+          // to be consistent with the naming conventions used in database schema,
+          // e.g. "Foods" table
         };
       });
 
