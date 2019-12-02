@@ -1,32 +1,44 @@
-const express = require('express');
-const axios = require('axios');
-const cors = require('cors');
-const CircularJSON = require('circular-json');
-const oathQueryBuilder = require('./oauthQueryBuilder');
+const express = require("express");
+const axios = require("axios");
+const cors = require("cors");
+const CircularJSON = require("circular-json");
+const oathQueryBuilder = require("./oauthQueryBuilder");
 
 const router = express.Router();
 
 /********************************************************
  *                 FATSECRET - FOOD.GET                 *
  ********************************************************/
-router.get('/fatsecret/get-food/:food_id', async (req, res) => {
+router.get("/fatsecret/get-food/:food_id", async (req, res) => {
   const foodID = req.params.food_id;
-  const method = 'food.get';
+  const method = "food.get";
 
   oathQueryBuilder({ method, food_id: foodID })
     .get()
     .then(response => {
       const food_data = response.data.food;
       const serving_measures = food_data.servings.serving;
-      let flattened_food_data = serving_measures.map(e => {
+      const denormalizeFoodData = serving => {
         const data_first_pass = {
-          food_id: food_data.food_id,
+          fatsecret_food_id: food_data.food_id,
           food_name: food_data.food_name,
-          ...e
-        }; // flattening food data by repeating food id and name for each serving measure record
-        const { serving_url, ...without_extra_attributes } = data_first_pass; //excludes serving url
+          serving_id: serving.serving_id,
+          serving_desc: serving.serving_description,
+          metric_serving_amt: serving.metric_serving_amount,
+          metric_serving_unit: serving.metric_serving_unit,
+          ...serving
+        }; // denormalize food data by repeating food id and name for each serving measure record
+        const {
+          serving_url,
+          measurement_description,
+          number_of_units,
+          ...without_extra_attributes
+        } = data_first_pass; //excludes serving_url, measurement_description, number_of_units
         return without_extra_attributes;
-      });
+      };
+      let flattened_food_data = Array.isArray(serving_measures)
+        ? serving_measures.map(denormalizeFoodData)
+        : [denormalizeFoodData(serving_measures)];
       res.send(flattened_food_data);
     })
     .catch(error => {
@@ -34,11 +46,16 @@ router.get('/fatsecret/get-food/:food_id', async (req, res) => {
     });
 });
 
-router.get('/fatsecret/search-food/:search_expression', async (req, res) => {
+router.get("/fatsecret/search-food/:search_expression", async (req, res) => {
   const searchExpression = req.params.search_expression;
-  const method = 'foods.search';
+  const method = "foods.search";
 
-  oathQueryBuilder({ method, search_expression: encodeURIComponent(searchExpression), max_results: 10}).get()
+  oathQueryBuilder({
+    method,
+    search_expression: encodeURIComponent(searchExpression),
+    max_results: 10
+  })
+    .get()
     .then(response => {
       const results_list = response.data.foods.food;
 

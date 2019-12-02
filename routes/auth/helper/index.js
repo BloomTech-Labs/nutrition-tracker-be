@@ -1,28 +1,29 @@
 module.exports = {
   getCaloricBudget,
-  getAge
-}
+  getAge,
+  toSQLDateTime
+};
 
 /********************************************************
-*                   GET CALORIC BUDGET                  *
-********************************************************/
-// Calculates a user's caloric budget using the 
+ *                   GET CALORIC BUDGET                  *
+ ********************************************************/
+// Calculates a user's caloric budget using the
 // Mifflin-St. Jeor Equation for TDEE (Total Daily Energy Expediture)
-// mutiplies by Activity Level 
+// mutiplies by Activity Level
 function getCaloricBudget(newUser) {
   let { sex, activity_level, dob, weight_kg, height_cm } = newUser;
 
   return Math.round(
     (10 * weight_kg +
       6.25 * height_cm +
-      (sex === 'male' ? 5 : -161) * getAge(dob)) *
+      (sex === "male" ? 5 : -161) * getAge(dob)) *
       activity_level
   );
 }
 
 /********************************************************
-*                        GET AGE                        *
-********************************************************/
+ *                        GET AGE                        *
+ ********************************************************/
 function getAge(dob) {
   const today = new Date();
   const birthDate = new Date(dob);
@@ -35,10 +36,14 @@ function getAge(dob) {
 }
 
 /********************************************************
-*                    TO SQL DATE TIME                   *
-********************************************************/
+ *                    TO SQL DATE TIME                   *
+ ********************************************************/
 // converts ISO Date-Time format to SQL datetime format
 // ex: 2019-11-19T03:27:02.313Z ---> 2019-11-19 03:31:51
 function toSQLDateTime(now) {
-  return now.toISOString().split("T").join(" ").split(".")[0];
+  return now
+    .toISOString()
+    .split("T")
+    .join(" ")
+    .split(".")[0];
 }
