@@ -8,8 +8,9 @@ const mixpanel = Mixpanel.init(MIXPANEL_TOKEN);
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
+const mapFirebaseIDtoUserID = require("./middleware/mapFirebaseIDtoUserID");
 const server = express();
-const authenticate = require("./services/authenticate");
+const authenticate = require("./middleware/authenticate");
 const fatSecretRoute = require("./routes/fatsecret/fatsecret");
 const authRouter = require("./routes/auth/authRouter");
 /*
@@ -28,9 +29,20 @@ server.use("/", fatSecretRoute);
 server.use("/auth", authRouter);
 
 // Test End-Point for Authentication
-server.get("/test", authenticate, (req, res) => {
+server.get("/test/authentication", authenticate, (req, res) => {
   res.status(200).json({
-    message: "Authorized."
+    message: "Authorized"
+  });
+});
+
+// Test End-Point for Firebase ID conversion
+server.get("/test/id-conversion/:user_id", mapFirebaseIDtoUserID, (req, res) => {
+  const userID = req.params.user_id
+  // req.body should now contain all the fields 
+  // on the original request plus the user_id !!!
+  res.status(200).json({
+    message: "firebase ID in params mapped to user ID in database. User ID",
+    updatedParam: userID
   });
 });
 
