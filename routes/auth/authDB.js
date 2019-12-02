@@ -1,5 +1,4 @@
 const db = require("../../data/knex");
-const { toSQLDateTime } = require("./helper");
 
 module.exports = {
   addUser
@@ -63,7 +62,6 @@ function insertUserMetricData(newUser, trx) {
   return trx("user_metric_history").insert({
     user_id,
     weight_kg,
-    observation_time: toSQLDateTime(new Date())
   });
 }
 
