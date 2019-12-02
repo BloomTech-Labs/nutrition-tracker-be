@@ -1,25 +1,27 @@
-const db = require("../../data/knex");
+const db = require("../data/knex");
 /********************************************************
-*                    MAP TO USER ID                     *
+*              MAP FIREBASE ID TO USER ID               *
 ********************************************************/
-module.exports = async (firebase_id, res) => {
+module.exports = async (req, res, next) => {
+  const firebaseID = req.params.user_id;
   try {
-    const user = await getUserID(firebase_id)
+    const user = await getUserID(firebaseID);
 
     if (!user) {
       res.status(400).json({
-        errorMessage: `A user with firebaseID: ${firebase_id} could not be found.`
+        errorMessage: `A user with firebaseID: ${firebaseID} could not be found.`
       });
     }
+    req.params.user_id = user.id;
+    next();
 
-    return user.id;
   } catch (err) {
     console.log("err", err);
     res.status(500).json({
       errorMessage: "Internal Server Error"
     });
   }
-}
+};
 /********************************************************
 *                      GET USER ID                      *
 ********************************************************/

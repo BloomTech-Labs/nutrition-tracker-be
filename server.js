@@ -8,7 +8,7 @@ const mixpanel = Mixpanel.init(MIXPANEL_TOKEN);
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
-const mapTokenToUserID = require("./middleware/mapTokenToUserID");
+const mapFirebaseIDtoUserID = require("./middleware/mapFirebaseIDtoUserID");
 const server = express();
 const authenticate = require("./middleware/authenticate");
 const fatSecretRoute = require("./routes/fatsecret/fatsecret");
@@ -36,12 +36,13 @@ server.get("/test/authentication", authenticate, (req, res) => {
 });
 
 // Test End-Point for Firebase ID conversion
-server.get("/test/id-conversion", mapTokenToUserID, (req, res) => {
+server.get("/test/id-conversion/:user_id", mapFirebaseIDtoUserID, (req, res) => {
+  const userID = req.params.user_id
   // req.body should now contain all the fields 
   // on the original request plus the user_id !!!
   res.status(200).json({
-    message: "firebase uid mapped from token to user_id and added to the request body. user_id should now appear in the updated_request_body below:",
-    updated_request_body: req.body
+    message: "firebase ID in params mapped to user ID in database. User ID",
+    updatedParam: userID
   });
 });
 
