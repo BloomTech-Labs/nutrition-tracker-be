@@ -48,7 +48,7 @@ router.put("/:id", async (req, res) => {
  *                  Macro Endpoints                     *
  ********************************************************/
 
-//Get specific user's metric history from user_metric_history table.
+//Get specific user's macros from user_budget_data table. Returns only fat_ratio, protein_ratio, and carb_ratio
 router.get("/macro-ratios/:id", async (req, res) => {
   const { id } = req.params;
   try {
@@ -59,6 +59,7 @@ router.get("/macro-ratios/:id", async (req, res) => {
   }
 });
 
+//Post new macros to the user_budget_data. 
 router.post("/macro-ratios/:id", async (req, res) => {
   const id = req.params.id;
   const newMacros = req.body;
@@ -80,7 +81,7 @@ router.post("/macro-ratios/:id", async (req, res) => {
  *                Weight Goal Endpoints                 *
  ********************************************************/
 
-//Get specific user's metric history from user_metric_history table.
+//Get user's weekly_goal_rate and weight_goal_kg from user_budget_data table.
 router.get("/weight-goal/:id", async (req, res) => {
   const { id } = req.params;
   try {
@@ -91,6 +92,7 @@ router.get("/weight-goal/:id", async (req, res) => {
   }
 });
 
+//Post new weekly_goal_rate and/or weight_goal_kg to user_budget_data table.
 router.post("/weight-goal/:id", async (req, res) => {
   const id = req.params.id;
   const newWeightGoal = req.body;
@@ -109,22 +111,63 @@ router.post("/weight-goal/:id", async (req, res) => {
 });
 
 /********************************************************
+ *                Activity Level Endpoints              *
+ ********************************************************/
+
+//Get user's activity_level from user_budget_data table.
+router.get("/:user_id/activity-level", async (req, res) => {
+  const { user_id } = req.params;
+  try {
+    const user = await UserInfo.findActivityLevelById(user_id);
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to get user's activity level" });
+  }
+});
+
+//Post new activity_level to user_budget_data table.
+router.post("/:user_id/activity-level", async (req, res) => {
+  const { user_id } = req.params;
+  const activityLevel = req.body;
+  activityLevel.user_id = user_id;
+  console.log(activityLevel)
+  if (!activityLevel) {
+    res.status(400).json({
+      message: "Item required for update are missing"
+    });
+  }
+  try {
+    const added = await UserInfo.addActivityLevel(activityLevel);
+    res.status(201).json(added);
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ message: "Failed to update user's activity level" });
+  }
+});
+
+
+
+/********************************************************
  *                Current Weight Endpoints              *
  ********************************************************/
 
 //Get specific user's budget data from user_metric_history table.
-router.get("/current-weight/:id", async (req, res) => {
-  const { id } = req.params;
+router.get("/:user_id/current-weight", async (req, res) => {
+  const { user_id } = req.params;
   try {
-    const weight = await UserInfo.findCurrentWeightById(id);
+    const weight = await UserInfo.findCurrentWeightById(user_id);
+    //Calls function from helper file to convert weight in kg to weight in lbs, and adds it to weight obj.
+    weight.weight_lbs = kgToLbs(weight.weight_kg);
     res.json(weight);
   } catch (err) {
     res.status(500).json({ message: "Failed to get user's current weight" });
   }
 });
 
-router.post("/current-weight/:id", async (req, res) => {
+router.post("/:user_id/current-weight", async (req, res) => {
+  const { user_id } = req.params;
   const newCurrentWeight = req.body;
+  newCurrentWeight.user_id = user_id;
   if (!newCurrentWeight) {
     res.status(400).json({
       message: "Item required for update are missing"
