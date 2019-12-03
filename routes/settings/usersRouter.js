@@ -49,10 +49,10 @@ router.put("/:id", async (req, res) => {
  ********************************************************/
 
 //Get specific user's macros from user_budget_data table. Returns only fat_ratio, protein_ratio, and carb_ratio
-router.get("/macro-ratios/:id", async (req, res) => {
-  const { id } = req.params;
+router.get("/:user_id/macro-ratios", async (req, res) => {
+  const { user_id } = req.params;
   try {
-    const user = await UserInfo.findMacroRatiosById(id);
+    const user = await UserInfo.findMacroRatiosById(user_id);
     res.json(user);
   } catch (err) {
     res.status(500).json({ message: "Failed to get user's macro ratios" });
@@ -60,8 +60,8 @@ router.get("/macro-ratios/:id", async (req, res) => {
 });
 
 //Post new macros to the user_budget_data. 
-router.post("/macro-ratios/:id", async (req, res) => {
-  const id = req.params.id;
+router.post("/:user_id/macro-ratios", async (req, res) => {
+  const user_id = req.params.id;
   const newMacros = req.body;
   if (!newMacros) {
     res.status(400).json({
@@ -82,10 +82,10 @@ router.post("/macro-ratios/:id", async (req, res) => {
  ********************************************************/
 
 //Get user's weekly_goal_rate and weight_goal_kg from user_budget_data table.
-router.get("/weight-goal/:id", async (req, res) => {
-  const { id } = req.params;
+router.get("/:user_id/weight-goal", async (req, res) => {
+  const { user_id } = req.params;
   try {
-    const user = await UserInfo.findWeightGoalById(id);
+    const user = await UserInfo.findWeightGoalById(user_id);
     res.json(user);
   } catch (err) {
     res.status(500).json({ message: "Failed to get user's weight goal" });
@@ -93,7 +93,7 @@ router.get("/weight-goal/:id", async (req, res) => {
 });
 
 //Post new weekly_goal_rate and/or weight_goal_kg to user_budget_data table.
-router.post("/weight-goal/:id", async (req, res) => {
+router.post("/:user_id/weight-goal", async (req, res) => {
   const id = req.params.id;
   const newWeightGoal = req.body;
   if (!newWeightGoal) {
