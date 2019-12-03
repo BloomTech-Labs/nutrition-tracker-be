@@ -4,10 +4,7 @@ const cors = require("cors");
 const CircularJSON = require("circular-json");
 const oathQueryBuilder = require("./oauthQueryBuilder");
 
-// this import to be utilized soon,
-// to permit "upsert" of fatsecret data
-// into our "Foods" table
-const db = require("../../data/knex");
+const db = require("./getFoods.js");
 
 const router = express.Router();
 
@@ -17,6 +14,14 @@ const router = express.Router();
 router.get("/fatsecret/get-food/:food_id", async (req, res) => {
   const foodID = req.params.food_id;
   const method = "food.get";
+
+  const foods = await db.getServingsByFatsecretFoodId(foodID);
+
+  if (foods.length > 0) {
+    console.log("ladies and gentlemen: we got him");
+  } else {
+    //
+  }
 
   oathQueryBuilder({ method, food_id: foodID })
     .get()
