@@ -10,8 +10,7 @@ exports.up = function(knex) {
       .onUpdate("CASCADE")
       .onDelete("CASCADE");
     tbl
-      .datetime("observation_time", { precision: 6 })
-      .defaultTo(knex.fn.now(6));
+      .date("start_date").defaultTo(knex.fn.now());
     tbl.decimal("weight_kg");
   });
 };
