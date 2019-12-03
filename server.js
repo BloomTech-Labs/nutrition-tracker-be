@@ -41,8 +41,7 @@ server.get("/test/authentication", authenticate, (req, res) => {
 // Test End-Point for Firebase ID conversion
 server.get("/test/id-conversion/:user_id", mapFirebaseIDtoUserID, (req, res) => {
   const userID = req.params.user_id
-  // req.body should now contain all the fields 
-  // on the original request plus the user_id !!!
+
   res.status(200).json({
     message: "firebase ID in params mapped to user ID in database. User ID",
     updatedParam: userID

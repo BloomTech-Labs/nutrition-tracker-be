@@ -1,3 +1,4 @@
+const moment = require("moment-timezone");
 //Converts cm to feet and inches.
 function heightToImperial(n) {
   var realFeet = n * 0.3937 / 12;
@@ -95,10 +96,10 @@ function calculateConsumption(dailyLog) {
   let proteinConsumed = 0;
 
   dailyLog.forEach(log => {
-    caloriesConsumed += Number(log.calories_kcal) * Number(log.quantity);
-    fatsConsumed += Number(log.fat_g) * Number(log.quantity);
-    carbsConsumed += Number(log.carbs_g) * Number(log.quantity);
-    proteinConsumed += Number(log.protein_g) * Number(log.quantity);
+    caloriesConsumed += Number(log.caloriesKcal) * Number(log.quantity);
+    fatsConsumed += Number(log.fatGrams) * Number(log.quantity);
+    carbsConsumed += Number(log.carbsGrams) * Number(log.quantity);
+    proteinConsumed += Number(log.proteinGrams) * Number(log.quantity);
   });
 
   return {

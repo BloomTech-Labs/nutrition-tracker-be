@@ -209,10 +209,6 @@ router.get("/daily-log/:date/:tz_name_current", async (req, res) => {
       proteinConsumed,
       dailyLog
     });
-
-    res.status(200).json({
-      message: "OK"
-    })
   } catch (err) {
     console.log(err);
     res.status(500).json({
