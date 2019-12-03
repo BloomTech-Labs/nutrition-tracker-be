@@ -40,6 +40,7 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
           // START: the fields that we're denormalizing for
           fatsecret_food_id: food_data.food_id,
           serving_id: s.serving_id,
+
           //  retrieved_at: ... // automatically generated
           food_name: food_data.food_name,
           serving_url: s.serving_url,
