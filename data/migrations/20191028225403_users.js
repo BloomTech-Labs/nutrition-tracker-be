@@ -12,7 +12,6 @@ exports.up = function(knex) {
         useNative: true,
         enumName: "sex_type"
       })
-      .notNullable();
     tbl.date("dob").notNullable();
   });
 };
