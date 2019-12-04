@@ -1,5 +1,5 @@
 const express = require("express");
-const LogEntry = require("./logEntry.js");
+const LogEntry = require("./logEntryDB.js");
 const mapFirebaseIDtoUserID = require("../../middleware/mapFirebaseIDtoUserID");
 const router = express.Router();
 
@@ -15,7 +15,7 @@ router.post("/:user_id", mapFirebaseIDtoUserID, validateRequest, async (req, res
     [logEntry] = await LogEntry.addLogEntry(logEntry);
     
     res.status(201).json({
-      message: "Log was entered.",
+      message: "A new log was created.",
       logEntry
     });
   } catch (err) {
@@ -29,14 +29,14 @@ router.post("/:user_id", mapFirebaseIDtoUserID, validateRequest, async (req, res
 /********************************************************
 *                      POST/LOG-ENTRY                   *
 ********************************************************/
-router.delete("/:id", async (req, res) => {
-  let logID = req.params.id;
+router.delete("/:log_id", async (req, res) => {
+  let logID = req.params.log_id;
 
   try {
-    [logEntry] = await LogEntry.removeLogEntry(logID);
+    const [logEntry] = await LogEntry.removeLogEntry(logID);
     
     res.status(201).json({
-      message: "Log was entered.",
+      message: `Log with id ${logID} was deleted.`,
       logEntry
     });
   } catch (err) {

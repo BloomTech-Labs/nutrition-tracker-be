@@ -13,6 +13,7 @@ function addLogEntry(log_entry) {
 
 function removeLogEntry(id) {
   return db("food_log")
-  .delete()
-  .where({id})
+    .delete()
+    .where({id})
+    .returning("*");
 }
