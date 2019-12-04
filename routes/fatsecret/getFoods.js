@@ -1,4 +1,4 @@
-const db = require("../data/dbConfig.js");
+const db = require("../../data/knex.js");
 // const moment = require("moment")
 
 module.exports = {
