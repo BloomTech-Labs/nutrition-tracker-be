@@ -6,7 +6,6 @@ module.exports = async (req, res, next) => {
   const firebaseID = req.params.user_id;
   try {
     const user = await getUserID(firebaseID);
-
     if (!user) {
       res.status(400).json({
         errorMessage: `A user with firebaseID: ${firebaseID} could not be found.`
@@ -16,7 +15,6 @@ module.exports = async (req, res, next) => {
     next();
 
   } catch (err) {
-    console.log("err", err);
     res.status(500).json({
       errorMessage: "Internal Server Error"
     });

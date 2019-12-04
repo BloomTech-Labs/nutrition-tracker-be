@@ -9,6 +9,8 @@ module.exports = {
   addCurrentWeight,
   findWeightGoalById,
   addWeightGoal,
+  findActivityLevelById,
+  addActivityLevel,
 	getCaloricBudget,
 	getDailyLog
 };
@@ -88,6 +90,27 @@ async function addWeightGoal(data) {
 }
 
 /********************************************************
+ *                 Activity Level Queries               *
+ ********************************************************/
+
+function findActivityLevelById(user_id) {
+  return db("user_budget_data")
+    .select(
+      "activity_level",
+    )
+    .where({ user_id })
+    .whereNotNull("activity_level")
+    .orderBy("start_date", "desc")
+		.first();
+}
+
+async function addActivityLevel(data) {
+	await db("user_budget_data")
+    .insert(data);
+    return await findActivityLevelById(data.user_id);
+}
+
+/********************************************************
  *                 Current Weight Queries               *
  ********************************************************/
 
@@ -102,9 +125,9 @@ function findCurrentWeightById(user_id) {
 }
 
 async function addCurrentWeight(data) {
-  console.log("[data]", data);
 	await db("user_metric_history")
-		.insert(data);
+    .insert(data);
+    return await findCurrentWeightById(data.user_id);
 }
 
 /***********************************************

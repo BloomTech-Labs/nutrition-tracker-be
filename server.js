@@ -10,10 +10,11 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const mapFirebaseIDtoUserID = require("./middleware/mapFirebaseIDtoUserID");
 const server = express();
-const authenticate = require("./middleware/authenticate");
 const fatSecretRoute = require('./routes/fatsecret/fatsecret');
 const usersRouter = require('./routes/settings/usersRouter');
+const authenticate = require("./middleware/authenticate");
 const authRouter = require("./routes/auth/authRouter");
+const logEntryRouter = require("./routes/logentry/logEntry");
 /*
 morgan("dev"):
 Concise output colored by response status for development use. 
@@ -30,6 +31,7 @@ server.use(helmet());
 server.use("/", fatSecretRoute);
 server.use("/auth", authRouter);
 server.use("/user", usersRouter);
+server.use("/log-entry", logEntryRouter);
 
 // Test End-Point for Authentication
 server.get("/test/authentication", authenticate, (req, res) => {
