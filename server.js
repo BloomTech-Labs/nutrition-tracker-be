@@ -10,8 +10,9 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const mapFirebaseIDtoUserID = require("./middleware/mapFirebaseIDtoUserID");
 const server = express();
+const fatSecretRoute = require('./routes/fatsecret/fatsecret');
+const usersRouter = require('./routes/settings/usersRouter');
 const authenticate = require("./middleware/authenticate");
-const fatSecretRoute = require("./routes/fatsecret/fatsecret");
 const authRouter = require("./routes/auth/authRouter");
 /*
 morgan("dev"):
@@ -21,12 +22,14 @@ yellow for client error codes,
 cyan for redirection codes, 
 and uncolored for all other codes.
 */
+
 server.use(morgan("dev"));
 server.use(express.json());
 server.use(cors());
 server.use(helmet());
 server.use("/", fatSecretRoute);
 server.use("/auth", authRouter);
+server.use("/user", usersRouter);
 
 // Test End-Point for Authentication
 server.get("/test/authentication", authenticate, (req, res) => {
