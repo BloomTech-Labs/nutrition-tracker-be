@@ -28,6 +28,34 @@ To get the server running locally:
 -    Point Three
 -    Point Four
 
+## Production Dependencies
+
+- [cors](https://www.npmjs.com/package/cors)
+- [dotenv](https://www.npmjs.com/package/dotenv)
+- [express](https://expressjs.com/)
+- [helmet](https://helmetjs.github.io/)
+- [knex](http://knexjs.org/)
+- [knex-cleaner](https://www.npmjs.com/package/knex-cleaner)
+- [mixpanel](https://docs.google.com/document/d/1YabpIkgGi6J4AJ-mhcspcWf-z0NP56gIY344lf20E5o/edit)
+- [moment](https://momentjs.com/)
+- [morgan](https://github.com/expressjs/morgan)
+- [pg](https://node-postgres.com/)
+- [uuid](https://www.npmjs.com/package/uuid)
+- [sentry](https://blog.sentry.io/2018/03/06/the-sentry-workflow)
+- [axios](https://github.com/axios/axios)
+- [heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs)
+- [validator](https://www.npmjs.com/package/validator)
+
+
+
+## Development Dependencies
+
+- [cross-env](https://www.npmjs.com/package/cross-env)
+- [jest](https://jestjs.io/)
+- [nodemon](https://nodemon.io/)
+- [supertest](https://github.com/visionmedia/supertest)
+
+
 ## 2️⃣ Endpoints
 
 🚫This is a placeholder, replace the endpoints, access controll, and descriptioin to match your project
@@ -124,11 +152,9 @@ create a .env file that includes the following:
 
 🚫 These are just examples, replace them with the specifics for your app
     
-    *  STAGING_DB - optional development db for using functionality not available in SQLite
-    *  NODE_ENV - set to "development" until ready for "production"
-    *  JWT_SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-*=+)') for i in range(50)])
-    *  SENDGRID_API_KEY - this is generated in your Sendgrid account
-    *  stripe_secret - this is generated in the Stripe dashboard
+    *  SENTRY_DSN - Optional secret key for https://sentry.io error logging
+    * PORT - dynamic port variable resolution when testing locally
+    * DATABASE_URL - Postgres database url
     
 ## Contributing
 
