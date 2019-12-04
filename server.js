@@ -29,7 +29,7 @@ server.use(cors());
 server.use(helmet());
 server.use("/", fatSecretRoute);
 server.use("/auth", authRouter);
-server.use("/user", mapFirebaseIDtoUserID, usersRouter);
+server.use("/user", usersRouter);
 
 // Test End-Point for Authentication
 server.get("/test/authentication", authenticate, (req, res) => {
