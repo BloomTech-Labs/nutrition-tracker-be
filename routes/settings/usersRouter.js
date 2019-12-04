@@ -62,7 +62,7 @@ router.get("/:user_id/macro-ratios", mapFirebaseIDtoUserID, async (req, res) => 
 //Post new macros to the user_budget_data. 
 router.post("/:user_id/macro-ratios", mapFirebaseIDtoUserID, async (req, res) => {
   const user_id = req.params.user_id;
-  const newMacros = req.body;  // const or let, try it
+  const newMacros = req.body; 
 
   newMacros.user_id = user_id;
 
@@ -150,7 +150,7 @@ router.post("/:user_id/activity-level", mapFirebaseIDtoUserID, async (req, res) 
  *                Current Weight Endpoints              *
  ********************************************************/
 
-//Get specific user's budget data from user_metric_history table.
+//Get specific user's weight_kg from the user_metric_history
 router.get("/:user_id/current-weight", mapFirebaseIDtoUserID, async (req, res) => {
   const { user_id } = req.params;
   try {
@@ -163,6 +163,7 @@ router.get("/:user_id/current-weight", mapFirebaseIDtoUserID, async (req, res) =
   }
 });
 
+//Post specific user's weight_kg to the user_metric_history
 router.post("/:user_id/current-weight", mapFirebaseIDtoUserID, async (req, res) => {
   const { user_id } = req.params;
   const newCurrentWeight = req.body;
