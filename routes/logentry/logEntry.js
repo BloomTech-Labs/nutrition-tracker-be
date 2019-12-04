@@ -27,7 +27,7 @@ router.post("/:user_id", mapFirebaseIDtoUserID, validateRequest, async (req, res
 });
 
 /********************************************************
-*                      POST/LOG-ENTRY                   *
+*                    DELETE/LOG-ENTRY                   *
 ********************************************************/
 router.delete("/:log_id", async (req, res) => {
   let logID = req.params.log_id;
