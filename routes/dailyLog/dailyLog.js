@@ -13,21 +13,25 @@ const {
 *                   GET USER/DAILY-LOG                  *
 ********************************************************/
 router.get("/:user_id/:date/:tz_name_current", mapFirebaseIDtoUserID, async (req, res) => {
-  console.log('DO WE GET HERE?');
   const user_id = req.params.user_id;
   const timeZoneNameCurrent = decodeURIComponent(req.params.tz_name_current);
   const date = req.params.date;
-  // 'from' and 'to' represent the upper and lower boundaries of a single
-  // 24-hour time-span beginning at time 00:00 of 'date' and ending
-  // 00:00 the following day, and are stored as UTC time-stamps, localized
-  // to the user's current time-zone
+
+  // 'from' and 'to' represent the lower and upper boundaries of a single
+  // 24-hour window beginning at time 00:00 of 'date' and ending
+  // 00:00 the following day
+
+  //'from' and 'to' are stored as UTC time-stamps, localized
+  // below to the user's current time-zone
+
   const from = moment.tz(date, timeZoneNameCurrent).utc().format();
   const to = moment.tz(date, timeZoneNameCurrent).utc().add(1, "d").format();
+
   try {
     // fetches all logs between 'from' and 'to' 
     let dailyLog = await DailyLog.getDailyLog(user_id , from, to);
 
-    // calculates the total calories and macro nutrients from each log
+    // totals the calories and macro nutrients from each log
     const {
       caloriesConsumed,
       fatsConsumed,
@@ -35,7 +39,7 @@ router.get("/:user_id/:date/:tz_name_current", mapFirebaseIDtoUserID, async (req
       proteinConsumed
     } = calculateConsumption(dailyLog);
 
-    // localizes all UTC time-stamps stored in the log
+    // localizes all UTC time-stamps to their corresponding time-zones stored in the log
     dailyLog = applyTimeZones(dailyLog, timeZoneNameCurrent);
 
     res.status(200).json({
@@ -47,7 +51,6 @@ router.get("/:user_id/:date/:tz_name_current", mapFirebaseIDtoUserID, async (req
     });
 
   } catch (err) {
-    console.log(err);
     res.status(500).json({
       errorMessage: "Internal Server Error",
       err
@@ -74,7 +77,7 @@ router.get("/:user_id/nutrition-budgets/", mapFirebaseIDtoUserID, async (req, re
       protein_ratio,
       carb_ratio
     );
-      console.log(caloric_budget);
+
     res.status(200).json({
       caloricBudget: Math.round(caloric_budget),
       fatBudget,
@@ -82,7 +85,6 @@ router.get("/:user_id/nutrition-budgets/", mapFirebaseIDtoUserID, async (req, re
       proteinBudget
     });
   } catch (err) {
-    console.log(err);
     res.status(500).json({
       errorMessage: "Internal Server Error",
       err
