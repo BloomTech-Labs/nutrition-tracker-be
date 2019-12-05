@@ -4,10 +4,10 @@ const UserInfo = require("./usersDB");
 const mapFirebaseIDtoUserID = require("../../middleware/mapFirebaseIDtoUserID");
 const {
   heightToImperial,
-  kgToLbs,
   macroRatiosToGrams,
-  applyLocalOffset,
-  calculateConsumption
+  applyTimeZones,
+  calculateConsumption,
+  kgToLbs,
 } = require("./helper");
 
 /********************************************************
@@ -182,37 +182,16 @@ router.post("/:user_id/current-weight", mapFirebaseIDtoUserID, async (req, res) 
 });
 
 /********************************************************
- *                       DAILY LOG                       *
- ********************************************************/
-
-// front-end knows the local offset and can display to user GMT+00
-// where 00 is the offset in hours
-
-router.get("/daily-log/:date/:local_offset", async (req, res) => {
-  // let utc_local_offset = req.params.local_offset;
-
-  let from = new Date(req.params.date); // add offset to both from
-  let to = new Date(req.params.date); // and to ** FROM THE FRONT-END **
-  to.setDate(to.getDate() + 1);
-
+*               GET USER/NUTRITION-BUDGETS              *
+********************************************************/
+router.get("/nutrition-budgets", async (req, res) => {
   try {
     const {
       caloric_budget,
       fat_ratio,
       protein_ratio,
       carb_ratio
-    } = await UserInfo.getCaloricBudget(1); // 1 represents user_id
-
-    let dailyLog = await UserInfo.getDailyLog(1, from, to);
-
-    dailyLog = applyLocalOffset(dailyLog);
-
-    let {
-      caloriesConsumed,
-      fatsConsumed,
-      carbsConsumed,
-      proteinConsumed
-    } = calculateConsumption(dailyLog);
+    } = await UserInfo.getCaloricBudget(1);
 
     const { fatBudget, proteinBudget, carbBudget } = macroRatiosToGrams(
       caloric_budget,
@@ -223,14 +202,9 @@ router.get("/daily-log/:date/:local_offset", async (req, res) => {
 
     res.status(200).json({
       caloricBudget: Math.round(caloric_budget),
-      caloriesConsumed,
       fatBudget,
-      fatsConsumed,
       carbBudget,
-      carbsConsumed,
-      proteinBudget,
-      proteinConsumed,
-      dailyLog
+      proteinBudget
     });
   } catch (err) {
     res.status(500).json({
@@ -240,7 +214,52 @@ router.get("/daily-log/:date/:local_offset", async (req, res) => {
   }
 });
 
-module.exports = router;
+/********************************************************
+*                   GET USER/DAILY-LOG                  *
+********************************************************/
+router.get("/daily-log/:date/:tz_name_current", async (req, res) => {
+  const timeZoneNameCurrent = decodeURIComponent(req.params.tz_name_current);
+  const date = req.params.date;
+  // 'from' and 'to' represent the upper and lower boundaries of a single
+  // 24-hour time-span beginning at time 00:00 of 'date' and ending
+  // 00:00 the following day, and are stored as UTC time-stamps, localized
+  // to the user's current time-zone
+  const from = moment.tz(date, timeZoneNameCurrent).utc().format();
+  const to = moment.tz(date, timeZoneNameCurrent).utc().add(1, "d").format();
+
+  try {
+    // fetches all logs between 'from' and 'to' 
+    let dailyLog = await UserInfo.getDailyLog(1, from, to);
+
+    // calculates the total calories and macro nutrients from each log
+    const {
+      caloriesConsumed,
+      fatsConsumed,
+      carbsConsumed,
+      proteinConsumed
+    } = calculateConsumption(dailyLog);
+
+    // localizes all UTC time-stamps stored in the log
+    dailyLog = applyTimeZones(dailyLog, timeZoneNameCurrent);
+
+    res.status(200).json({
+      caloriesConsumed,
+      fatsConsumed,
+      carbsConsumed,
+      proteinConsumed,
+      dailyLog
+    });
+
+    res.status(200).json({
+      message: "OK"
+    })
+  } catch (err) {
+    res.status(500).json({
+      errorMessage: "Internal Server Error",
+      err
+    });
+  }
+});
 
 /*
   FRONT-END THINGS:
@@ -249,3 +268,5 @@ module.exports = router;
   const offsetMinutes = new Date().getTimezoneOffset();
   date.setMinutes(date.getMinutes() + offsetMinutes);
 */
+
+module.exports = router;
