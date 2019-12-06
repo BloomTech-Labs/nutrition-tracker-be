@@ -124,6 +124,7 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
     } else {
       console.log("foods not found in curr foods table");
       try {
+        await db.deleteFatsecretFoods(foodID);
         const fatsecretFoods = await getFatSecretData(method, foodID);
 
         foods = await db.insertFatsecretFoods(fatsecretFoods);
