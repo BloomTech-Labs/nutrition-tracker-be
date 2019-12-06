@@ -6,7 +6,7 @@ exports.seed = function(knex) {
       // Inserts seed entries
       return knex("foods").insert([
         {
-          fatsecret_food_id: 8362,
+          fatsecret_food_id: 3433,
           food_name: "white bread",
           serving_desc: "a slice",
           metric_serving_amt: 1,
