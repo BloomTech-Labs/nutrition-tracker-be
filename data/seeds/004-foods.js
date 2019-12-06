@@ -32,12 +32,12 @@ exports.seed = function(knex) {
           calcium_daily_pct: 0
         },
         {
-          fatsecret_food_id: 8462,
+          fatsecret_food_id: 4881,
           food_name: "cheese pizza",
           serving_desc: "a slice",
           metric_serving_amt: 1,
           metric_serving_unit: "a slice",
-          retrieved_at: new Date(new Date() - 1000 * 60 * 60 * 5),
+          retrieved_at: new Date(new Date() - 1000 * 60 * 60 * 25),
           serving_id: 2,
           serving_url:
             "https://www.fatsecret.com/calories-nutrition/generic/pizza-cheese?portionid=17170&portionamount=1.000", // not actually the correct url. just there to make sure the field works.
