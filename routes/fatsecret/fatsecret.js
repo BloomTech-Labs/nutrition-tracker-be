@@ -113,11 +113,11 @@ const getFatSecretData = async (method, food_id) => {
  ********************************************************/
 router.get("/fatsecret/get-food/:food_id", async (req, res) => {
   const method = "food.get";
-  const foodID = req.params.food_id;
+  const fatsecretFoodID = req.params.food_id;
 
   let foods;
   try {
-    foods = await db.getServingsByFatsecretFoodId(foodID);
+    foods = await db.getServingsByFatsecretFoodId(fatsecretFoodID);
 
     if (foods.length > 0) {
       // success! we have the food data in our db, and it's ***FRESH***
@@ -127,10 +127,10 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
       // we don't have the food data in our fridge (Foods table), or it's ***NOT FRESH***
       try {
         // clean out our fridge (Foods table) of those ***NOT FRESH*** foods
-        await db.deleteFatsecretFoods(foodID);
+        await db.deleteFatsecretFoods(fatsecretFoodID);
 
         // grab some ***FRESH*** food
-        const fatsecretFoods = await getFatSecretData(method, foodID);
+        const fatsecretFoods = await getFatSecretData(method, fatsecretFoodID);
 
         // put that ***FRESH*** food in our fridge!! (Foods table)
         foods = await db.insertFatsecretFoods(fatsecretFoods);
