@@ -12,7 +12,7 @@ exports.seed = function(knex) {
           serving_desc: "a slice",
           metric_serving_amt: 1,
           metric_serving_unit: "a slice",
-          retrieved_at: knex.fn.now(6),
+          retrieved_at: new Date(new Date() - 1000 * 60 * 60 * 1),
           serving_id: 2,
           serving_url:
             "https://www.fatsecret.com/calories-nutrition/generic/pizza-cheese?portionid=17170&portionamount=1.000", // not actually the correct url. just there to make sure the field works.
@@ -39,7 +39,7 @@ exports.seed = function(knex) {
           serving_desc: "a slice",
           metric_serving_amt: 1,
           metric_serving_unit: "a slice",
-          retrieved_at: knex.fn.now(6),
+          retrieved_at: new Date(new Date() - 1000 * 60 * 60 * 5),
           serving_id: 2,
           serving_url:
             "https://www.fatsecret.com/calories-nutrition/generic/pizza-cheese?portionid=17170&portionamount=1.000", // not actually the correct url. just there to make sure the field works.
@@ -66,7 +66,7 @@ exports.seed = function(knex) {
           serving_desc: "one",
           metric_serving_amt: 1,
           metric_serving_unit: "one",
-          retrieved_at: knex.fn.now(6),
+          retrieved_at: new Date(new Date() - 1000 * 60 * 60 * 23),
           serving_id: 2,
           serving_url:
             "https://www.fatsecret.com/calories-nutrition/generic/pizza-cheese?portionid=17170&portionamount=1.000", // not actually the correct url. just there to make sure the field works.
@@ -93,7 +93,7 @@ exports.seed = function(knex) {
           serving_desc: "1oz boneless",
           metric_serving_amt: 1,
           metric_serving_unit: "one",
-          retrieved_at: knex.fn.now(6),
+          retrieved_at: new Date(new Date() - 1000 * 60 * 60 * 25),
           serving_id: 2,
           serving_url:
             "https://www.fatsecret.com/calories-nutrition/generic/pizza-cheese?portionid=17170&portionamount=1.000", // not actually the correct url. just there to make sure the field works.
