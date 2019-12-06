@@ -120,13 +120,19 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
     foods = await db.getServingsByFatsecretFoodId(foodID);
 
     if (foods.length > 0) {
-      console.log("ladies and gentlemen, we got him");
+      // success! we have the food data in our db, and it's ***FRESH***
+      // and the results will be sent after parent try/catch block
     } else {
-      console.log("foods not found in curr foods table");
+      // i am straight up not having a good time!
+      // we don't have the food data in our fridge (Foods table), or it's ***NOT FRESH***
       try {
+        // clean out our fridge (Foods table) of those ***NOT FRESH*** foods
         await db.deleteFatsecretFoods(foodID);
+
+        // grab some ***FRESH*** food
         const fatsecretFoods = await getFatSecretData(method, foodID);
 
+        // put that ***FRESH*** food in our fridge!! (Foods table)
         foods = await db.insertFatsecretFoods(fatsecretFoods);
       } catch {
         console.log("failed getting fatsecret data");
