@@ -15,7 +15,8 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
   const foodID = req.params.food_id;
   const method = "food.get";
 
-  const getFatSecretData = () => {
+  const getFatSecretData = async () => {
+    console.log("BEGIN getFatSecretData");
     const transformFatSecretData = response => {
       const food_data = response.data.food;
       const serving_measures = food_data.servings.serving;
@@ -104,29 +105,57 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
       return flattened_food_data;
     };
 
+    let results;
+    console.log("beginning oathQueryBuilder()...");
+    console.log({ method, food_id: foodID });
     oathQueryBuilder({ method, food_id: foodID })
       .get()
       .then(response => {
+        console.log(
+          "response from fatsecret...",
+          Object.keys(response.data.food)
+        );
         //  currently we merely send the flattened food data from this endpoint
         //  once we have our "upsert" into "Foods" table working, we may instead
         //  return this data from our table. just notes for future intent to
         //  avoid confusion
-        res.send(transformFatSecretData(response));
+        results = transformFatSecretData(response);
+        // res.send(transformFatSecretData(response));
       })
       .catch(error => {
         console.log(error);
       });
+
+    console.log("RETURN of getFatSecretData");
+    return results;
   };
 
-  const foods = await db.getServingsByFatsecretFoodId(foodID);
+  let fatsecretFoods;
+  try {
+    let foods = await db.getServingsByFatsecretFoodId(foodID);
 
-  if (foods.length > 0) {
-    console.log("ladies and gentlemen: we got him");
-  } else {
-    //
+    if (foods.length > 0) {
+      res.send(foods);
+    } else {
+      console.log("foods not found in curr foods table");
+      try {
+        fatsecretFoods = await getFatSecretData();
+        console.log("this should be fatsecret food data", fatsecretFoods);
+
+        const insertedFoods = await db.insertFatsecretFoods(fatsecretFoods);
+        //
+      } catch {
+        console.log("failed getting fatsecret data");
+      }
+    }
+  } catch (err) {
+    res.status(500).json({ message: "Failed to get tracked user habits" });
   }
 
-  getFatSecretData();
+  //get foods
+  foods = await db.getServingsByFatsecretFoodId(foodID);
+
+  res.send(foods);
 });
 
 router.get("/fatsecret/search-food/:search_expression", async (req, res) => {
