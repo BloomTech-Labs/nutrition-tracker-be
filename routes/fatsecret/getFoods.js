@@ -3,7 +3,8 @@ const db = require("../../data/knex.js");
 
 module.exports = {
   getServingsByFatsecretFoodId,
-  insertFatsecretFoods
+  insertFatsecretFoods,
+  deleteFatsecretFoods
 };
 
 function getServingsByFatsecretFoodId(fatsecret_food_id) {
@@ -23,5 +24,12 @@ function getServingsByFatsecretFoodId(fatsecret_food_id) {
 function insertFatsecretFoods(foods) {
   return db("foods as f")
     .insert(foods)
+    .returning("*");
+}
+
+function deleteFatsecretFoods(fatsecret_food_id) {
+  return db("foods as f")
+    .delete()
+    .where("f.fatsecret_food_id", fatsecret_food_id)
     .returning("*");
 }
