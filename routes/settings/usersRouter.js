@@ -249,10 +249,6 @@ router.get("/daily-log/:date/:tz_name_current", async (req, res) => {
       proteinConsumed,
       dailyLog
     });
-
-    res.status(200).json({
-      message: "OK"
-    })
   } catch (err) {
     res.status(500).json({
       errorMessage: "Internal Server Error",

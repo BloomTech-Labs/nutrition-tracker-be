@@ -1,41 +1,16 @@
 const moment = require("moment-timezone");
-//Converts cm to feet and inches.
-function heightToImperial(n) {
-  var realFeet = n * 0.3937 / 12;
-  var convFeet = Math.floor(realFeet);
-  var convInches = Math.round((realFeet - convFeet) * 12);
-  return {
-    feet: convFeet,
-    inches: convInches
-  };
-}
 
-//Converts kg to lbs
-function kgToLbs(kg) {
-  var nearExact = kg / 0.45359237;
-  var lbs = Math.floor(nearExact);
-  return lbs;
-}
-
-function macroRatiosToGrams(
-  caloric_budget,
-  fat_ratio,
-  protein_ratio,
-  carb_ratio
-) {
-  const fatBudget = Math.round(caloric_budget * fat_ratio / 9);
-  const proteinBudget = Math.round(caloric_budget * protein_ratio / 4);
-  const carbBudget = Math.round(caloric_budget * carb_ratio / 4);
-
-  return { fatBudget, proteinBudget, carbBudget };
-}
+module.exports = {
+  applyTimeZones,
+  calculateConsumption,
+  macroRatiosToGrams
+};
 
 /********************************************************
-*                   APPLY TIMEZONES                     *
+*                     APPLY TIMEZONES                   *
 ********************************************************/
-// consider refactoring  with moment-js
 function applyTimeZones(dailyLog, timeZoneNameCurrent) {
-  // loops through each log within a 24-hour time-span
+  // loops through each log within the daily log
   dailyLog.forEach(log => {
     // if the user's current time-zone is different from
     // that which is stored in the log
@@ -52,7 +27,7 @@ function applyTimeZones(dailyLog, timeZoneNameCurrent) {
         .format("z");
 
       // creates three properties on the log to denote the time consumed localized to
-      // the user's time-zone at the time of logging, as well as the time-zone name
+      // the user's time-zone AT THE TIME OF LOGGING, as well as the time-zone name
       // and abbreviation
       log.timeConsumedAtThere = applyTimeZoneOffset(
         log.timeConsumedAt,
@@ -68,8 +43,9 @@ function applyTimeZones(dailyLog, timeZoneNameCurrent) {
       delete log.timeConsumedAt;
       delete log.timeZoneName;
       delete log.timeZoneAbbr;
+
+      // else if the user's current time-zone matches that which is stored in the log
     } else {
-      // if the user's current time-zone matches that which is stored in the log
 
       // updates the timeConsumedAt property to return back the UTC time
       // localized to the time-zone that the user recorded the log
@@ -89,12 +65,15 @@ function applyTimeZones(dailyLog, timeZoneNameCurrent) {
   return dailyLog;
 }
 
+/********************************************************
+*                 CALCULATE CONSUMPTION                 *
+********************************************************/
 function calculateConsumption(dailyLog) {
   let caloriesConsumed = 0;
   let fatsConsumed = 0;
   let carbsConsumed = 0;
   let proteinConsumed = 0;
-
+  
   dailyLog.forEach(log => {
     caloriesConsumed += Number(log.caloriesKcal) * Number(log.quantity);
     fatsConsumed += Number(log.fatGrams) * Number(log.quantity);
@@ -110,10 +89,18 @@ function calculateConsumption(dailyLog) {
   };
 }
 
-module.exports = {
-  heightToImperial,
-  kgToLbs,
-  macroRatiosToGrams,
-  applyTimeZones,
-  calculateConsumption
-};
+/********************************************************
+*                     MACROS TO GRAMS                   *
+********************************************************/
+function macroRatiosToGrams(
+  caloric_budget,
+  fat_ratio,
+  protein_ratio,
+  carb_ratio
+) {
+  const fatBudget = Math.round(caloric_budget * fat_ratio / 9);
+  const proteinBudget = Math.round(caloric_budget * protein_ratio / 4);
+  const carbBudget = Math.round(caloric_budget * carb_ratio / 4);
+
+  return { fatBudget, proteinBudget, carbBudget };
+}

@@ -1,9 +1,11 @@
 const db = require("../data/knex");
+
 /********************************************************
 *              MAP FIREBASE ID TO USER ID               *
 ********************************************************/
 module.exports = async (req, res, next) => {
   const firebaseID = req.params.user_id;
+  console.log("firebaseID", firebaseID);
   try {
     const user = await getUserID(firebaseID);
     if (!user) {
