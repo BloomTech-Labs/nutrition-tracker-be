@@ -6,7 +6,6 @@ exports.seed = function(knex) {
       // Inserts seed entries
       return knex("foods").insert([
         {
-          id: 1,
           fatsecret_food_id: 8362,
           food_name: "white bread",
           serving_desc: "a slice",
@@ -33,7 +32,6 @@ exports.seed = function(knex) {
           calcium_daily_pct: 0
         },
         {
-          id: 2,
           fatsecret_food_id: 8462,
           food_name: "cheese pizza",
           serving_desc: "a slice",
@@ -60,7 +58,6 @@ exports.seed = function(knex) {
           calcium_daily_pct: 0
         },
         {
-          id: 3,
           fatsecret_food_id: 8862,
           food_name: "chicken breast",
           serving_desc: "one",
@@ -87,7 +84,6 @@ exports.seed = function(knex) {
           calcium_daily_pct: 0
         },
         {
-          id: 4,
           fatsecret_food_id: 8372,
           food_name: "salmon",
           serving_desc: "1oz boneless",
@@ -114,7 +110,6 @@ exports.seed = function(knex) {
           calcium_daily_pct: 0
         },
         {
-          id: 5,
           fatsecret_food_id: 8372,
           food_name: "cheese pizza",
           serving_desc: "a slice",
@@ -141,7 +136,6 @@ exports.seed = function(knex) {
           calcium_daily_pct: 0
         },
         {
-          id: 6,
           fatsecret_food_id: 8372,
           food_name: "chicken breast",
           serving_desc: "one",
@@ -168,7 +162,6 @@ exports.seed = function(knex) {
           calcium_daily_pct: 0
         },
         {
-          id: 7,
           fatsecret_food_id: 8372,
           food_name: "salmon",
           serving_desc: "1oz boneless",
@@ -195,7 +188,6 @@ exports.seed = function(knex) {
           calcium_daily_pct: 0
         },
         {
-          id: 8,
           fatsecret_food_id: 8372,
           food_name: "salmon",
           serving_desc: "1oz boneless",
