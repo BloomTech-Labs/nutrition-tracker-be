@@ -21,8 +21,7 @@ function getServingsByFatsecretFoodId(fatsecret_food_id) {
 }
 
 function insertFatsecretFoods(foods) {
-  console.log("foods being inserted", foods);
   return db("foods as f")
     .insert(foods)
-    .returning("f.*");
+    .returning("*");
 }
