@@ -126,14 +126,11 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
       // i am straight up not having a good time!
       // we don't have the food data in our fridge (Foods table), or it's ***NOT FRESH***
       try {
-        // clean out our fridge (Foods table) of those ***NOT FRESH*** foods
-        await db.deleteFatsecretFoods(fatsecretFoodID);
-
         // grab some ***FRESH*** food
         const fatsecretFoods = await getFatSecretData(method, fatsecretFoodID);
 
-        // put that ***FRESH*** food in our fridge!! (Foods table)
-        foods = await db.insertFatsecretFoods(fatsecretFoods);
+        // UPSERT the fresh food into Foods table
+        foods = await db.upsertFatsecretFoods(fatsecretFoods);
       } catch {
         console.log("failed getting fatsecret data");
       }
