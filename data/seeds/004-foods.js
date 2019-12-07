@@ -5,6 +5,8 @@ exports.seed = function(knex) {
     .then(function() {
       // Inserts seed entries
       return knex("foods").insert([
+        // *** do not manually specify "ID" ***
+        // it can cause issues when data is inserted later that does not specify the id to be generated.
         {
           fatsecret_food_id: 3433,
           food_name: "white bread",
