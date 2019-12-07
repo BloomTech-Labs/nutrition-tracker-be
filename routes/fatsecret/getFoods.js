@@ -18,7 +18,8 @@ function getServingsByFatsecretFoodId(fatsecret_food_id) {
   return db("foods as f")
     .select("f.*")
     .where("f.fatsecret_food_id", fatsecret_food_id)
-    .where("f.retrieved_at", ">", cacheCutoff);
+    .where("f.retrieved_at", ">", cacheCutoff)
+    .orderBy("f.id", "asc");
 }
 
 function insertFatsecretFoods(foods) {
