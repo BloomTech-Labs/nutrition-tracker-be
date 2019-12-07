@@ -126,13 +126,15 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
       // i am straight up not having a good time!
       // we don't have the food data in our fridge (Foods table), or it's ***NOT FRESH***
       try {
+        foods = db.upsert_hard_coded();
         // grab some ***FRESH*** food
-        const fatsecretFoods = await getFatSecretData(method, fatsecretFoodID);
-
-        // UPSERT the fresh food into Foods table
-        foods = await db.upsertFatsecretFoods(fatsecretFoods);
-      } catch {
+        // const fatsecretFoods = await getFatSecretData(method, fatsecretFoodID);
+        // console.log("# records: ", fatsecretFoods.length);
+        // // UPSERT the fresh food into Foods table
+        // foods = await db.upsertFatsecretFoods(fatsecretFoods);
+      } catch (err) {
         console.log("failed getting fatsecret data");
+        console.log(err);
       }
     }
   } catch (err) {
