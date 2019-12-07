@@ -53,6 +53,8 @@ const tables = [
       "fatsecret_food_id",
       "serving_id",
       "time_consumed_at",
+      "time_zone_name",
+      "time_zone_abbr",
       "quantity"
     ]
   ],
@@ -111,6 +113,7 @@ const tables = [
       "user_id",
       "start_date",
       "weekly_goal_rate",
+      "weight_goal_kg",
       "activity_level",
       "caloric_budget",
       "fat_ratio",
@@ -118,7 +121,7 @@ const tables = [
       "protein_ratio"
     ]
   ],
-  ["user_metric_history", ["id", "user_id", "observation_time", "weight_kg"]]
+  ["user_metric_history", ["id", "user_id", "start_date", "weight_kg"]]
 ];
 
 // create a function to setup our migrations
