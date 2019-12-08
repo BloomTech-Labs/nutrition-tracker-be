@@ -49,23 +49,19 @@ const transformFatSecretData = response => {
       // for more details on how this operation works & what the syntax means, see this
       // stackoverflow answer: https://stackoverflow.com/a/40560953/2865345 or this medium
       // post which was written to explain using the functionality in that stackoverflow answer"
-      ...(s.saturated_fat && { saturated_fat_g: s.saturated_fat }),
-      ...(s.monounsaturated_fat && {
-        monounsaturated_fat_g: s.monounsaturated_fat
-      }),
-      ...(s.polyunsaturated_fat && {
-        polyunsaturated_fat_g: s.polyunsaturated_fat
-      }),
-      ...(s.trans_fat && { trans_fat_g: s.trans_fat }),
-      ...(s.fiber && { fiber_g: s.fiber }),
-      ...(s.sugar && { sugar_g: s.sugar }),
-      ...(s.sodium && { sodium_mg: s.sodium }),
-      ...(s.potassium && { potassium_mg: s.potassium }),
-      ...(s.cholesterol && { cholesterol_mg: s.cholesterol }),
-      ...(s.vitamin_a && { vitamin_a_daily_pct: s.vitamin_a }),
-      ...(s.vitamin_c && { vitamin_c_daily_pct: s.vitamin_c }),
-      ...(s.calcium && { calcium_daily_pct: s.calcium }),
-      ...(s.iron && { iron_daily_pct: s.iron })
+      saturated_fat_g: s.saturated_fat || null,
+      monounsaturated_fat_g: s.monounsaturated_fat || null,
+      polyunsaturated_fat_g: s.polyunsaturated_fat || null,
+      trans_fat_g: s.trans_fat || null,
+      fiber_g: s.fiber || null,
+      sugar_g: s.sugar || null,
+      sodium_mg: s.sodium || null,
+      potassium_mg: s.potassium || null,
+      cholesterol_mg: s.cholesterol || null,
+      vitamin_a_daily_pct: s.vitamin_a || null,
+      vitamin_c_daily_pct: s.vitamin_c || null,
+      calcium_daily_pct: s.calcium || null,
+      iron_daily_pct: s.iron || null
     };
 
     // grabs all fields from "first pass" excluding:
