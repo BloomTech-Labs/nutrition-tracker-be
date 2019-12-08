@@ -5,6 +5,7 @@ const CircularJSON = require("circular-json");
 const oathQueryBuilder = require("./oauthQueryBuilder");
 
 const db = require("./getFoods.js");
+const { upsertFoods } = require("./upsertFoods.js");
 
 const router = express.Router();
 
@@ -25,6 +26,7 @@ const transformFatSecretData = response => {
       serving_id: s.serving_id,
 
       //  retrieved_at: ... // automatically generated
+
       food_name: food_data.food_name,
       serving_url: s.serving_url,
       serving_desc: s.serving_description,
@@ -126,12 +128,12 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
       // i am straight up not having a good time!
       // we don't have the food data in our fridge (Foods table), or it's ***NOT FRESH***
       try {
-        foods = db.upsert_hard_coded();
         // grab some ***FRESH*** food
-        // const fatsecretFoods = await getFatSecretData(method, fatsecretFoodID);
+        const fatsecretFoods = await getFatSecretData(method, fatsecretFoodID);
+
         // console.log("# records: ", fatsecretFoods.length);
         // // UPSERT the fresh food into Foods table
-        // foods = await db.upsertFatsecretFoods(fatsecretFoods);
+        foods = await upsertFoods(fatsecretFoods);
       } catch (err) {
         console.log("failed getting fatsecret data");
         console.log(err);
