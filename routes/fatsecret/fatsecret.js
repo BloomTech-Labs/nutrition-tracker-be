@@ -5,6 +5,7 @@ const CircularJSON = require("circular-json");
 const oathQueryBuilder = require("./oauthQueryBuilder");
 
 const db = require("./getFoods.js");
+const { upsertFoods } = require("./upsertFoods.js");
 
 const router = express.Router();
 
@@ -24,7 +25,8 @@ const transformFatSecretData = response => {
       fatsecret_food_id: food_data.food_id,
       serving_id: s.serving_id,
 
-      //  retrieved_at: ... // automatically generated
+      retrieved_at: new Date(),
+
       food_name: food_data.food_name,
       serving_url: s.serving_url,
       serving_desc: s.serving_description,
@@ -47,23 +49,19 @@ const transformFatSecretData = response => {
       // for more details on how this operation works & what the syntax means, see this
       // stackoverflow answer: https://stackoverflow.com/a/40560953/2865345 or this medium
       // post which was written to explain using the functionality in that stackoverflow answer"
-      ...(s.saturated_fat && { saturated_fat_g: s.saturated_fat }),
-      ...(s.monounsaturated_fat && {
-        monounsaturated_fat_g: s.monounsaturated_fat
-      }),
-      ...(s.polyunsaturated_fat && {
-        polyunsaturated_fat_g: s.polyunsaturated_fat
-      }),
-      ...(s.trans_fat && { trans_fat_g: s.trans_fat }),
-      ...(s.fiber && { fiber_g: s.fiber }),
-      ...(s.sugar && { sugar_g: s.sugar }),
-      ...(s.sodium && { sodium_mg: s.sodium }),
-      ...(s.potassium && { potassium_mg: s.potassium }),
-      ...(s.cholesterol && { cholesterol_mg: s.cholesterol }),
-      ...(s.vitamin_a && { vitamin_a_daily_pct: s.vitamin_a }),
-      ...(s.vitamin_c && { vitamin_c_daily_pct: s.vitamin_c }),
-      ...(s.calcium && { calcium_daily_pct: s.calcium }),
-      ...(s.iron && { iron_daily_pct: s.iron })
+      saturated_fat_g: s.saturated_fat || null,
+      monounsaturated_fat_g: s.monounsaturated_fat || null,
+      polyunsaturated_fat_g: s.polyunsaturated_fat || null,
+      trans_fat_g: s.trans_fat || null,
+      fiber_g: s.fiber || null,
+      sugar_g: s.sugar || null,
+      sodium_mg: s.sodium || null,
+      potassium_mg: s.potassium || null,
+      cholesterol_mg: s.cholesterol || null,
+      vitamin_a_daily_pct: s.vitamin_a || null,
+      vitamin_c_daily_pct: s.vitamin_c || null,
+      calcium_daily_pct: s.calcium || null,
+      iron_daily_pct: s.iron || null
     };
 
     // grabs all fields from "first pass" excluding:
@@ -89,9 +87,6 @@ const transformFatSecretData = response => {
   const flattened_food_data = Array.isArray(serving_measures)
     ? serving_measures.map(denormalizeFoodData)
     : [denormalizeFoodData(serving_measures)];
-
-  //  UPSERT into `Foods` table here
-  // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
 
   return flattened_food_data;
 };
@@ -119,22 +114,17 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
   try {
     foods = await db.getServingsByFatsecretFoodId(fatsecretFoodID);
 
-    if (foods.length > 0) {
-      // success! we have the food data in our db, and it's ***FRESH***
-      // and the results will be sent after parent try/catch block
-    } else {
+    if (!foods.length) {
       // i am straight up not having a good time!
       // we don't have the food data in our fridge (Foods table), or it's ***NOT FRESH***
       try {
-        foods = db.upsert_hard_coded();
         // grab some ***FRESH*** food
-        // const fatsecretFoods = await getFatSecretData(method, fatsecretFoodID);
-        // console.log("# records: ", fatsecretFoods.length);
-        // // UPSERT the fresh food into Foods table
-        // foods = await db.upsertFatsecretFoods(fatsecretFoods);
+        const fatsecretFoods = await getFatSecretData(method, fatsecretFoodID);
+
+        // UPSERT the fresh food into Foods table
+        foods = await upsertFoods(fatsecretFoods);
       } catch (err) {
-        console.log("failed getting fatsecret data");
-        console.log(err);
+        res.status(500).json({ err: err, message: "Failed to get food data" });
       }
     }
   } catch (err) {
