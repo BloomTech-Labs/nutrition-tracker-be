@@ -88,9 +88,6 @@ const transformFatSecretData = response => {
     ? serving_measures.map(denormalizeFoodData)
     : [denormalizeFoodData(serving_measures)];
 
-  //  UPSERT into `Foods` table here
-  // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-
   return flattened_food_data;
 };
 
@@ -117,22 +114,17 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
   try {
     foods = await db.getServingsByFatsecretFoodId(fatsecretFoodID);
 
-    if (foods.length > 0) {
-      // success! we have the food data in our db, and it's ***FRESH***
-      // and the results will be sent after parent try/catch block
-    } else {
+    if (!foods.length) {
       // i am straight up not having a good time!
       // we don't have the food data in our fridge (Foods table), or it's ***NOT FRESH***
       try {
         // grab some ***FRESH*** food
         const fatsecretFoods = await getFatSecretData(method, fatsecretFoodID);
 
-        // console.log("# records: ", fatsecretFoods.length);
-        // // UPSERT the fresh food into Foods table
+        // UPSERT the fresh food into Foods table
         foods = await upsertFoods(fatsecretFoods);
       } catch (err) {
-        console.log("failed getting fatsecret data");
-        console.log(err);
+        res.status(500).json({ err: err, message: "Failed to get food data" });
       }
     }
   } catch (err) {
