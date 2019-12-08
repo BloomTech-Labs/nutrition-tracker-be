@@ -7,35 +7,51 @@ exports.up = function(knex) {
       .integer("fatsecret_food_id")
       .unsigned()
       .notNullable();
-    tbl.text("food_name");
     tbl
       .integer("serving_id")
       .unsigned()
       .notNullable();
+    tbl
+      .datetime("retrieved_at")
+      .defaultTo(knex.fn.now())
+      .notNullable();
+    tbl.text("food_name");
+    tbl.text("serving_url");
     tbl.text("serving_desc");
     tbl.decimal("metric_serving_amt");
     tbl.text("metric_serving_unit");
-    tbl.datetime("retrieved_at").notNullable();
     tbl.decimal("calories_kcal");
     tbl.decimal("fat_g");
+    tbl.decimal("carbs_g");
+    tbl.decimal("protein_g");
     tbl.decimal("saturated_fat_g");
     tbl.decimal("monounsaturated_fat_g");
     tbl.decimal("polyunsaturated_fat_g");
     tbl.decimal("trans_fat_g");
-    tbl.decimal("protein_g");
-    tbl.decimal("carbs_g");
     tbl.decimal("fiber_g");
     tbl.decimal("sugar_g");
+    tbl.decimal("cholesterol_mg");
     tbl.decimal("sodium_mg");
     tbl.decimal("potassium_mg");
-    tbl.decimal("cholesterol_mg");
     tbl.decimal("vitamin_a_daily_pct");
     tbl.decimal("vitamin_c_daily_pct");
-    tbl.decimal("iron_daily_pct");
     tbl.decimal("calcium_daily_pct");
+    tbl.decimal("iron_daily_pct");
+
+    tbl.unique(
+      ["fatsecret_food_id", "serving_id"],
+      "fatsecret_food_id_serving_id_unique"
+    );
   });
 };
 
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists("foods");
+  return knex.schema
+    .raw(
+      `
+      ALTER TABLE foods
+      DROP CONSTRAINT IF EXISTS fatsecret_food_id_serving_id_unique;
+      `
+    )
+    .dropTableIfExists("foods");
 };

@@ -25,8 +25,7 @@ exports.up = function(knex) {
       .integer("serving_id")
       .unsigned()
       .notNullable();
-    tbl
-      .datetime("time_consumed_at").defaultTo(knex.fn.now(6));
+    tbl.datetime("time_consumed_at").defaultTo(knex.fn.now());
     tbl.text("time_zone_name").notNullable();
     tbl.text("time_zone_abbr").notNullable();
     tbl.decimal("quantity");

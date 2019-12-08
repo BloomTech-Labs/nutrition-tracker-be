@@ -18,20 +18,21 @@ const tables = [
     [
       "id",
       "fatsecret_food_id",
-      "food_name",
       "serving_id",
+      "retrieved_at",
+      "food_name",
+      "serving_url",
       "serving_desc",
       "metric_serving_amt",
       "metric_serving_unit",
-      "retrieved_at",
       "calories_kcal",
       "fat_g",
+      "carbs_g",
+      "protein_g",
       "saturated_fat_g",
       "monounsaturated_fat_g",
       "polyunsaturated_fat_g",
       "trans_fat_g",
-      "protein_g",
-      "carbs_g",
       "fiber_g",
       "sugar_g",
       "sodium_mg",
@@ -39,8 +40,8 @@ const tables = [
       "cholesterol_mg",
       "vitamin_a_daily_pct",
       "vitamin_c_daily_pct",
-      "iron_daily_pct",
-      "calcium_daily_pct"
+      "calcium_daily_pct",
+      "iron_daily_pct"
     ]
   ],
   [
@@ -52,6 +53,8 @@ const tables = [
       "fatsecret_food_id",
       "serving_id",
       "time_consumed_at",
+      "time_zone_name",
+      "time_zone_abbr",
       "quantity"
     ]
   ],
@@ -110,6 +113,7 @@ const tables = [
       "user_id",
       "start_date",
       "weekly_goal_rate",
+      "weight_goal_kg",
       "activity_level",
       "caloric_budget",
       "fat_ratio",
@@ -117,7 +121,7 @@ const tables = [
       "protein_ratio"
     ]
   ],
-  ["user_metric_history", ["id", "user_id", "observation_time", "weight_kg"]]
+  ["user_metric_history", ["id", "user_id", "start_date", "weight_kg"]]
 ];
 
 // create a function to setup our migrations
