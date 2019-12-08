@@ -7,7 +7,6 @@ module.exports = { upsertFoods };
 
 function upsertFoods(data) {
   const query = upsertQuery(data);
-  console.log(query);
   try {
     return db.any(query);
   } catch (e) {
