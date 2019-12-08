@@ -20,6 +20,7 @@ function upsertQuery(data) {
     [
       "fatsecret_food_id",
       "serving_id",
+      "retrieved_at",
       "food_name",
       "serving_url",
       "serving_desc",
