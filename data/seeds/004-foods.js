@@ -64,7 +64,7 @@ exports.seed = function(knex) {
           serving_desc: "one",
           metric_serving_amt: 1,
           metric_serving_unit: "one",
-          retrieved_at: new Date(new Date() - 1000 * 60 * 60 * 23),
+          retrieved_at: new Date(new Date() - 1000 * 60 * 60 * 20),
           serving_url:
             "https://www.fatsecret.com/calories-nutrition/generic/pizza-cheese?portionid=17170&portionamount=1.000", // not actually the correct url. just there to make sure the field works.
           calories_kcal: 66,
