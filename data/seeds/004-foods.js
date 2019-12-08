@@ -137,7 +137,7 @@ exports.seed = function(knex) {
         },
         {
           fatsecret_food_id: 1641,
-          serving_id: 5034,
+          serving_id: 5035,
           food_name: "chicken breast",
           serving_desc: "one",
           metric_serving_amt: 1,
