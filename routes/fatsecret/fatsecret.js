@@ -16,8 +16,8 @@ const transformFatSecretData = response => {
     food_data = response.data.food;
     serving_measures = food_data.servings.serving;
   } catch (err) {
-    console.log(err);
     res.status(500).json({
+      err: err,
       message: "Internal Server Error"
     });
   }
@@ -133,13 +133,17 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
         // UPSERT the fresh food into Foods table
         foods = await upsertFoods(fatsecretFoods);
       } catch (err) {
-        console.log(err);
-        res.status(500).json({ err: err, message: "Failed to get food data" });
+        res.status(500).json({
+          err: err,
+          message: "Failed to get food data"
+        });
       }
     }
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ err: err, message: "Failed to get food data" });
+    res.status(500).json({
+      err: err,
+      message: "Failed to get food data"
+    });
   }
 
   res.send(foods);
