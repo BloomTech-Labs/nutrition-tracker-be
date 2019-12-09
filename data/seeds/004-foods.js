@@ -60,13 +60,13 @@ exports.seed = function(knex) {
           calcium_daily_pct: 0
         },
         {
-          fatsecret_food_id: 1641,
-          serving_id: 5034,
-          food_name: "chicken breast",
+          fatsecret_food_id: 4891,
+          serving_id: 17336,
+          food_name: "pizza with meat and veggies",
           serving_desc: "one",
           metric_serving_amt: 1,
           metric_serving_unit: "one",
-          retrieved_at: new Date(new Date() - 1000 * 60 * 60 * 20),
+          retrieved_at: new Date(new Date() - 1000 * 60 * 60 * 23),
           serving_url:
             "https://www.fatsecret.com/calories-nutrition/generic/pizza-cheese?portionid=17170&portionamount=1.000", // not actually the correct url. just there to make sure the field works.
           calories_kcal: 66,
@@ -92,7 +92,7 @@ exports.seed = function(knex) {
           serving_desc: "1oz boneless",
           metric_serving_amt: 1,
           metric_serving_unit: "one",
-          retrieved_at: new Date(new Date() - 1000 * 60 * 60 * 28),
+          retrieved_at: new Date(new Date() - 1000 * 60 * 60 * 23),
           serving_url:
             "https://www.fatsecret.com/calories-nutrition/generic/pizza-cheese?portionid=17170&portionamount=1.000", // not actually the correct url. just there to make sure the field works.
           calories_kcal: 66,
@@ -218,15 +218,15 @@ exports.seed = function(knex) {
         {
           fatsecret_food_id: 5735,
           food_name: "Roasted Potato",
-          serving_desc: "1 small (1-3/4\\\" to 2-1/4\\\" dia, raw)",
-          metric_serving_amt: 110.000,
+          serving_desc: '1 small (1-3/4\\" to 2-1/4\\" dia, raw)',
+          metric_serving_amt: 110.0,
           metric_serving_unit: "g",
           retrieved_at: knex.fn.now(6),
           serving_id: 21131,
           calories_kcal: 164,
           fat_g: 0.82,
-          trans_fat_g: 7.70,
-          saturated_fat_g: 0.990,
+          trans_fat_g: 7.7,
+          saturated_fat_g: 0.99,
           monounsaturated_fat_g: 2.562,
           polyunsaturated_fat_g: 3.786,
           protein_g: 2.55,
