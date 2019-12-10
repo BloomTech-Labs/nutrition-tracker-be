@@ -1,22 +1,16 @@
 const express = require("express");
-const moment = require("moment-timezone");
 const LogEntry = require("./logEntryDB.js");
 const mapFirebaseIDtoUserID = require("../../middleware/mapFirebaseIDtoUserID");
-const toUTCTimeStamp = require("./helpers/helper");
 const router = express.Router();
 
 /********************************************************
 *                      POST/LOG-ENTRY                   *
 ********************************************************/
-router.post("/:user_id/:date", mapFirebaseIDtoUserID, validateRequest, async (req, res) => {
+router.post("/:user_id", mapFirebaseIDtoUserID, validateRequest, async (req, res) => {
   let logEntry = req.body;
   
-  const currentDate = req.params.date;
-  const currentTimeZone = req.body.time_zone_name;
-
   logEntry.user_id = req.params.user_id;
-  logEntry.time_consumed_at = toUTCTimeStamp(currentDate, currentTimeZone);
-
+ 
   try {
     [logEntry] = await LogEntry.addLogEntry(logEntry);
     
@@ -63,6 +57,7 @@ function validateRequest(req, res, next) {
     newLog.fatsecret_food_id &&
     newLog.serving_id &&
     newLog.quantity &&
+    newLog.time_consumed_at &&
     newLog.time_zone_name &&
     newLog.time_zone_abbr
   ) {
