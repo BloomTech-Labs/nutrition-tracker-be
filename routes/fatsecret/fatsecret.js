@@ -10,8 +10,17 @@ const { upsertFoods } = require("./upsertFoods.js");
 const router = express.Router();
 
 const transformFatSecretData = response => {
-  const food_data = response.data.food;
-  const serving_measures = food_data.servings.serving;
+  let food_data;
+  let serving_measures;
+  try {
+    food_data = response.data.food;
+    serving_measures = food_data.servings.serving;
+  } catch (err) {
+    res.status(500).json({
+      err: err,
+      message: "Internal Server Error"
+    });
+  }
 
   // denormalizes food data by repeating food id and name, for each serving id
   // 's' argument stands for the serving we're work with
@@ -124,11 +133,17 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
         // UPSERT the fresh food into Foods table
         foods = await upsertFoods(fatsecretFoods);
       } catch (err) {
-        res.status(500).json({ err: err, message: "Failed to get food data" });
+        res.status(500).json({
+          err: err,
+          message: "Failed to get food data"
+        });
       }
     }
   } catch (err) {
-    res.status(500).json({ message: "Failed to get food data" });
+    res.status(500).json({
+      err: err,
+      message: "Failed to get food data"
+    });
   }
 
   res.send(foods);
