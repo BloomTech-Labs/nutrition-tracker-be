@@ -20,9 +20,10 @@ module.exports = async (req, res, next) => {
     res.status(400).json({
       errorMessage: `A user with firebaseID: ${firebaseID} could not be found.`
     });
+  } else {
+    req.params.user_id = user.id;
+    next();
   }
-  req.params.user_id = user.id;
-  next();
 };
 /********************************************************
 *                      GET USER ID                      *
