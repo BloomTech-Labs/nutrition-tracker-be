@@ -34,11 +34,11 @@ function findByUserId(id) {
     .first();
 }
 
-async function updateUser(updates, id) {
-  await db("users")
+function updateUser(updates, id) {
+  return db("users")
     .where({ id })
-    .update(updates);
-  return findByUserId(id);
+    .update(updates)
+    .returning("*");
 }
 
 /********************************************************
