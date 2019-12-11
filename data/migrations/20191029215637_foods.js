@@ -20,6 +20,7 @@ exports.up = function(knex) {
       useNative: true,
       enumName: "food_type"
     }); // see: https://platform.fatsecret.com/api/Default.aspx?screen=rapitypes#food
+    tbl.text("brand_name");
     tbl.text("serving_url");
     tbl.text("serving_desc");
     tbl.decimal("metric_serving_amt");
