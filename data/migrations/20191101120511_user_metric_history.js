@@ -9,7 +9,7 @@ exports.up = function(knex) {
       .inTable("users")
       .onUpdate("CASCADE")
       .onDelete("CASCADE");
-    tbl.date("start_date").defaultTo(knex.fn.now());
+    tbl.datetime("start_date").defaultTo(knex.fn.now());
     tbl.decimal("weight_kg");
   });
 };
