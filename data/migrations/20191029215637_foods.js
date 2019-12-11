@@ -16,6 +16,10 @@ exports.up = function(knex) {
       .defaultTo(knex.fn.now())
       .notNullable();
     tbl.text("food_name");
+    tbl.enu("food_type", ["Brand", "Generic"], {
+      useNative: true,
+      enumName: "food_type"
+    }); // see: https://platform.fatsecret.com/api/Default.aspx?screen=rapitypes#food
     tbl.text("serving_url");
     tbl.text("serving_desc");
     tbl.decimal("metric_serving_amt");
@@ -53,5 +57,6 @@ exports.down = function(knex) {
       DROP CONSTRAINT IF EXISTS fatsecret_food_id_serving_id_unique;
       `
     )
+    .raw("DROP TYPE food_type;")
     .dropTableIfExists("foods");
 };
