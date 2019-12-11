@@ -57,7 +57,9 @@ function findMacroRatiosById(user_id) {
 }
 
 async function addMacroRatios(data) {
-  await db("user_budget_data").insert(data);
+  await db("user_budget_data")
+    .insert(data)
+    .returning("*");
 }
 
 /********************************************************
