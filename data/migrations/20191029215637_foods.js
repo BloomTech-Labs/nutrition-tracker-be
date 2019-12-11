@@ -58,6 +58,6 @@ exports.down = function(knex) {
       DROP CONSTRAINT IF EXISTS fatsecret_food_id_serving_id_unique;
       `
     )
-    .raw("DROP TYPE food_type;")
-    .dropTableIfExists("foods");
+    .dropTableIfExists("foods")
+    .raw("DROP TYPE food_type;");
 };
