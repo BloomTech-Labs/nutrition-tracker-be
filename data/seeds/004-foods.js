@@ -3,6 +3,7 @@ exports.seed = function(knex) {
   return knex
     .raw("TRUNCATE TABLE foods RESTART IDENTITY CASCADE")
     .then(function() {
+      const presentMinusXHours = x => new Date(new Date() - 1000 * 60 * 60 * x);
       // Inserts seed entries
       return knex("foods").insert([
         // *** do not manually specify "ID" ***
@@ -14,7 +15,7 @@ exports.seed = function(knex) {
           serving_desc: "a slice",
           metric_serving_amt: 1,
           metric_serving_unit: "a slice",
-          retrieved_at: new Date(new Date() - 1000 * 60 * 60 * 1),
+          retrieved_at: presentMinusXHours(1),
           serving_url:
             "https://www.fatsecret.com/calories-nutrition/generic/pizza-cheese?portionid=17170&portionamount=1.000", // not actually the correct url. just there to make sure the field works.
           calories_kcal: 66,
@@ -40,7 +41,7 @@ exports.seed = function(knex) {
           serving_desc: "a slice",
           metric_serving_amt: 1,
           metric_serving_unit: "a slice",
-          retrieved_at: new Date(new Date() - 1000 * 60 * 60 * 25),
+          retrieved_at: presentMinusXHours(25),
           serving_url:
             "https://www.fatsecret.com/calories-nutrition/generic/pizza-cheese?portionid=17170&portionamount=1.000", // not actually the correct url. just there to make sure the field works.
           calories_kcal: 66,
@@ -66,7 +67,7 @@ exports.seed = function(knex) {
           serving_desc: "one",
           metric_serving_amt: 1,
           metric_serving_unit: "one",
-          retrieved_at: new Date(new Date() - 1000 * 60 * 60 * 23),
+          retrieved_at: presentMinusXHours(23),
           serving_url:
             "https://www.fatsecret.com/calories-nutrition/generic/pizza-cheese?portionid=17170&portionamount=1.000", // not actually the correct url. just there to make sure the field works.
           calories_kcal: 66,
@@ -92,7 +93,7 @@ exports.seed = function(knex) {
           serving_desc: "1oz boneless",
           metric_serving_amt: 1,
           metric_serving_unit: "one",
-          retrieved_at: new Date(new Date() - 1000 * 60 * 60 * 23),
+          retrieved_at: presentMinusXHours(23),
           serving_url:
             "https://www.fatsecret.com/calories-nutrition/generic/pizza-cheese?portionid=17170&portionamount=1.000", // not actually the correct url. just there to make sure the field works.
           calories_kcal: 66,
@@ -118,7 +119,7 @@ exports.seed = function(knex) {
           serving_desc: "a slice",
           metric_serving_amt: 1,
           metric_serving_unit: "a slice",
-          retrieved_at: new Date(new Date() - 1000 * 60 * 60 * 1),
+          retrieved_at: presentMinusXHours(1),
           serving_url:
             "https://www.fatsecret.com/calories-nutrition/generic/pizza-cheese?portionid=17170&portionamount=1.000", // not actually the correct url. just there to make sure the field works.
           calories_kcal: 66,
@@ -144,7 +145,7 @@ exports.seed = function(knex) {
           serving_desc: "one",
           metric_serving_amt: 1,
           metric_serving_unit: "one",
-          retrieved_at: new Date(new Date() - 1000 * 60 * 60 * 5),
+          retrieved_at: presentMinusXHours(5),
           serving_url:
             "https://www.fatsecret.com/calories-nutrition/generic/pizza-cheese?portionid=17170&portionamount=1.000", // not actually the correct url. just there to make sure the field works.
           calories_kcal: 66,
@@ -170,7 +171,7 @@ exports.seed = function(knex) {
           serving_desc: "1oz boneless",
           metric_serving_amt: 1,
           metric_serving_unit: "one",
-          retrieved_at: new Date(new Date() - 1000 * 60 * 60 * 23),
+          retrieved_at: presentMinusXHours(23),
           serving_url:
             "https://www.fatsecret.com/calories-nutrition/generic/pizza-cheese?portionid=17170&portionamount=1.000", // not actually the correct url. just there to make sure the field works.
           calories_kcal: 66,
@@ -196,7 +197,7 @@ exports.seed = function(knex) {
           serving_desc: "1oz boneless",
           metric_serving_amt: 1,
           metric_serving_unit: "one",
-          retrieved_at: new Date(new Date() - 1000 * 60 * 60 * 28),
+          retrieved_at: presentMinusXHours(28),
           serving_url:
             "https://www.fatsecret.com/calories-nutrition/generic/pizza-cheese?portionid=17170&portionamount=1.000", // not actually the correct url. just there to make sure the field works.
           calories_kcal: 66,
