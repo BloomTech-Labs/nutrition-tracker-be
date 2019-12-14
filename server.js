@@ -16,6 +16,7 @@ const authenticate = require("./middleware/authenticate");
 const authRouter = require("./routes/auth/authRouter");
 const logEntryRouter = require("./routes/logentry/logEntry");
 const dailyLogRouter = require("./routes/dailyLog/dailyLog");
+const foodItemRouter = require("./routes/foodItem/foodItemRouter");
 /*
 morgan("dev"):
 Concise output colored by response status for development use. 
@@ -34,6 +35,7 @@ server.use("/auth", authRouter);
 server.use("/user", usersRouter);
 server.use("/log-entry", logEntryRouter);
 server.use("/daily-log", dailyLogRouter);
+server.use("/food-item", foodItemRouter);
 
 // Test End-Point for Authentication
 server.get("/test/authentication", authenticate, (req, res) => {

@@ -28,6 +28,7 @@ function getDailyLog(user_id, from, to) {
       "fl.food_id": "f.id"
     })
     .select(
+      "fl.id as foodLogID",
       "fl.food_id as foodID",
       "fl.fatsecret_food_id as fatSecretFoodID",
       "fl.time_consumed_at as timeConsumedAt",
