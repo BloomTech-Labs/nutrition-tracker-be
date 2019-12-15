@@ -8,7 +8,8 @@ module.exports = {
  ********************************************************/
 // Calculates a user's caloric budget using the
 // Mifflin-St. Jeor Equation for TDEE (Total Daily Energy Expediture)
-// mutiplies by Activity Level
+// mutiplied by Activity Level
+// https://www.calculator.net/bmr-calculator.html
 function getCaloricBudget(newUser) {
   let { sex, activity_level, dob, weight_kg, height_cm } = newUser;
 
