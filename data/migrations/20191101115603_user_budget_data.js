@@ -9,9 +9,12 @@ exports.up = function(knex) {
       .inTable("users")
       .onUpdate("CASCADE")
       .onDelete("CASCADE");
-    tbl.datetime("start_date").defaultTo(knex.fn.now());
-    tbl.decimal("weekly_goal_rate");
-    tbl.decimal("weight_goal_kg");
+    tbl.datetime("applicable_date").defaultTo(knex.fn.now());
+    tbl.datetime("goal_start_date");
+    tbl.datetime("goal_end_date");
+    tbl.decimal("goal_weekly_weight_change_rate");
+    tbl.decimal("goal_weight_kg");
+    tbl.decimal("actual_weight_kg");
     tbl.decimal("activity_level");
     tbl.decimal("caloric_budget");
     tbl.float("fat_ratio");
