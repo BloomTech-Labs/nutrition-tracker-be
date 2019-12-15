@@ -22,7 +22,9 @@ exports.up = function(knex) {
     }); // see: https://platform.fatsecret.com/api/Default.aspx?screen=rapitypes#food
     tbl.text("brand_name");
     tbl.text("serving_url");
-    tbl.text("serving_desc");
+    tbl.text("serving_desc"); // eg "1/2 cup"
+    tbl.decimal("serving_qty"); // eg "1/2"
+    tbl.text("serving_unit"); // eg "cup"
     tbl.decimal("metric_serving_amt");
     tbl.text("metric_serving_unit");
     tbl.decimal("calories_kcal");
