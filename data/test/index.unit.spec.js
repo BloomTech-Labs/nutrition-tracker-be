@@ -115,9 +115,12 @@ const tables = [
     [
       "id",
       "user_id",
-      "start_date",
-      "weekly_goal_rate",
-      "weight_goal_kg",
+      "applicable_date",
+      "goal_start_date",
+      "goal_end_date",
+      "goal_weekly_weight_change_rate",
+      "goal_weight_kg",
+      "actual_weight_kg",
       "activity_level",
       "caloric_budget",
       "fat_ratio",
@@ -125,7 +128,6 @@ const tables = [
       "protein_ratio"
     ]
   ],
-  ["user_metric_history", ["id", "user_id", "start_date", "weight_kg"]],
   [
     "daily_nutrition_totals",
     [
@@ -199,7 +201,6 @@ describe.each`
   ${tables[6]} | ${true}
   ${tables[7]} | ${true}
   ${tables[8]} | ${true}
-  ${tables[9]} | ${true}
 `(`Let's check out the table named $tableArray`, ({ tableArray, expected }) => {
   // We want to know if the current pg table we're looking at exists
   // We'll need this var in other functions, so init it in a higher scope : )
