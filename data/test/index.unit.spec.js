@@ -125,7 +125,19 @@ const tables = [
       "protein_ratio"
     ]
   ],
-  ["user_metric_history", ["id", "user_id", "start_date", "weight_kg"]]
+  ["user_metric_history", ["id", "user_id", "start_date", "weight_kg"]],
+  [
+    "daily_nutrition_totals",
+    [
+      "id",
+      "user_id",
+      "date",
+      "total_calories",
+      "fat_calories",
+      "carbs_calories",
+      "protein_calories"
+    ]
+  ]
 ];
 
 // create a function to setup our migrations
@@ -187,6 +199,7 @@ describe.each`
   ${tables[6]} | ${true}
   ${tables[7]} | ${true}
   ${tables[8]} | ${true}
+  ${tables[9]} | ${true}
 `(`Let's check out the table named $tableArray`, ({ tableArray, expected }) => {
   // We want to know if the current pg table we're looking at exists
   // We'll need this var in other functions, so init it in a higher scope : )
