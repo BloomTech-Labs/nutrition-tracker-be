@@ -77,7 +77,9 @@ function findWeightGoalById(user_id) {
 }
 
 async function addWeightGoal(data) {
-  await db("user_budget_data").insert(data);
+  await db("user_budget_data")
+    .insert(data)
+    .returning("*");
 }
 
 /********************************************************
@@ -93,9 +95,10 @@ function findActivityLevelById(user_id) {
     .first();
 }
 
-async function addActivityLevel(data) {
-  await db("user_budget_data").insert(data);
-  return await findActivityLevelById(data.user_id);
+function addActivityLevel(data) {
+  return db("user_budget_data")
+    .insert(data)
+    .returning("*");
 }
 
 /********************************************************
@@ -110,9 +113,10 @@ function findCurrentWeightById(user_id) {
     .first();
 }
 
-async function addCurrentWeight(data) {
-  await db("user_metric_history").insert(data);
-  return await findCurrentWeightById(data.user_id);
+function addCurrentWeight(data) {
+  return db("user_metric_history")
+    .insert(data)
+    .returning("*");
 }
 
 /***********************************************
