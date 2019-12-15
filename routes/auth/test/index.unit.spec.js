@@ -18,7 +18,7 @@ describe("authRouter.js", () => {
     // Valid Request Body
     const requestBody_1 = {
       firebase_id: "sDs3omvkWje9Lgv8wEteFkhZpVa2",
-      sex: "male",
+      sex: "Male",
       activity_level: 1.2,
       dob: "1987-09-29T00:00:00.000Z",
       weight_kg: 81.65,
@@ -30,7 +30,7 @@ describe("authRouter.js", () => {
     // Request Body with duplicate firebase_id
     const requestBody_2 = {
       firebase_id: "sDs3omvkWje9Lgv8wEteFkhZpVa2", // duplicate id
-      sex: "female",
+      sex: "Female",
       activity_level: 1.9,
       dob: "1995-08-04T00:00:00.000Z",
       weight_kg: 61,
@@ -42,7 +42,7 @@ describe("authRouter.js", () => {
     // Malformed Request Body with missing fields
     const requestBody_1_malformed = {
       firebase_id: "sDs3omvkWje9Lgv8wEteFkhZpVa2",
-      sex: "male",
+      sex: "Male",
       activity_level: 1.2,
       dob: "1987-09-29T00:00:00.000Z",
       weight_kg: 81.65,
