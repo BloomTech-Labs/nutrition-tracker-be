@@ -37,8 +37,15 @@ const transformFatSecretData = response => {
       retrieved_at: new Date(),
 
       food_name: food_data.food_name,
+
+      food_type: food_data.food_type,
+      brand_name: food_data.brand_name,
+
       serving_url: s.serving_url,
-      serving_desc: s.serving_description,
+      serving_desc: s.serving_description, // eg "1/2 cup"
+      serving_qty: s.number_of_units, // eg "1/2"
+      serving_unit: s.measurement_description, // eg "cup"
+
       metric_serving_amt: s.metric_serving_amount,
       metric_serving_unit: s.metric_serving_unit,
       // END: the fields that we're denormalizing for

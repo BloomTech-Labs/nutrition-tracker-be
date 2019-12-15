@@ -6,7 +6,7 @@ exports.seed = function(knex) {
       // Inserts seed entries
       return knex("recipes").insert([
         {
-          id: 1,
+          // id: 1,
           fatsecret_recipe_id: 9876,
           name: "Stuffed Chicken Breast",
           description:
@@ -19,7 +19,7 @@ exports.seed = function(knex) {
         },
 
         {
-          id: 2,
+          // id: 2,
           fatsecret_recipe_id: 8765,
           name: "Baked Salmon",
           description: "A healthy, easy salmon dish",

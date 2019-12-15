@@ -4,28 +4,21 @@
 -- powershell (as admin) command to restart postgres service:
 -- Restart-Service -Name postgresql-x64-12
 
-  DROP DATABASE IF EXISTS nutrition_tracker;
+DROP DATABASE IF EXISTS nutrition_tracker;
+DROP ROLE IF EXISTS nutrition_tracker;
 
- 
+CREATE ROLE nutrition_tracker
+WITH 
+  LOGIN
+  PASSWORD 'testpass'
+  CREATEDB 
+  NOSUPERUSER
+  NOCREATEROLE
+;
 
-  DROP ROLE IF EXISTS nutrition_tracker;
-
- 
-
-  CREATE ROLE nutrition_tracker
+CREATE DATABASE nutrition_tracker
   WITH 
-    LOGIN
-    PASSWORD 'testpass'
-    CREATEDB 
-    NOSUPERUSER
-    NOCREATEROLE
-  ;
-
- 
-
-  CREATE DATABASE nutrition_tracker
-    WITH 
-    OWNER = nutrition_tracker
-    ENCODING = 'UTF8'
-    CONNECTION LIMIT = -1;
-
+  OWNER = nutrition_tracker
+  ENCODING = 'UTF8'
+  CONNECTION LIMIT = -1
+;

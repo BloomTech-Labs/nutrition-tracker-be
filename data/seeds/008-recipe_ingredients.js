@@ -6,7 +6,7 @@ exports.seed = function(knex) {
       // Inserts seed entries
       return knex("recipe_ingredients").insert([
         {
-          id: 1,
+          // id: 1,
           recipe_id: 1,
           fatsecret_recipe_id: 0,
           food_id: 3, // this will point to the same record if we want to we can can add ingredients that petain to the items
@@ -16,7 +16,7 @@ exports.seed = function(knex) {
           quantity: 1.0
         },
         {
-          id: 2,
+          // id: 2,
           recipe_id: 1,
           fatsecret_recipe_id: 0,
           food_id: 1,
@@ -26,7 +26,7 @@ exports.seed = function(knex) {
           quantity: 1.0
         },
         {
-          id: 3,
+          // id: 3,
           recipe_id: 1,
           fatsecret_recipe_id: 0,
           food_id: 3,
@@ -36,7 +36,7 @@ exports.seed = function(knex) {
           quantity: 1.0
         },
         {
-          id: 4,
+          // id: 4,
           recipe_id: 2,
           fatsecret_recipe_id: 0,
           food_id: 4,
@@ -46,7 +46,7 @@ exports.seed = function(knex) {
           quantity: 1.0
         },
         {
-          id: 5,
+          // id: 5,
           recipe_id: 2,
           fatsecret_recipe_id: 0,
           food_id: 4,
@@ -57,7 +57,7 @@ exports.seed = function(knex) {
           quantity: 1.0
         },
         {
-          id: 6,
+          // id: 6,
           recipe_id: 2,
           fatsecret_recipe_id: 0,
           fatsecret_food_id: 4321,
