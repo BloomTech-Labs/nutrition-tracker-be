@@ -1,12 +1,12 @@
-require('dotenv').config();
-const axios = require('axios');
-const hmacsha1 = require('hmacsha1');
+require("dotenv").config();
+const axios = require("axios");
+const hmacsha1 = require("hmacsha1");
 
-const API_PATH = 'https://platform.fatsecret.com/rest/server.api';
-const OAUTH_VERSION = '1.0';
-const OAUTH_SIGNATURE_METHOD = 'HMAC-SHA1';
+const API_PATH = "https://platform.fatsecret.com/rest/server.api";
+const OAUTH_VERSION = "1.0";
+const OAUTH_SIGNATURE_METHOD = "HMAC-SHA1";
 
-module.exports = (uniqueParams = {}, method = 'GET') => {
+module.exports = (uniqueParams = {}, method = "GET") => {
   let queryParams = orderedObject({
     ...getOauthParameters(),
     ...uniqueParams
@@ -25,7 +25,7 @@ module.exports = (uniqueParams = {}, method = 'GET') => {
   //   params: queryParams
   // });
   return axios.create({
-    baseURL: `${API_PATH}?${objectToString(queryParams)}`,
+    baseURL: `${API_PATH}?${objectToString(queryParams)}`
   });
 };
 
@@ -41,24 +41,24 @@ function getOauthParameters() {
     oauth_signature_method: OAUTH_SIGNATURE_METHOD,
     oauth_timestamp: timestamp,
     oauth_version: OAUTH_VERSION,
-    format: 'json'
+    format: "json"
   };
 }
 
-function signRequest(queryParams, httpMethod = 'GET') {
+function signRequest(queryParams, httpMethod = "GET") {
   const signatureBaseString = [
     httpMethod,
     encodeURIComponent(API_PATH),
     encodeURIComponent(objectToString(queryParams))
-  ].join('&');
+  ].join("&");
   const signatureKey = `${process.env.FS_CONSUMER_SECRET}&`;
   return encodeURIComponent(hmacsha1(signatureKey, signatureBaseString));
 }
 
 function objectToString(queryParams) {
   return Object.entries(queryParams)
-    .map(entry => `${entry.join('=')}`)
-    .join('&');
+    .map(entry => `${entry.join("=")}`)
+    .join("&");
 }
 
 function orderedObject(queryParams) {
