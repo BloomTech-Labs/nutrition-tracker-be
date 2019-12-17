@@ -17,6 +17,7 @@ router.post("/register", validateRequest, async (req, res) => {
       newUser: await Auth.addUser(newUser)
     });
   } catch (err) {
+    console.log(err);
     res.status(500).json({
       message: "Internal Server Error"
     });
@@ -34,9 +35,9 @@ function validateRequest(req, res, next) {
     newUser.sex &&
     newUser.activity_level &&
     newUser.dob &&
-    newUser.weight_kg &&
+    newUser.actual_weight_kg &&
     newUser.height_cm &&
-    newUser.weekly_goal_rate &&
+    newUser.goal_weekly_weight_change_rate &&
     newUser.email
   ) {
     next();
