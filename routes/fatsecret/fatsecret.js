@@ -119,10 +119,7 @@ const getFatSecretData = async (method, food_id) => {
   return fatSecretFoods;
 };
 
-/********************************************************
- *                 FATSECRET - FOOD.GET                 *
- ********************************************************/
-router.get("/fatsecret/get-food/:food_id", async (req, res) => {
+const getFoodHandler = async (req, res) => {
   const method = "food.get";
   const fatsecretFoodID = req.params.food_id;
 
@@ -154,7 +151,12 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
   }
 
   res.send(foods);
-});
+};
+
+/********************************************************
+ *                 FATSECRET - FOOD.GET                 *
+ ********************************************************/
+router.get("/fatsecret/get-food/:food_id", getFoodHandler);
 
 router.get("/fatsecret/search-food/:search_expression", async (req, res) => {
   const searchExpression = req.params.search_expression;
