@@ -196,4 +196,4 @@ router.get("/fatsecret/search-food/:search_expression", async (req, res) => {
   // res.status(200).send(response);
 });
 
-module.exports = router;
+module.exports = { router, getFoodHandler };
