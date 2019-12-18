@@ -13,9 +13,6 @@ async function addUser(newUser) {
       return insertUserBudgetData(newUser, trx);
     })
     .then(() => {
-      return insertUserMetricData(newUser, trx);
-    })
-    .then(() => {
       return findUserById(newUser.user_id, trx);
     })
     .then(newUser => {
@@ -43,12 +40,12 @@ function insertUser(newUser, trx) {
 }
 
 function insertUserBudgetData(newUser, trx) {
-  const { user_id, activity_level, weekly_goal_rate, caloric_budget } = newUser;
+  const { user_id, activity_level, goal_weekly_weight_change_rate, caloric_budget, actual_weight_kg } = newUser;
   return trx("user_budget_data").insert({
     user_id,
-    start_date: new Date(),
     activity_level,
-    weekly_goal_rate,
+    goal_weekly_weight_change_rate,
+    actual_weight_kg,
     caloric_budget,
     // USDA Recommended Macronutrient Ratios
     carb_ratio: 0.5,
@@ -57,27 +54,18 @@ function insertUserBudgetData(newUser, trx) {
   });
 }
 
-function insertUserMetricData(newUser, trx) {
-  const { user_id, weight_kg } = newUser;
-  return trx("user_metric_history").insert({
-    user_id,
-    weight_kg,
-  });
-}
-
 function findUserById(id, trx) {
   return trx("users as u")
     .join("user_budget_data as ubd", "ubd.user_id", "=", id)
-    .join("user_metric_history as umh", "umh.user_id", "=", id)
     .select(
       "u.firebase_id",
       "u.email",
       "u.sex",
       "u.dob",
       "u.height_cm",
-      "umh.weight_kg",
+      "ubd.actual_weight_kg",
       "ubd.activity_level",
-      "ubd.weekly_goal_rate",
+      "ubd.goal_weekly_weight_change_rate",
       "ubd.caloric_budget",
       "ubd.fat_ratio",
       "ubd.carb_ratio",
