@@ -1,4 +1,4 @@
-const db = require("../../data/pg-promise.js");
+const { db } = require("../../data/pg-promise.js");
 
 module.exports = { upsertFoods };
 
