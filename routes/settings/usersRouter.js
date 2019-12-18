@@ -88,6 +88,7 @@ router.get("/:user_id/weight-goal", mapFirebaseIDtoUserID, async (req, res) => {
   const user_id = req.params.user_id;
   try {
     const user = await UserInfo.findWeightGoalById(user_id);
+    user.goal_weight_lbs = kgToLbs(user.goal_weight_kg);
     res.json(user);
   } catch (err) {
     res.status(500).json({ message: "Failed to get user's weight goal" });
@@ -156,7 +157,7 @@ router.get("/:user_id/current-weight", mapFirebaseIDtoUserID, async (req, res) =
   try {
     const weight = await UserInfo.findCurrentWeightById(user_id);
     //Calls function from helper file to convert weight in kg to weight in lbs, and adds it to weight obj.
-    weight.weight_lbs = kgToLbs(weight.weight_kg);
+    weight.actual_weight_lbs = kgToLbs(weight.actual_weight_kg);
     res.json(weight);
   } catch (err) {
     res.status(500).json({ message: "Failed to get user's current weight" });

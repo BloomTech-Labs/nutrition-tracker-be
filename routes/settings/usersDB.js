@@ -52,7 +52,7 @@ function findMacroRatiosById(user_id) {
     .whereNotNull("fat_ratio")
     .whereNotNull("protein_ratio")
     .whereNotNull("carb_ratio")
-    .orderBy("start_date", "desc")
+    .orderBy("applicable_date", "desc")
     .first();
 }
 
@@ -68,11 +68,11 @@ async function addMacroRatios(data) {
 
 function findWeightGoalById(user_id) {
   return db("user_budget_data")
-    .select("weekly_goal_rate", "weight_goal_kg")
+    .select("goal_weekly_weight_change_rate", "goal_weight_kg")
     .where({ user_id })
-    .whereNotNull("weekly_goal_rate")
-    .whereNotNull("weight_goal_kg")
-    .orderBy("start_date", "desc")
+    .whereNotNull("goal_weekly_weight_change_rate")
+    .whereNotNull("goal_weight_kg")
+    .orderBy("applicable_date", "desc")
     .first();
 }
 
@@ -91,7 +91,7 @@ function findActivityLevelById(user_id) {
     .select("activity_level")
     .where({ user_id })
     .whereNotNull("activity_level")
-    .orderBy("start_date", "desc")
+    .orderBy("applicable_date", "desc")
     .first();
 }
 
@@ -106,15 +106,15 @@ function addActivityLevel(data) {
  ********************************************************/
 
 function findCurrentWeightById(user_id) {
-  return db("user_metric_history")
-    .select("weight_kg")
+  return db("user_budget_data")
+    .select("actual_weight_kg")
     .where({ user_id })
-    .orderBy("start_date", "desc")
+    .orderBy("applicable_date", "desc")
     .first();
 }
 
 function addCurrentWeight(data) {
-  return db("user_metric_history")
+  return db("user_budget_data")
     .insert(data)
     .returning("*");
 }
