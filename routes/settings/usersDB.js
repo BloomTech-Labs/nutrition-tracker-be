@@ -1,4 +1,5 @@
 const db = require("../../data/knex");
+const pgp = require("../../data/pg-promise.js");
 
 module.exports = {
   findByUserId,
