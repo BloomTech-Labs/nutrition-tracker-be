@@ -3,15 +3,15 @@ const db = require("../../data/pg-promise.js");
 module.exports = { upsertFoods };
 
 function upsertFoods(data) {
-  const query = upsertQuery(data);
+  const querySql = createUpsertQuerySql(data);
   try {
-    return db.any(query);
+    return db.any(querySql);
   } catch (e) {
     return e;
   }
 }
 
-function upsertQuery(data) {
+function createUpsertQuerySql(data) {
   const columnSet = new pgp.helpers.ColumnSet(
     [
       "fatsecret_food_id",
