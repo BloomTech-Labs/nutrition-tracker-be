@@ -19,8 +19,5 @@ function kgToLbs(kg) {
 
 module.exports = {
   heightToImperial,
-  kgToLbs,
-  macroRatiosToGrams,
-  applyTimeZones,
-  calculateConsumption
+  kgToLbs
 };
