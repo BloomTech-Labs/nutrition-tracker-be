@@ -36,6 +36,7 @@ function validateRequest(req, res, next) {
     newUser.activity_level &&
     newUser.dob &&
     newUser.actual_weight_kg &&
+    newUser.goal_weight_kg &&
     newUser.height_cm &&
     newUser.goal_weekly_weight_change_rate &&
     newUser.email
