@@ -1,4 +1,6 @@
-const { db } = require("../../data/pg-promise.js");
+const { db, pgp } = require("../../data/pg-promise.js");
+// db for sending/receiving queries to the database
+// pgp for its helper functions that build the sql query string
 
 module.exports = { upsertFoods };
 
