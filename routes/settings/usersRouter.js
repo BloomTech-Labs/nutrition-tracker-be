@@ -5,6 +5,7 @@ const mapFirebaseIDtoUserID = require("../../middleware/mapFirebaseIDtoUserID");
 const {
   heightToImperial,
   kgToLbs,
+  recalculateCaloricBudget
 } = require("./helper");
 
 /********************************************************
@@ -29,13 +30,6 @@ router.put("/:user_id", mapFirebaseIDtoUserID, async (req, res) => {
   const user_id = req.params.user_id;
   const updatedSettings = req.body;
 
-  /*
-    recalcuate caloric budget
-      height
-      date of birth
-      gender
-  */
-
   if (!updatedSettings) {
     res.status(400).json({
       message: "Item required for update are missing"
@@ -43,8 +37,19 @@ router.put("/:user_id", mapFirebaseIDtoUserID, async (req, res) => {
   }
   try {
     const updated = await UserInfo.updateUser(updatedSettings, user_id);
-    res.status(201).json(updated);
+    const caloricBudgetData = await UserInfo.getCaloricBudgetData(user_id);
+    const newCaloricBudget = recalculateCaloricBudget(caloricBudgetData);
+    
+    await UserInfo.updateCaloricBudget(newCaloricBudget, user_id);
+    
+    res.status(201).json( {
+      updated,
+      caloricBudgetData,
+      newCaloricBudget
+    });
+
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: "Failed to update user settings" });
   }
 });
@@ -159,8 +164,18 @@ router.post("/:user_id/activity-level", mapFirebaseIDtoUserID, async (req, res) 
   }
   try {
     const added = await UserInfo.addActivityLevel(activityLevel);
-    res.status(201).json(added);
+    const caloricBudgetData = await UserInfo.getCaloricBudgetData(user_id);
+    const newCaloricBudget = recalculateCaloricBudget(caloricBudgetData);
+    
+    await UserInfo.updateCaloricBudget(newCaloricBudget, user_id);
+
+    res.status(201).json({
+      added,
+      caloricBudgetData,
+      newCaloricBudget,
+    });
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: "Failed to update user's activity level" });
   }
 });
@@ -190,9 +205,6 @@ router.post("/:user_id/current-weight", mapFirebaseIDtoUserID, async (req, res) 
   const newCurrentWeight = req.body;
 
   /*
-    recalcuate caloric budget
-      activity level
-
     recalculate goal end-date
   */
 
@@ -204,12 +216,36 @@ router.post("/:user_id/current-weight", mapFirebaseIDtoUserID, async (req, res) 
   }
   try {
     const added = await UserInfo.addCurrentWeight(newCurrentWeight);
-    res.status(201).json(added);
+    const caloricBudgetData = await UserInfo.getCaloricBudgetData(user_id);
+    const newCaloricBudget = recalculateCaloricBudget(caloricBudgetData);
+    
+    await UserInfo.updateCaloricBudget(newCaloricBudget, user_id);
+
+    res.status(201).json({
+      added, 
+      caloricBudgetData, 
+      newCaloricBudget
+    });
   } catch (err) {
     res.status(500).json({ message: "Failed to update user's current weight" });
   }
 });
 
+router.use(async (user_id) => {
+  try {
+    const caloricBudgetData = await UserInfo.getCaloricBudgetData(user_id);
+    const newCaloricBudget = recalculateCaloricBudget(caloricBudgetData);
+    await UserInfo.updateCaloricBudget(newCaloricBudget, user_id);
+
+    res.status(201).json({
+      newCaloricBudget
+    })
+  } catch(err) {
+    res.status(500).json({
+      errorMessage: "Could not update Caloric Budget."
+    })
+  }
+})
 /********************************************************
 *             POST USER/:USER_ID/PROGRESS/WEIGHT        *
 ********************************************************/
