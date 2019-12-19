@@ -17,7 +17,7 @@ function getCaloricBudget(newUser) {
     (10 * actual_weight_kg) 
     + (6.25 * height_cm) 
     - (5 * getAge(dob)) 
-    + (sex === "male" ? 5 : -161)) 
+    + (sex === "Male" ? 5 : -161)) 
     * activity_level
   );
 }
