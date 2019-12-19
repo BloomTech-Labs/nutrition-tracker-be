@@ -4,8 +4,8 @@ const router = express.Router();
 const { getCaloricBudget, getAge } = require("./helper");
 
 /********************************************************
-*                      AUTH/REGISTER                    *
-********************************************************/
+ *                      AUTH/REGISTER                    *
+ ********************************************************/
 router.post("/register", validateRequest, async (req, res) => {
   let newUser = req.body;
 
@@ -25,8 +25,8 @@ router.post("/register", validateRequest, async (req, res) => {
 });
 
 /********************************************************
-*                        MIDDLE-WARE                    *
-********************************************************/
+ *                        MIDDLE-WARE                    *
+ ********************************************************/
 function validateRequest(req, res, next) {
   let newUser = req.body;
   if (
@@ -45,7 +45,7 @@ function validateRequest(req, res, next) {
   } else {
     res.status(400).json({
       errorMessage:
-        "The request body must contain values for 'firebase_id', 'sex', 'activity_level', 'dob', 'weight_kg', 'height_cm', 'weekly_goal_rate', and 'email'"
+        "The request body must contain values for 'firebase_id', 'sex', 'activity_level', 'dob', 'actual_weight_kg', 'goal_weight_kg', 'height_cm', 'goal_weekly_weight_change_rate', and 'email'"
     });
   }
 }
