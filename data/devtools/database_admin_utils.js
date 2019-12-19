@@ -111,3 +111,9 @@ fs.writeFile(
     console.log(" output to file!");
   }
 );
+
+const pg_dump_command = `
+
+pg_dump.exe --file "database_backup.sql" --username "postgres" --verbose --format=p --schema-only --no-privileges --no-tablespaces --no-unlogged-table-data "nutrition_tracker"
+
+`;

@@ -7,11 +7,10 @@ exports.up = function(knex) {
       .notNullable();
     tbl.text("email");
     tbl.decimal("height_cm").notNullable();
-    tbl
-      .enu("sex", ["male", "female"], {
-        useNative: true,
-        enumName: "sex_type"
-      })
+    tbl.enu("sex", ["Male", "Female"], {
+      useNative: true,
+      enumName: "sex_type"
+    });
     tbl.date("dob").notNullable();
   });
 };

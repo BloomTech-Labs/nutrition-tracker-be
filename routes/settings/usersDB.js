@@ -2,7 +2,7 @@ const db = require("../../data/knex");
 
 module.exports = {
   findByUserId,
-	updateUser,
+  updateUser,
   findMacroRatiosById,
   addMacroRatios,
   findCurrentWeightById,
@@ -11,8 +11,8 @@ module.exports = {
   addWeightGoal,
   findActivityLevelById,
   addActivityLevel,
-	getCaloricBudget,
-	getDailyLog
+  getCaloricBudget,
+  getDailyLog
 };
 
 /*
@@ -29,18 +29,17 @@ module.exports = {
  *                  User Queries                        *
  ********************************************************/
 function findByUserId(id) {
-	return db("users")
-		.where({ id })
-		.first();
+  return db("users")
+    .where({ id })
+    .first();
 }
 
-async function updateUser(updates, id) {
-	await db("users")
-		.where({ id })
-		.update(updates);
-	return findByUserId(id);
+function updateUser(updates, id) {
+  return db("users")
+    .where({ id })
+    .update(updates)
+    .returning("*");
 }
-
 
 /********************************************************
  *                  Macro Queries                        *
@@ -48,24 +47,20 @@ async function updateUser(updates, id) {
 
 function findMacroRatiosById(user_id) {
   return db("user_budget_data")
-    .select(
-      "fat_ratio",
-      "protein_ratio",
-      "carb_ratio"
-    )
+    .select("fat_ratio", "protein_ratio", "carb_ratio")
     .where({ user_id })
     .whereNotNull("fat_ratio")
     .whereNotNull("protein_ratio")
     .whereNotNull("carb_ratio")
     .orderBy("start_date", "desc")
-		.first();
+    .first();
 }
 
 async function addMacroRatios(data) {
-	await db("user_budget_data")
-		.insert(data);
+  await db("user_budget_data")
+    .insert(data)
+    .returning("*");
 }
-
 
 /********************************************************
  *                 Weight Goal Queries                  *
@@ -73,20 +68,18 @@ async function addMacroRatios(data) {
 
 function findWeightGoalById(user_id) {
   return db("user_budget_data")
-    .select(
-      "weekly_goal_rate",
-      "weight_goal_kg",
-    )
+    .select("weekly_goal_rate", "weight_goal_kg")
     .where({ user_id })
     .whereNotNull("weekly_goal_rate")
     .whereNotNull("weight_goal_kg")
     .orderBy("start_date", "desc")
-		.first();
+    .first();
 }
 
 async function addWeightGoal(data) {
-	await db("user_budget_data")
-		.insert(data);
+  await db("user_budget_data")
+    .insert(data)
+    .returning("*");
 }
 
 /********************************************************
@@ -95,19 +88,17 @@ async function addWeightGoal(data) {
 
 function findActivityLevelById(user_id) {
   return db("user_budget_data")
-    .select(
-      "activity_level",
-    )
+    .select("activity_level")
     .where({ user_id })
     .whereNotNull("activity_level")
     .orderBy("start_date", "desc")
-		.first();
+    .first();
 }
 
-async function addActivityLevel(data) {
-	await db("user_budget_data")
-    .insert(data);
-    return await findActivityLevelById(data.user_id);
+function addActivityLevel(data) {
+  return db("user_budget_data")
+    .insert(data)
+    .returning("*");
 }
 
 /********************************************************
@@ -116,30 +107,24 @@ async function addActivityLevel(data) {
 
 function findCurrentWeightById(user_id) {
   return db("user_metric_history")
-    .select(
-      "weight_kg",
-    )
+    .select("weight_kg")
     .where({ user_id })
     .orderBy("start_date", "desc")
-		.first();
+    .first();
 }
 
-async function addCurrentWeight(data) {
-	await db("user_metric_history")
-    .insert(data);
-    return await findCurrentWeightById(data.user_id);
+function addCurrentWeight(data) {
+  return db("user_metric_history")
+    .insert(data)
+    .returning("*");
 }
 
 /***********************************************
-*                   DATABASE QUERIES           *
-***********************************************/
+ *                   DATABASE QUERIES           *
+ ***********************************************/
 function getCaloricBudget(user_id) {
   return db("user_budget_data")
-    .select(
-      "caloric_budget", 
-      "fat_ratio", 
-      "protein_ratio", 
-      "carb_ratio")
+    .select("caloric_budget", "fat_ratio", "protein_ratio", "carb_ratio")
     .where({ user_id })
     .first();
 }
