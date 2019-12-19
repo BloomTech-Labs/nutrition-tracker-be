@@ -152,3 +152,11 @@ function getDailyLog(user_id, from, to) {
     .whereBetween("fl.time_consumed_at", [from, to])
     .orderBy("fl.time_consumed_at");
 }
+
+/********************************************************
+*                   GET WEIGHT PROGRESS                 *
+********************************************************/
+
+function getWeightProgress() {
+  
+}
