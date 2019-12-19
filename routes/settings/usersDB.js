@@ -109,6 +109,7 @@ function findCurrentWeightById(user_id) {
   return db("user_budget_data")
     .select("actual_weight_kg")
     .where({ user_id })
+    .whereNotNull("actual_weight_kg")
     .orderBy("applicable_date", "desc")
     .first();
 }
