@@ -21,9 +21,10 @@ describe("authRouter.js", () => {
       sex: "Male",
       activity_level: 1.2,
       dob: "1987-09-29T00:00:00.000Z",
-      weight_kg: 81.65,
+      actual_weight_kg: 81.65,
+      goal_weight_kg: 55,
       height_cm: 160,
-      weekly_goal_rate: -1,
+      goal_weekly_weight_change_rate: -1,
       email: "user1@email.com"
     };
 
@@ -33,9 +34,10 @@ describe("authRouter.js", () => {
       sex: "Female",
       activity_level: 1.9,
       dob: "1995-08-04T00:00:00.000Z",
-      weight_kg: 61,
+      actual_weight_kg: 61,
+      goal_weight_kg: 55,
       height_cm: 140,
-      weekly_goal_rate: 1,
+      goal_weekly_weight_change_rate: 1,
       email: "user1@email.com"
     };
 
@@ -45,9 +47,10 @@ describe("authRouter.js", () => {
       sex: "Male",
       activity_level: 1.2,
       dob: "1987-09-29T00:00:00.000Z",
-      weight_kg: 81.65,
+      actual_weight_kg: 81.65,
+      goal_weight_kg: 55,
       //height_cm: 160,
-      weekly_goal_rate: -1,
+      goal_weekly_weight_change_rate: -1,
       email: "user1@email.com"
     };
 
