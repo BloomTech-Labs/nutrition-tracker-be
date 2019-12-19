@@ -4,9 +4,6 @@ const UserInfo = require("./usersDB");
 const mapFirebaseIDtoUserID = require("../../middleware/mapFirebaseIDtoUserID");
 const {
   heightToImperial,
-  macroRatiosToGrams,
-  applyTimeZones,
-  calculateConsumption,
   kgToLbs,
 } = require("./helper");
 
@@ -31,6 +28,14 @@ router.get("/:user_id", mapFirebaseIDtoUserID, async (req, res) => {
 router.put("/:user_id", mapFirebaseIDtoUserID, async (req, res) => {
   const user_id = req.params.user_id;
   const updatedSettings = req.body;
+
+  /*
+    recalcuate caloric budget
+      height
+      date of birth
+      gender
+  */
+
   if (!updatedSettings) {
     res.status(400).json({
       message: "Item required for update are missing"
@@ -86,6 +91,7 @@ router.post("/:user_id/macro-ratios", mapFirebaseIDtoUserID, async (req, res) =>
 //Get user's weekly_goal_rate and weight_goal_kg from user_budget_data table.
 router.get("/:user_id/weight-goal", mapFirebaseIDtoUserID, async (req, res) => {
   const user_id = req.params.user_id;
+
   try {
     const user = await UserInfo.findWeightGoalById(user_id);
     res.json(user);
@@ -98,6 +104,12 @@ router.get("/:user_id/weight-goal", mapFirebaseIDtoUserID, async (req, res) => {
 router.post("/:user_id/weight-goal", mapFirebaseIDtoUserID, async (req, res) => {
   const id = req.params.id;
   const newWeightGoal = req.body;
+
+  /*
+    recalculate goal end-date
+      
+  */
+
   if (!newWeightGoal) {
     res.status(400).json({
       message: "Item required for update are missing"
@@ -118,6 +130,8 @@ router.post("/:user_id/weight-goal", mapFirebaseIDtoUserID, async (req, res) => 
 //Get user's activity_level from user_budget_data table.
 router.get("/:user_id/activity-level", mapFirebaseIDtoUserID, async (req, res) => {
   const { user_id } = req.params;
+
+
   try {
     const user = await UserInfo.findActivityLevelById(user_id);
     res.json(user);
@@ -130,6 +144,12 @@ router.get("/:user_id/activity-level", mapFirebaseIDtoUserID, async (req, res) =
 router.post("/:user_id/activity-level", mapFirebaseIDtoUserID, async (req, res) => {
   const { user_id } = req.params;
   const activityLevel = req.body;
+
+  /*
+    recalcuate caloric budget
+      activity level
+  */
+
   activityLevel.user_id = user_id;
   if (!activityLevel) {
     res.status(400).json({
@@ -167,6 +187,14 @@ router.get("/:user_id/current-weight", mapFirebaseIDtoUserID, async (req, res) =
 router.post("/:user_id/current-weight", mapFirebaseIDtoUserID, async (req, res) => {
   const { user_id } = req.params;
   const newCurrentWeight = req.body;
+
+  /*
+    recalcuate caloric budget
+      activity level
+
+    recalculate goal end-date
+  */
+
   newCurrentWeight.user_id = user_id;
   if (!newCurrentWeight) {
     res.status(400).json({
@@ -182,87 +210,60 @@ router.post("/:user_id/current-weight", mapFirebaseIDtoUserID, async (req, res) 
 });
 
 /********************************************************
-*               GET USER/NUTRITION-BUDGETS              *
+*             POST USER/:USER_ID/PROGRESS/WEIGHT        *
 ********************************************************/
-router.get("/nutrition-budgets", async (req, res) => {
-  try {
-    const {
-      caloric_budget,
-      fat_ratio,
-      protein_ratio,
-      carb_ratio
-    } = await UserInfo.getCaloricBudget(1);
+/*
+  TODO:
+    1) flag to the user what date their weight goal was applicable to
+        figure out implemented
 
-    const { fatBudget, proteinBudget, carbBudget } = macroRatiosToGrams(
-      caloric_budget,
-      fat_ratio,
-      protein_ratio,
-      carb_ratio
-    );
-
-    res.status(200).json({
-      caloricBudget: Math.round(caloric_budget),
-      fatBudget,
-      carbBudget,
-      proteinBudget
-    });
-  } catch (err) {
-    res.status(500).json({
-      errorMessage: "Internal Server Error",
-      err
-    });
-  }
-});
-
-/********************************************************
-*                   GET USER/DAILY-LOG                  *
-********************************************************/
-router.get("/daily-log/:date/:tz_name_current", async (req, res) => {
-  const timeZoneNameCurrent = decodeURIComponent(req.params.tz_name_current);
-  const date = req.params.date;
-  // 'from' and 'to' represent the upper and lower boundaries of a single
-  // 24-hour time-span beginning at time 00:00 of 'date' and ending
-  // 00:00 the following day, and are stored as UTC time-stamps, localized
-  // to the user's current time-zone
-  const from = moment.tz(date, timeZoneNameCurrent).utc().format();
-  const to = moment.tz(date, timeZoneNameCurrent).utc().add(1, "d").format();
-
-  try {
-    // fetches all logs between 'from' and 'to' 
-    let dailyLog = await UserInfo.getDailyLog(1, from, to);
-
-    // calculates the total calories and macro nutrients from each log
-    const {
-      caloriesConsumed,
-      fatsConsumed,
-      carbsConsumed,
-      proteinConsumed
-    } = calculateConsumption(dailyLog);
-
-    // localizes all UTC time-stamps stored in the log
-    dailyLog = applyTimeZones(dailyLog, timeZoneNameCurrent);
-
-    res.status(200).json({
-      caloriesConsumed,
-      fatsConsumed,
-      carbsConsumed,
-      proteinConsumed,
-      dailyLog
-    });
-  } catch (err) {
-    res.status(500).json({
-      errorMessage: "Internal Server Error",
-      err
-    });
-  }
-});
+  
+*/
 
 /*
-  FRONT-END THINGS:
+  1) When onboarding completes:
+      in user_budget_data
+          update actual_weight_kg
+          add goal_start_date as today's date
+          calculate goal_end_date based on actual_weight_kg and goal_weekly_weight_change_rate
 
-  const date = new Date();
-  const offsetMinutes = new Date().getTimezoneOffset();
-  date.setMinutes(date.getMinutes() + offsetMinutes);
+          FIRST RECORD in user_budget_data for goal_*
+
+  2) When actual_weight_g, goal_weight_kg or g_w_w_c_rate is updated: 
+                      (in user settings or the record weight modal)
+
+      check if goal_end_date is still achievable
+
+        if still achievable:
+          insert new record for actual_weight_kg (preserve all other values)
+        if not achievable:
+          calculate and insert new goal_end_date
+          update goal_start_date to the current date
+
+
+      if the derived goal_end_date from goal_weight_kg and goal_weekly_weight_change_rate
 */
+
+
+/*
+
+  
+
+*/
+
+router.post("/:user_id/progress/weight", async (req, res) => {
+  const { start_date, end_date } = req.body;
+
+  try {
+    res.status(200).json({
+      message: "OK"
+    })
+  } catch(err) {
+    res.status(500).json({
+      errorMessage: "ERROR"
+    })
+  }
+
+});
 
 module.exports = router;
