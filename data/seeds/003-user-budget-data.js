@@ -17,8 +17,11 @@ exports.seed = function(knex) {
           activity_level: 1.55,
           caloric_budget: 2000.0,
           fat_ratio: 30,
+          // fat_ratio: 70,
           protein_ratio: 20,
+          // protein_ratio: 20,
           carb_ratio: 50
+          // carb_ratio: 10
         },
         {
           // id: 2,

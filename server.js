@@ -10,12 +10,13 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const mapFirebaseIDtoUserID = require("./middleware/mapFirebaseIDtoUserID");
 const server = express();
-const fatSecretRoute = require('./routes/fatsecret/fatsecret');
-const usersRouter = require('./routes/settings/usersRouter');
+const fatSecretRoute = require("./routes/fatsecret/fatsecret");
+const usersRouter = require("./routes/settings/usersRouter");
 const authenticate = require("./middleware/authenticate");
 const authRouter = require("./routes/auth/authRouter");
 const logEntryRouter = require("./routes/logentry/logEntry");
 const dailyLogRouter = require("./routes/dailyLog/dailyLog");
+const macroProgressRouter = require("./routes/macroProgress/macroRouter");
 /*
 morgan("dev"):
 Concise output colored by response status for development use. 
@@ -34,6 +35,7 @@ server.use("/auth", authRouter);
 server.use("/user", usersRouter);
 server.use("/log-entry", logEntryRouter);
 server.use("/daily-log", dailyLogRouter);
+server.use("/progress", macroProgressRouter);
 
 // Test End-Point for Authentication
 server.get("/test/authentication", authenticate, (req, res) => {
@@ -43,14 +45,18 @@ server.get("/test/authentication", authenticate, (req, res) => {
 });
 
 // Test End-Point for Firebase ID conversion
-server.get("/test/id-conversion/:user_id", mapFirebaseIDtoUserID, (req, res) => {
-  const userID = req.params.user_id
+server.get(
+  "/test/id-conversion/:user_id",
+  mapFirebaseIDtoUserID,
+  (req, res) => {
+    const userID = req.params.user_id;
 
-  res.status(200).json({
-    message: "firebase ID in params mapped to user ID in database. User ID",
-    updatedParam: userID
-  });
-});
+    res.status(200).json({
+      message: "firebase ID in params mapped to user ID in database. User ID",
+      updatedParam: userID
+    });
+  }
+);
 
 server.get("/", (_, res) => {
   mixpanel.track("get request on root", {
