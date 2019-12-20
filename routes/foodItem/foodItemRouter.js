@@ -19,6 +19,7 @@ router.get(
   mapFirebaseIDtoUserID,
   async (req, res) => {
     const { user_id, foodlogID } = req.params;
+       console.log('IN THE GETFOOD ITEM BE ROUTE HERE IS THE USER_ID RETURNED BY THE MIDDLEWARE', user_id)
     try {
       const [foodItem] = await db.getFoodItem(foodlogID, user_id);
       const { fatsecret_food_id } = foodItem;
