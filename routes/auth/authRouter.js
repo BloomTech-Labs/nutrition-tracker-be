@@ -38,6 +38,7 @@ function validateRequest(req, res, next) {
     newUser.actual_weight_kg &&
     newUser.goal_weight_kg &&
     newUser.height_cm &&
+    // removes occurence of falsey value when rate is 0
     String(newUser.goal_weekly_weight_change_rate) &&
     newUser.email
   ) {
