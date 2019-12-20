@@ -11,13 +11,13 @@ module.exports = {
 // mutiplied by an Activity Factor of (1.2 - 1.9)
 // https://www.calculator.net/bmr-calculator.html
 function getCaloricBudget(newUser) {
-  let { sex, activity_level, dob, weight_kg, height_cm } = newUser;
+  let { sex, activity_level, dob, actual_weight_kg, height_cm } = newUser;
 
   return Math.round((
-    (10 * weight_kg) 
+    (10 * actual_weight_kg) 
     + (6.25 * height_cm) 
     - (5 * getAge(dob)) 
-    + (sex === "male" ? 5 : -161)) 
+    + (sex === "Male" ? 5 : -161)) 
     * activity_level
   );
 }

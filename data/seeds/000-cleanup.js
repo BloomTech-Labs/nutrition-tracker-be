@@ -1,6 +1,5 @@
 exports.seed = async function(knex) {
   try {
-    await knex.truncate("user_metric_history");
     await knex.truncate("user_budget_data");
     await knex.truncate("recipes_log");
     await knex.truncate("recipe_ingredients");
