@@ -21,8 +21,12 @@ const tables = [
       "serving_id",
       "retrieved_at",
       "food_name",
+      "food_type",
+      "brand_name",
       "serving_url",
       "serving_desc",
+      "serving_qty",
+      "serving_unit",
       "metric_serving_amt",
       "metric_serving_unit",
       "calories_kcal",
@@ -111,9 +115,12 @@ const tables = [
     [
       "id",
       "user_id",
-      "start_date",
-      "weekly_goal_rate",
-      "weight_goal_kg",
+      "applicable_date",
+      "goal_start_date",
+      "goal_end_date",
+      "goal_weekly_weight_change_rate",
+      "goal_weight_kg",
+      "actual_weight_kg",
       "activity_level",
       "caloric_budget",
       "fat_ratio",
@@ -121,7 +128,18 @@ const tables = [
       "protein_ratio"
     ]
   ],
-  ["user_metric_history", ["id", "user_id", "start_date", "weight_kg"]]
+  [
+    "daily_nutrition_totals",
+    [
+      "id",
+      "user_id",
+      "date",
+      "total_calories",
+      "fat_calories",
+      "carbs_calories",
+      "protein_calories"
+    ]
+  ]
 ];
 
 // create a function to setup our migrations
