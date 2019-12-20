@@ -67,6 +67,21 @@ exports.seed = function(knex) {
           fat_ratio: 30,
           protein_ratio: 20,
           carb_ratio: 50
+        },
+        {
+          // id: 5,
+          user_id: 5,
+          applicable_date: new Date(),
+          goal_start_date: new Date(),
+          goal_end_date: new Date(),
+          goal_weekly_weight_change_rate: 0,
+          goal_weight_kg: 77.0,
+          actual_weight_kg: 77.0,
+          activity_level: 1.55,
+          caloric_budget: 2000.0,
+          fat_ratio: 70,
+          protein_ratio: 20,
+          carb_ratio: 10
         }
       ]);
     });
