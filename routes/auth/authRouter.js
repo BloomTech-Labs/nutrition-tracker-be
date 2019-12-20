@@ -6,7 +6,7 @@ const { getCaloricBudget, getAge } = require("./helper");
 /********************************************************
 *                      AUTH/REGISTER                    *
 ********************************************************/
-router.post("/register", validateRequest, async (req, res) => {
+router.post("/register",validateRequest,async (req, res) => {
   let newUser = req.body;
 
   newUser.caloric_budget = getCaloricBudget(newUser);

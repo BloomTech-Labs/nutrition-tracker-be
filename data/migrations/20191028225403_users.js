@@ -1,3 +1,4 @@
+ 
 exports.up = function(knex) {
   return knex.schema.createTable("users", tbl => {
     tbl.increments();
@@ -14,7 +15,6 @@ exports.up = function(knex) {
     tbl.date("dob").notNullable();
   });
 };
-
 exports.down = function(knex) {
   return knex.schema.dropTableIfExists("users").raw("DROP TYPE sex_type;");
 };
