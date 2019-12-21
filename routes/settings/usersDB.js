@@ -1,8 +1,5 @@
 const db = require("../../data/knex");
-const pgp = require("../../data/pg-promise.js");
-const {
-  recalculateAndUpdateCaloricBudgetSqlCreator
-} = require("./recalculateAndUpdateCaloricBudgetSqlCreator");
+const { recalcAndUpdateCaloricBudget } = require("./recalcAndUpdateCaloricBudget");
 
 module.exports = {
   findByUserId,
@@ -46,13 +43,12 @@ async function updateUser(updates, id) {
     .update(updates)
     .returning("*");
 
-  const queryString = recalculateAndUpdateCaloricBudgetSqlCreator(id);
+  // any time we update the user, we want to recalculate the caloric budgets
+  // because their weight may have changed, which affects the budget
 
-  const thing = await pgp.any(queryString);
-
-  // const thing = await db.schema.raw(queryString);
-
-  console.log(thing);
+  // currently we are not using the updatedCaloricBudget, but we may want to
+  // in the future to alert the user of their new target caloric budget.
+  const updatedCaloricBudget = await recalcAndUpdateCaloricBudget(id);
 
   return updatedUser;
 }
