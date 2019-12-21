@@ -53,3 +53,5 @@ const recalculateAndUpdateCaloricBudgetSqlCreator = user_id => `
   ) as v
   returning user_id, caloric_budget;
 `;
+
+module.exports = { recalculateAndUpdateCaloricBudgetSqlCreator };
