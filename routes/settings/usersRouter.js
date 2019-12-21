@@ -54,6 +54,7 @@ router.put("/:user_id", mapFirebaseIDtoUserID, async (req, res) => {
   }
 });
 
+
 /********************************************************
  *                  Macro Endpoints                     *
  ********************************************************/
@@ -113,7 +114,6 @@ router.post("/:user_id/weight-goal", mapFirebaseIDtoUserID, async (req, res) => 
 
   /*
     recalculate goal end-date
-      
   */
 
   if (!newWeightGoal) {
@@ -231,21 +231,6 @@ router.post("/:user_id/current-weight", mapFirebaseIDtoUserID, async (req, res) 
   }
 });
 
-router.use(async (user_id) => {
-  try {
-    const caloricBudgetData = await UserInfo.getCaloricBudgetData(user_id);
-    const newCaloricBudget = recalculateCaloricBudget(caloricBudgetData);
-    await UserInfo.updateCaloricBudget(newCaloricBudget, user_id);
-
-    res.status(201).json({
-      newCaloricBudget
-    })
-  } catch(err) {
-    res.status(500).json({
-      errorMessage: "Could not update Caloric Budget."
-    })
-  }
-})
 /********************************************************
 *             POST USER/:USER_ID/PROGRESS/WEIGHT        *
 ********************************************************/
@@ -302,5 +287,6 @@ router.post("/:user_id/progress/weight", async (req, res) => {
   }
 
 });
+
 
 module.exports = router;
