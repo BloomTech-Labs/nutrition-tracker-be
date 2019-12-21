@@ -110,8 +110,12 @@ router.post(
     const newWeightGoal = req.body;
 
     /*
-    recalculate goal end-date
-  */
+      recalculate goal end-date
+
+      get actual_weight_kg, goal_weight_kg, and g_w_w_c_r
+      calculate new goal_end_date
+        if new goal_end_date is 
+    */
 
     newWeightGoal.user_id = user_id;
 
@@ -156,11 +160,6 @@ router.post(
   async (req, res) => {
     const { user_id } = req.params;
     const activityLevel = req.body;
-
-    /*
-      recalcuate caloric budget
-        activity level
-    */
 
     activityLevel.user_id = user_id;
     if (!activityLevel) {
@@ -211,8 +210,12 @@ router.post(
     const newCurrentWeight = req.body;
 
     /*
-    recalculate goal end-date
-  */
+      recalculate goal end-date
+
+      get actual_weight_kg, goal_weight_kg, and g_w_w_c_r
+      calculate new goal_end_date
+        if new goal_end_date is 
+    */
 
     newCurrentWeight.user_id = user_id;
 
@@ -227,9 +230,9 @@ router.post(
       res.status(201).json(added);
     } catch (err) {
       console.log(err);
-      res
-        .status(500)
-        .json({ message: "Failed to update user's current weight" });
+      res.status(500).json({
+        message: "Failed to update user's current weight"
+      });
     }
   }
 );
@@ -241,37 +244,21 @@ router.post(
   TODO:
     1) flag to the user what date their weight goal was applicable to
         figure out implemented
-
-  
 */
 
 /*
-  1) When onboarding completes:
-      in user_budget_data
-          update actual_weight_kg
-          add goal_start_date as today's date
-          calculate goal_end_date based on actual_weight_kg and goal_weekly_weight_change_rate
-
-          FIRST RECORD in user_budget_data for goal_*
-
-  2) When actual_weight_g, goal_weight_kg or g_w_w_c_rate is updated: 
+    When actual_weight_g, goal_weight_kg or g_w_w_c_rate is updated: 
                       (in user settings or the record weight modal)
 
-      check if goal_end_date is still achievable
+    check if goal_end_date is still achievable
 
         if still achievable:
-          insert new record for actual_weight_kg (preserve all other values)
+          insert new record for actual_weight_g, goal_weight_kg or g_w_w_c_rate
+        
         if not achievable:
+          insert new record for actual_weight_g, goal_weight_kg or g_w_w_c_rate
+          insert current date as goal_start_date
           calculate and insert new goal_end_date
-          update goal_start_date to the current date
-
-
-      if the derived goal_end_date from goal_weight_kg and goal_weekly_weight_change_rate
-*/
-
-/*
-
-  
 
 */
 
