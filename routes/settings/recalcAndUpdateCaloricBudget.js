@@ -39,7 +39,8 @@ const recalcAndUpdateCaloricBudgetSqlCreator = user_id => {
           where
             ubd.user_id = ${user_id} and
             ubd.actual_weight_kg is not null
-          order by ubd.applicable_date desc)
+          order by ubd.applicable_date desc
+          limit 1)
         as actual_weight_kg, 
 
         ( select ubd.activity_level
@@ -47,7 +48,8 @@ const recalcAndUpdateCaloricBudgetSqlCreator = user_id => {
           where
             ubd.user_id = ${user_id} and
             ubd.activity_level is not null
-          order by ubd.applicable_date desc)
+          order by ubd.applicable_date desc
+          limit 1)
         as activity_level
         
       from users as u
