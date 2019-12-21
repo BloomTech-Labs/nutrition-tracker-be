@@ -1,4 +1,5 @@
 const db = require("../../data/knex");
+const { recalculateAndUpdateCaloricBudgetSqlCreator } = require("./helper");
 
 module.exports = {
   findByUserId,
@@ -42,6 +43,9 @@ function updateUser(updates, id) {
     .update(updates)
     .returning("*");
 }
+
+function 
+
 
 /********************************************************
  *                  Macro Queries                        *
