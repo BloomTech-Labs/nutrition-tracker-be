@@ -8,6 +8,8 @@ const {
   recalculateCaloricBudget
 } = require("./helper");
 
+const { recalculateAndUpdateCaloricBudgetSqlCreator } = require("./helper");
+
 /********************************************************
  *                   User Endpoints                     *
  ********************************************************/
@@ -42,11 +44,7 @@ router.put("/:user_id", mapFirebaseIDtoUserID, async (req, res) => {
 
     await UserInfo.updateCaloricBudget(newCaloricBudget, user_id);
 
-    res.status(201).json({
-      updated,
-      caloricBudgetData,
-      newCaloricBudget
-    });
+    res.status(201).json(updated);
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Failed to update user settings" });
