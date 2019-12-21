@@ -2,10 +2,7 @@ const express = require("express");
 const router = express.Router();
 const UserInfo = require("./usersDB");
 const mapFirebaseIDtoUserID = require("../../middleware/mapFirebaseIDtoUserID");
-const {
-  heightToImperial,
-  kgToLbs
-} = require("./helper");
+const { heightToImperial, kgToLbs } = require("./helper");
 
 /********************************************************
  *                   User Endpoints                     *
@@ -159,9 +156,9 @@ router.post(
     const activityLevel = req.body;
 
     /*
-    recalcuate caloric budget
-      activity level
-  */
+      recalcuate caloric budget
+        activity level
+    */
 
     activityLevel.user_id = user_id;
     if (!activityLevel) {
@@ -171,16 +168,8 @@ router.post(
     }
     try {
       const added = await UserInfo.addActivityLevel(activityLevel);
-      const caloricBudgetData = await UserInfo.getCaloricBudgetData(user_id);
-      const newCaloricBudget = recalculateCaloricBudget(caloricBudgetData);
 
-      await UserInfo.updateCaloricBudget(newCaloricBudget, user_id);
-
-      res.status(201).json({
-        added,
-        caloricBudgetData,
-        newCaloricBudget
-      });
+      res.status(201).json(added);
     } catch (err) {
       console.log(err);
       res
@@ -224,6 +213,7 @@ router.post(
   */
 
     newCurrentWeight.user_id = user_id;
+
     if (!newCurrentWeight) {
       res.status(400).json({
         message: "Item required for update are missing"
@@ -231,17 +221,10 @@ router.post(
     }
     try {
       const added = await UserInfo.addCurrentWeight(newCurrentWeight);
-      const caloricBudgetData = await UserInfo.getCaloricBudgetData(user_id);
-      const newCaloricBudget = recalculateCaloricBudget(caloricBudgetData);
 
-      await UserInfo.updateCaloricBudget(newCaloricBudget, user_id);
-
-      res.status(201).json({
-        added,
-        caloricBudgetData,
-        newCaloricBudget
-      });
+      res.status(201).json(added);
     } catch (err) {
+      console.log(err);
       res
         .status(500)
         .json({ message: "Failed to update user's current weight" });
