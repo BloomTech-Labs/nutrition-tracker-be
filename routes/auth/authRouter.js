@@ -17,7 +17,6 @@ router.post("/register", validateRequest, async (req, res) => {
       newUser: await Auth.addUser(newUser)
     });
   } catch (err) {
-    console.log(err);
     res.status(500).json({
       message: "Internal Server Error"
     });
