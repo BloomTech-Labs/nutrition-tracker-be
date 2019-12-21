@@ -1,5 +1,7 @@
 const db = require("../../data/knex");
-const { recalcAndUpdateCaloricBudget } = require("./recalcAndUpdateCaloricBudget");
+const {
+  recalcAndUpdateCaloricBudget
+} = require("./recalcAndUpdateCaloricBudget");
 
 module.exports = {
   findByUserId,
@@ -17,16 +19,6 @@ module.exports = {
   getCaloricBudgetData,
   updateCaloricBudget
 };
-
-/*
-  TODO:
-    ask will about UPSERT for any inserts into user_budget_data
-    it should be UPSERT in the event that the user updates on
-    the same day, (we don't want to have more than one insert for
-    a single date, so it should just replace the existing one)
-
-    this will be important for RC2
-*/
 
 /********************************************************
  *                  User Queries                        *
@@ -49,6 +41,8 @@ async function updateUser(updates, id) {
   // currently we are not using the updatedCaloricBudget, but we may want to
   // in the future to alert the user of their new target caloric budget.
   const updatedCaloricBudget = await recalcAndUpdateCaloricBudget(id);
+
+  console.log("[updatedCaloricBudget]", updatedCaloricBudget);
 
   return updatedUser;
 }
@@ -107,10 +101,21 @@ function findActivityLevelById(user_id) {
     .first();
 }
 
-function addActivityLevel(data) {
-  return db("user_budget_data")
+async function addActivityLevel(data) {
+  const updatedUser = await db("user_budget_data")
     .insert(data)
     .returning("*");
+
+  // any time we update the user, we want to recalculate the caloric budgets
+  // because their weight may have changed, which affects the budget
+
+  // currently we are not using the updatedCaloricBudget, but we may want to
+  // in the future to alert the user of their new target caloric budget.
+  const updatedCaloricBudget = await recalcAndUpdateCaloricBudget(data.user_id);
+
+  console.log("[data.user_id]", data.user_id);
+
+  return updatedUser;
 }
 
 /********************************************************
@@ -126,10 +131,19 @@ function findCurrentWeightById(user_id) {
     .first();
 }
 
-function addCurrentWeight(data) {
-  return db("user_budget_data")
+async function addCurrentWeight(data) {
+  const updatedUser = await db("user_budget_data")
     .insert(data)
     .returning("*");
+
+  // any time we update the user, we want to recalculate the caloric budgets
+  // because their weight may have changed, which affects the budget
+
+  // currently we are not using the updatedCaloricBudget, but we may want to
+  // in the future to alert the user of their new target caloric budget.
+  const updatedCaloricBudget = await recalcAndUpdateCaloricBudget(data.user_id);
+
+  return updatedUser;
 }
 
 /***********************************************
