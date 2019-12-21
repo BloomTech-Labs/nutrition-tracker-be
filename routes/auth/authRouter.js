@@ -1,15 +1,18 @@
 const express = require("express");
 const Auth = require("./authDB");
 const router = express.Router();
-const { getCaloricBudget, getAge } = require("./helper");
+const { getCaloricBudget, calculateWeightGoalDates } = require("./helper");
 
 /********************************************************
-*                      AUTH/REGISTER                    *
-********************************************************/
+ *                      AUTH/REGISTER                    *
+ ********************************************************/
 router.post("/register", validateRequest, async (req, res) => {
   let newUser = req.body;
-
+  let { goal_start_date, goal_end_date } = calculateWeightGoalDates(newUser);
+  console.log("here");
   newUser.caloric_budget = getCaloricBudget(newUser);
+  newUser.goal_start_date = goal_start_date;
+  newUser.goal_end_date = goal_end_date;
 
   try {
     res.status(201).json({
@@ -24,8 +27,8 @@ router.post("/register", validateRequest, async (req, res) => {
 });
 
 /********************************************************
-*                        MIDDLE-WARE                    *
-********************************************************/
+ *                        MIDDLE-WARE                    *
+ ********************************************************/
 function validateRequest(req, res, next) {
   let newUser = req.body;
   if (
