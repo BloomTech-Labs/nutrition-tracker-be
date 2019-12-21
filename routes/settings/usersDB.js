@@ -50,7 +50,6 @@ async function updateUser(updates, id) {
 /********************************************************
  *                  Macro Queries                        *
  ********************************************************/
-
 function findMacroRatiosById(user_id) {
   return db("user_budget_data")
     .select("fat_ratio", "protein_ratio", "carb_ratio")
@@ -71,7 +70,6 @@ async function addMacroRatios(data) {
 /********************************************************
  *                 Weight Goal Queries                  *
  ********************************************************/
-
 function findWeightGoalById(user_id) {
   return db("user_budget_data")
     .select("goal_weekly_weight_change_rate", "goal_weight_kg")
@@ -91,7 +89,6 @@ async function addWeightGoal(data) {
 /********************************************************
  *                 Activity Level Queries               *
  ********************************************************/
-
 function findActivityLevelById(user_id) {
   return db("user_budget_data")
     .select("activity_level")
@@ -121,7 +118,6 @@ async function addActivityLevel(data) {
 /********************************************************
  *                 Current Weight Queries               *
  ********************************************************/
-
 function findCurrentWeightById(user_id) {
   return db("user_budget_data")
     .select("actual_weight_kg")
@@ -146,16 +142,9 @@ async function addCurrentWeight(data) {
   return updatedUser;
 }
 
-/***********************************************
- *                   DATABASE QUERIES           *
- ***********************************************/
-function getCaloricBudget(user_id) {
-  return db("user_budget_data")
-    .select("caloric_budget", "fat_ratio", "protein_ratio", "carb_ratio")
-    .where({ user_id })
-    .first();
-}
-
+/********************************************************
+ *                      GET DAILY LOG                   *
+ ********************************************************/
 function getDailyLog(user_id, from, to) {
   return db("food_log as fl")
     .join("foods as f", {
@@ -178,45 +167,6 @@ function getDailyLog(user_id, from, to) {
     .where("fl.user_id", "=", user_id)
     .whereBetween("fl.time_consumed_at", [from, to])
     .orderBy("fl.time_consumed_at");
-}
-
-/********************************************************
- *                GET USER BUDGET DATA                   *
- ********************************************************/
-async function getCaloricBudgetData(id) {
-  const { height_cm, sex, dob } = await db("users")
-    .select("height_cm", "sex", "dob")
-    .where({ id })
-    .first();
-
-  const { actual_weight_kg } = await db("user_budget_data")
-    .select("actual_weight_kg")
-    .where({ user_id: id })
-    .whereNotNull("actual_weight_kg")
-    .orderBy("applicable_date", "desc")
-    .first();
-
-  const { activity_level } = await db("user_budget_data")
-    .select("activity_level")
-    .where({ user_id: id })
-    .whereNotNull("activity_level")
-    .orderBy("applicable_date", "desc")
-    .first();
-
-  return {
-    height_cm,
-    sex,
-    dob,
-    actual_weight_kg,
-    activity_level
-  };
-}
-
-function updateCaloricBudget(caloric_budget, user_id) {
-  return db("user_budget_data").insert({
-    user_id,
-    caloric_budget
-  });
 }
 
 /********************************************************
