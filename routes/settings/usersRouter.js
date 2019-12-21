@@ -108,13 +108,15 @@ router.get("/:user_id/weight-goal", mapFirebaseIDtoUserID, async (req, res) => {
 
 //Post new weekly_goal_rate and/or weight_goal_kg to user_budget_data table.
 router.post("/:user_id/weight-goal", mapFirebaseIDtoUserID, async (req, res) => {
-  const id = req.params.id;
+  const user_id = req.params.user_id;
   const newWeightGoal = req.body;
 
   /*
     recalculate goal end-date
       
   */
+  
+  newWeightGoal.user_id = user_id;
 
   if (!newWeightGoal) {
     res.status(400).json({
