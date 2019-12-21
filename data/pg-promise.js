@@ -6,4 +6,4 @@ const dbConnection = process.env.DATABASE_URL;
 
 const db = pgp(dbConnection);
 
-module.exports = { db };
+module.exports = { db, pgp };
