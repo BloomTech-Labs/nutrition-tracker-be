@@ -1,6 +1,8 @@
 const db = require("../../data/knex");
 const pgp = require("../../data/pg-promise.js");
-const { recalculateAndUpdateCaloricBudgetSqlCreator } = require("./recalculateAndUpdateCaloricBudgetSqlCreator");
+const {
+  recalculateAndUpdateCaloricBudgetSqlCreator
+} = require("./recalculateAndUpdateCaloricBudgetSqlCreator");
 
 module.exports = {
   findByUserId,
@@ -32,7 +34,7 @@ module.exports = {
 /********************************************************
  *                  User Queries                        *
  ********************************************************/
-function findByUserId(id) { 
+function findByUserId(id) {
   return db("users")
     .where({ id })
     .first();
@@ -169,53 +171,46 @@ function getDailyLog(user_id, from, to) {
 }
 
 /********************************************************
-*                GET USER BUDGET DATA                   *
-********************************************************/
+ *                GET USER BUDGET DATA                   *
+ ********************************************************/
 async function getCaloricBudgetData(id) {
-  const {height_cm, sex, dob} = await db("users")
-    .select(
-      "height_cm",
-      "sex",
-      "dob",
-    )
+  const { height_cm, sex, dob } = await db("users")
+    .select("height_cm", "sex", "dob")
     .where({ id })
     .first();
 
-  const {actual_weight_kg} = await db("user_budget_data")
-      .select("actual_weight_kg")
-      .where({user_id: id})
-      .whereNotNull("actual_weight_kg")
-      .orderBy("applicable_date", "desc")
-      .first();
+  const { actual_weight_kg } = await db("user_budget_data")
+    .select("actual_weight_kg")
+    .where({ user_id: id })
+    .whereNotNull("actual_weight_kg")
+    .orderBy("applicable_date", "desc")
+    .first();
 
-  const {activity_level} = await db("user_budget_data")
-      .select("activity_level")
-      .where({user_id: id})
-      .whereNotNull("activity_level")
-      .orderBy("applicable_date", "desc")
-      .first();
+  const { activity_level } = await db("user_budget_data")
+    .select("activity_level")
+    .where({ user_id: id })
+    .whereNotNull("activity_level")
+    .orderBy("applicable_date", "desc")
+    .first();
 
-  return ({
+  return {
     height_cm,
     sex,
     dob,
     actual_weight_kg,
     activity_level
-  });
+  };
 }
 
 function updateCaloricBudget(caloric_budget, user_id) {
-  return db("user_budget_data")
-    .insert({
-      user_id,
-      caloric_budget
-    });
+  return db("user_budget_data").insert({
+    user_id,
+    caloric_budget
+  });
 }
 
 /********************************************************
-*                   GET WEIGHT PROGRESS                 *
-********************************************************/
+ *                   GET WEIGHT PROGRESS                 *
+ ********************************************************/
 
-function getWeightProgress() {
-  
-}
+function getWeightProgress() {}
