@@ -8,8 +8,6 @@ const {
   recalculateCaloricBudget
 } = require("./helper");
 
-const { recalculateAndUpdateCaloricBudgetSqlCreator } = require("./helper");
-
 /********************************************************
  *                   User Endpoints                     *
  ********************************************************/
