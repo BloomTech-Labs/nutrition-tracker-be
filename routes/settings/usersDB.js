@@ -1,5 +1,6 @@
 const db = require("../../data/knex");
-const { recalculateAndUpdateCaloricBudgetSqlCreator } = require("./helper");
+const pgp = require("../../data/pg-promise.js");
+const { recalculateAndUpdateCaloricBudgetSqlCreator } = require("./recalculateAndUpdateCaloricBudgetSqlCreator");
 
 module.exports = {
   findByUserId,
@@ -31,21 +32,28 @@ module.exports = {
 /********************************************************
  *                  User Queries                        *
  ********************************************************/
-function findByUserId(id) {
+function findByUserId(id) { 
   return db("users")
     .where({ id })
     .first();
 }
 
-function updateUser(updates, id) {
-  return db("users")
+async function updateUser(updates, id) {
+  const updatedUser = await db("users")
     .where({ id })
     .update(updates)
     .returning("*");
+
+  const queryString = recalculateAndUpdateCaloricBudgetSqlCreator(id);
+
+  const thing = await pgp.any(queryString);
+
+  // const thing = await db.schema.raw(queryString);
+
+  console.log(thing);
+
+  return updatedUser;
 }
-
-function 
-
 
 /********************************************************
  *                  Macro Queries                        *

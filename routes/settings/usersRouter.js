@@ -4,8 +4,7 @@ const UserInfo = require("./usersDB");
 const mapFirebaseIDtoUserID = require("../../middleware/mapFirebaseIDtoUserID");
 const {
   heightToImperial,
-  kgToLbs,
-  recalculateCaloricBudget
+  kgToLbs
 } = require("./helper");
 
 /********************************************************
@@ -37,10 +36,6 @@ router.put("/:user_id", mapFirebaseIDtoUserID, async (req, res) => {
   }
   try {
     const updated = await UserInfo.updateUser(updatedSettings, user_id);
-    const caloricBudgetData = await UserInfo.getCaloricBudgetData(user_id);
-    const newCaloricBudget = recalculateCaloricBudget(caloricBudgetData);
-
-    await UserInfo.updateCaloricBudget(newCaloricBudget, user_id);
 
     res.status(201).json(updated);
   } catch (err) {
