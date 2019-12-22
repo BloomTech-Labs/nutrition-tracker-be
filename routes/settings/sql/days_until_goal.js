@@ -6,9 +6,11 @@ module.exports = days_until_goal = user_id => {
 
   const result = `
     select 
+      v.user_id,
       ceil(abs(v.actual_weight_kg - v.goal_weight_kg) / v.goal_weekly_weight_change_rate_kg * 7) as days_until_goal
     from ( 
       select 
+        ${user_id} as user_id,
         ${actual_weight_kg}, 
         ${goal_weight_kg}, 
         ${goal_weekly_weight_change_rate_kg}
