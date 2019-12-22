@@ -180,14 +180,6 @@ router.post("/:user_id/current-weight", mapFirebaseIDtoUserID, async (req, res) 
   const { user_id } = req.params;
   const newCurrentWeight = req.body;
 
-  /*
-      recalculate goal end-date
-
-      get actual_weight_kg, goal_weight_kg, and g_w_w_c_r
-      calculate new goal_end_date
-        if new goal_end_date is 
-    */
-
   newCurrentWeight.user_id = user_id;
 
   if (!newCurrentWeight) {
