@@ -19,11 +19,7 @@ function getCaloricBudget(newUser) {
   let { sex, activity_level, dob, actual_weight_kg, height_cm } = newUser;
 
   return Math.round(
-    (10 * actual_weight_kg +
-      6.25 * height_cm -
-      5 * getAge(dob) +
-      (sex === "Male" ? 5 : -161)) *
-      activity_level
+    (10 * actual_weight_kg + 6.25 * height_cm - 5 * getAge(dob) + (sex === "Male" ? 5 : -161)) * activity_level
   );
 }
 
@@ -73,7 +69,7 @@ function updateGoalDateIfNecessary() {
 
 function updateWeightGoal() {
   // insert into user_budget_data(user_id, goal_start_date, goal_end_date)
-  // calculateWeightGoalDates()
+  // select {user_id, ...calculateWeightGoalDates()}
 }
 
 /********************************************************
