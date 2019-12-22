@@ -1,7 +1,5 @@
 const db = require("../../data/knex");
-const {
-  recalcAndUpdateCaloricBudget
-} = require("./recalcAndUpdateCaloricBudget");
+const { recalcAndUpdateCaloricBudget } = require("./recalcAndUpdateCaloricBudget");
 
 module.exports = {
   findByUserId,
