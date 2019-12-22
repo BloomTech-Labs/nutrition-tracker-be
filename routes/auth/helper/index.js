@@ -3,9 +3,7 @@ const moment = require("moment-timezone");
 module.exports = {
   calculateWeightGoalDates,
   getCaloricBudget,
-  getAge,
-  updateGoalDateIfNecessary,
-  addGoalWeeklyRateChangeRate
+  getAge
 };
 
 /********************************************************
@@ -43,34 +41,6 @@ function getAge(dob) {
 
 function afterWeightGoalIsAchieved(user) {
   // wat do when we achieve our goal
-}
-
-function updateGoalDateIfNecessary(newUser) {
-  if (!isWeightGoalAttainable(newUser)) {
-    updateWeightGoal(newUser);
-  }
-}
-
-function isWeightGoalAttainable(newUser) {
-  const maximum_abs_change_rate_kg = toKG(2);
-  const weeks_until_goal_end_date = (goal_end_date - current_date) / 7;
-
-  const largest_possible_weight_change_by_end_date = maximum_abs_change_rate_kg * weeks_until_goal_end_date;
-
-  const abs_remaining_weight_change_to_meet_goal = abs(goal_weight_kg - current_weight_kg);
-
-  if (largest_possible_weight_change_by_end_date < abs_remaining_weight_change_to_meet_goal) {
-    return false;
-  }
-
-  // ELSE
-  return true;
-}
-
-function updateWeightGoal(newUser) {
-  const newWeightGoalDates = calculateWeightGoalDates(newUser);
-  // insert into user_budget_data(user_id, goal_start_date, goal_end_date)
-  // select {user_id, ...newWeightGoalDates()}
 }
 
 /********************************************************
