@@ -11,6 +11,7 @@ module.exports = {
   findCurrentWeightById,
   addCurrentWeight,
   findWeightGoalById,
+  addGoalWeeklyRateChangeRate,
   addWeightGoal,
   findActivityLevelById,
   addActivityLevel,
@@ -95,6 +96,20 @@ async function addWeightGoal(data) {
   updateGoalDateIfNecessary();
 
   return updatedWeightGoal;
+}
+
+/********************************************************
+ *                Goal Weekly Rate Queries              *
+ ********************************************************/
+function addGoalWeeklyRateChangeRate() {
+  let updatedGoalWeeklyRateChangeRate = `/*
+    // PLACEHOLDER FOR CHAZ's ADD NEW RATE CHANGE FUNCTIONALITY CODE
+    // THIS VARIABLE IS WHAT WE ARE USING TO RETURN AT END OF FUNCTION
+  */`;
+
+  updateGoalDateIfNecessary();
+
+  return updatedGoalWeeklyRateChangeRate;
 }
 
 /********************************************************
