@@ -79,10 +79,22 @@ function findWeightGoalById(user_id) {
     .first();
 }
 
+//would like to rename this function to updateWeightGoal (and make an "addWeightGoal" which is called for a brand new user (if that's a separate endpoint or something, or is called by the frontend))
+//i know "new" and "updated" weight goals are the same
+//database function, but to the frontend, they just want to
+//edit. and they dont care about the backend schema
+//and if it's literally the same function, i would just
+//add a variable to export that's just a pointer to the
+//function that's the same for both, instead.
+// - WE
 async function addWeightGoal(data) {
-  await db("user_budget_data")
+  const updatedWeightGoal = await db("user_budget_data")
     .insert(data)
     .returning("*");
+
+  updateGoalDateIfNecessary();
+
+  return updatedWeightGoal;
 }
 
 /********************************************************
