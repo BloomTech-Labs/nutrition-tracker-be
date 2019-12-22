@@ -71,7 +71,10 @@ function updateGoalDateIfNecessary() {
   }
 }
 
-// function updateWeightGoal() {}
+function updateWeightGoal() {
+  // insert into user_budget_data(user_id, goal_start_date, goal_end_date)
+  // calculateWeightGoalDates()
+}
 
 /********************************************************
  *                                                      *
@@ -85,7 +88,8 @@ function calculateWeightGoalDates(newUser) {
 
   const change_rate_kg = toKG(goal_weekly_weight_change_rate);
   const differenceInKG = toPrecision2(actual_weight_kg - goal_weight_kg);
-  const weeksUntilGoal = Math.ceil(Math.abs(differenceInKG / change_rate_kg));
+  const weeksUntilGoal = Math.ceil(Math.abs(differenceInKG / change_rate_kg) * 7) / 7;
+  // rounded up to the nearest day
 
   const goal_start_date = moment()
     .utc()
