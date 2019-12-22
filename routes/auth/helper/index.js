@@ -54,26 +54,16 @@ function isWeightGoalAttainable(newUser) {
   const maximum_abs_change_rate_kg = toKG(2);
   const weeks_until_goal_end_date = (goal_end_date - current_date) / 7;
 
-  /// CHOOSE ONE OF THE FOLLOWING, (A) or (B) FOR AN IMPLEMENTATION
+  const largest_possible_weight_change_by_end_date = maximum_abs_change_rate_kg * weeks_until_goal_end_date;
 
-  // (A) // (A) // (A) // (A) // (A) // (A) // (A) // (A) // (A)
-  const lowest_possible_weight_by_end_date = current_weight_kg - maximum_abs_change_rate_kg * weeks_until_goal_end_date;
+  const abs_remaining_weight_change_to_meet_goal = abs(goal_weight_kg - current_weight_kg);
 
-  if (lowest_possible_weight_by_end_date > goal_weight_kg) {
+  if (largest_possible_weight_change_by_end_date < abs_remaining_weight_change_to_meet_goal) {
     return false;
-  } else {
-    // do nothing
   }
 
-  // (B) // (B) // (B) // (B) // (B) // (B) // (B) // (B) // (B)
-  const weekly_rate_change_required_to_make_goal_end_date =
-    (goal_weight_kg - current_weight_kg) / weeks_until_goal_end_date;
-
-  if (maximum_abs_change_rate_kg > abs(weekly_rate_change_required_to_make_goal_end_date)) {
-    return false;
-  } else {
-    // do nothing
-  }
+  // ELSE
+  return true;
 }
 
 function updateGoalDateIfNecessary() {
