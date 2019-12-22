@@ -3,14 +3,14 @@ const needs_new_goal = user_id => {
   // means that the user will not receive a new
   // goal_start_date & goal_end_date
 
-  return `
-// WE:
-// USEFUL SQL
-//select (select 2.0 as maximum_abs_change_rate_kg), 'three' as asdf
+  // WE:
+  // USEFUL SQL
+  //select (select 2.0 as maximum_abs_change_rate_kg), 'three' as asdf
 
-// DEV NOTE -- IF THIS DEV NOTE EXISTS, _DO NOT USE THIS FUNCTION_.
-// IT DOESNT WORK; IT ALWAYS RETURNS RECORDS
-// END DEV NOTE
+  // DEV NOTE -- IF THIS DEV NOTE EXISTS, _DO NOT USE THIS FUNCTION_.
+  // IT DOESNT WORK; IT ALWAYS RETURNS RECORDS
+  // END DEV NOTE
+  return `
     (
       select u.id as user_id
       from users as u 
