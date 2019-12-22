@@ -12,10 +12,23 @@ const getFoodItem = async (foodLogID, userID) => {
 };
 
 
-const updateFoodItem = () => {
+const updateFoodItem = async (foodLogId, userID, foodItem) => {
     //update the record with the updated informnation
+    console.log('IN THE BACK END HERE IS THE ENDPOINT FOR UPDATE ITEM', foodItem)
+    try{
+       const updatedRecord = await db("food_log").where({id:foodLogId, user_id:userID}).update(foodItem)
+       return updatedRecord;
+    }catch(err){
+        return err;
+    }
+
 };
 
+const deleteFoodItem = () => {
+    // delete the item from the db
+}
+
 module.exports = {
-  getFoodItem
+  getFoodItem,
+  updateFoodItem
 };

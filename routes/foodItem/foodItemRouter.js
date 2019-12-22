@@ -19,7 +19,7 @@ router.get(
   mapFirebaseIDtoUserID,
   async (req, res) => {
     const { user_id, foodlogID } = req.params;
-       console.log('IN THE GETFOOD ITEM BE ROUTE HERE IS THE USER_ID RETURNED BY THE MIDDLEWARE', user_id)
+
     try {
       const [foodItem] = await db.getFoodItem(foodlogID, user_id);
       const { fatsecret_food_id } = foodItem;
@@ -43,5 +43,33 @@ router.get(
     }
   }
 );
+
+router.put(
+  "/updatefooditem/:foodLogID/user/:user_id",
+  mapFirebaseIDtoUserID,
+  async (req, res) => {
+  
+    const { foodLogID, user_id } = req.params;
+    const updatedRecord = req.body;
+
+    try {
+      //call to db to update item;
+      const item = await db.updateFoodItem(foodLogID, user_id, updatedRecord);
+      res.status(201).json(item);
+    } catch ({ message }) {
+      res.status(500).json(message);
+    }
+  }
+);
+
+router.delete("/deletefooditem/:foodLogID/user/:user_id", async (req, res) => {
+  const { foodLogID, user_id } = req.params;
+
+  try {
+    // call to db to delete record;
+  } catch ({ message }) {
+    res.status(500).json(message);
+  }
+});
 
 module.exports = router;
