@@ -32,7 +32,7 @@ router.get(
           .then(checkStatus)
           .then(res => res.json())
           .then(json => (data = json)); // json is the actaul data being returned from out api call
-        const dataAtIndexOne = data[1];
+        const dataAtIndexOne = data[0];
         res.status(200).json({ ...dataAtIndexOne, ...foodItem }); // return the api call json data and combine with local db data
       } catch ({ message }) {
         res.status(404).json(message);
