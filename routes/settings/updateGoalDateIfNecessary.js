@@ -1,7 +1,9 @@
-const update_goal_date_if_necessary = (user_id, time_zone) => {
+const { db: pgPromiseDb } = require("../../data/pg-promise.js");
+
+const updateGoalDateIfNecessarySqlGenerator = (user_id, time_zone) => {
   //subquery strings, with alias; should just need comma as if they're just a "field name" in terms of building a sql string.
-  const calculated_days_until_goal = require("./calculated_days_until_goal")(user_id);
-  const needs_new_goal = require("./needs_new_goal")(user_id);
+  const calculated_days_until_goal = require("./sql/calculated_days_until_goal")(user_id);
+  const needs_new_goal = require("./sql/needs_new_goal")(user_id);
 
   const result = `
     insert into user_budget_data(user_id, goal_start_date, goal_end_date)
@@ -19,6 +21,9 @@ const update_goal_date_if_necessary = (user_id, time_zone) => {
   return result;
 };
 
-// console.log(update_goal_date_if_necessary(1, "America/Anchorage"));
+const updateGoalDateIfNecessary = async (user_id, time_zone) => {
+  const queryString = updateGoalDateIfNecessarySqlGenerator(user_id, time_zone);
+  return await pgPromiseDb.any(queryString);
+};
 
-module.exports = update_goal_date_if_necessary;
+module.exports = updateGoalDateIfNecessary;
