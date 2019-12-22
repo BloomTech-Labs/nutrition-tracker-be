@@ -45,6 +45,12 @@ function afterWeightGoalIsAchieved(user) {
   // wat do when we achieve our goal
 }
 
+function updateGoalDateIfNecessary(newUser) {
+  if (!isWeightGoalAttainable(newUser)) {
+    updateWeightGoal(newUser);
+  }
+}
+
 function isWeightGoalAttainable(newUser) {
   const maximum_abs_change_rate_kg = toKG(2);
   const weeks_until_goal_end_date = (goal_end_date - current_date) / 7;
@@ -61,15 +67,10 @@ function isWeightGoalAttainable(newUser) {
   return true;
 }
 
-function updateGoalDateIfNecessary() {
-  if (!isWeightGoalAttainable()) {
-    updateWeightGoal();
-  }
-}
-
-function updateWeightGoal() {
+function updateWeightGoal(newUser) {
+  const newWeightGoalDates = calculateWeightGoalDates(newUser);
   // insert into user_budget_data(user_id, goal_start_date, goal_end_date)
-  // select {user_id, ...calculateWeightGoalDates()}
+  // select {user_id, ...newWeightGoalDates()}
 }
 
 /********************************************************
