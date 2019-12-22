@@ -150,6 +150,10 @@ async function addCurrentWeight(data) {
   // in the future to alert the user of their new target caloric budget.
   const updatedCaloricBudget = await recalcAndUpdateCaloricBudget(data.user_id);
 
+  // if necessary, calculates and returns the new goal date if our goal weight
+  // and previous goal date were unattainable
+  const updatedGoalDate = updateGoalDateIfNecessary();
+
   return updatedUser;
 }
 
