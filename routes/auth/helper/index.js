@@ -49,19 +49,30 @@ function getAge(dob) {
 function afterWeightGoalIsAchieved(user) {}
 
 function isWeightGoalAttainable(newUser) {
-  // const weekly_rate_change_required_to_make_goal_end_date = ??
+  const maximum_abs_change_rate_kg = toKG(2);
+  const weeks_until_goal_end_date = (goal_end_date - current_date) / 7;
 
-  // current_weight - maximum_abs_rate_kg * (weeks_until_goal_end_date)
+  /// CHOOSE ONE OF THE FOLLOWING, (A) or (B) FOR AN IMPLEMENTATION
 
-  const maximum_abs_rate_kg = toKG(2);
+  // (A) // (A) // (A) // (A) // (A) // (A) // (A) // (A) // (A)
+  const lowest_possible_weight_by_end_date = current_weight_kg - maximum_abs_change_rate_kg * weeks_until_goal_end_date;
 
-  if (
-    abs(weekly_rate_change_required_to_make_goal_end_date) > maximum_abs_rate_kg
-  ) {
+  if (lowest_possible_weight_by_end_date > goal_weight_kg) {
     // we need a new goal end date
     calculateWeightGoalDates();
   } else {
-    // we gucci
+    // do nothing
+  }
+
+  // (B) // (B) // (B) // (B) // (B) // (B) // (B) // (B) // (B)
+  const weekly_rate_change_required_to_make_goal_end_date =
+    (goal_weight_kg - current_weight_kg) / weeks_until_goal_end_date;
+
+  if (maximum_abs_change_rate_kg > abs(weekly_rate_change_required_to_make_goal_end_date)) {
+    // we need a new goal end date
+    calculateWeightGoalDates();
+  } else {
+    // do nothing
   }
 }
 
@@ -70,11 +81,7 @@ function isWeightGoalAttainable(newUser) {
  ********************************************************/
 function calculateWeightGoalDates(newUser) {
   console.log("here");
-  let {
-    actual_weight_kg,
-    goal_weight_kg,
-    goal_weekly_weight_change_rate
-  } = newUser;
+  let { actual_weight_kg, goal_weight_kg, goal_weekly_weight_change_rate } = newUser;
 
   // const current_goal_end_date = ???
   // const calculated_potential_new_goal_end_date
