@@ -39,6 +39,8 @@ async function updateUser(updates, id) {
   // in the future to alert the user of their new target caloric budget.
   const updatedCaloricBudget = await recalcAndUpdateCaloricBudget(id);
 
+  updateWeightGoalIfNecessary();
+
   console.log("[updatedCaloricBudget]", updatedCaloricBudget);
 
   return updatedUser;
