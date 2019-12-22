@@ -43,6 +43,28 @@ function getAge(dob) {
   return age;
 }
 
+// const current_goal_end_date = ???
+// const actual_weight_kg
+
+function afterWeightGoalIsAchieved(user) {}
+
+function isWeightGoalAttainable(newUser) {
+  // const weekly_rate_change_required_to_make_goal_end_date = ??
+
+  // current_weight - maximum_abs_rate_kg * (weeks_until_goal_end_date)
+
+  const maximum_abs_rate_kg = toKG(2);
+
+  if (
+    abs(weekly_rate_change_required_to_make_goal_end_date) > maximum_abs_rate_kg
+  ) {
+    // we need a new goal end date
+    calculateWeightGoalDates();
+  } else {
+    // we gucci
+  }
+}
+
 /********************************************************
  *                                                      *
  ********************************************************/
@@ -53,6 +75,9 @@ function calculateWeightGoalDates(newUser) {
     goal_weight_kg,
     goal_weekly_weight_change_rate
   } = newUser;
+
+  // const current_goal_end_date = ???
+  // const calculated_potential_new_goal_end_date
 
   const change_rate_kg = toKG(goal_weekly_weight_change_rate);
   const differenceInKG = toPrecision2(actual_weight_kg - goal_weight_kg);
@@ -66,6 +91,8 @@ function calculateWeightGoalDates(newUser) {
     .utc()
     .add(weeksUntilGoal, "w")
     .format();
+
+  const calculated_potential_new_goal_end_date = goal_end_date;
 
   return {
     goal_start_date,
