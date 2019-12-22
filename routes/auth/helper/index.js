@@ -45,10 +45,9 @@ function getAge(dob) {
   return age;
 }
 
-// const current_goal_end_date = ???
-// const actual_weight_kg
-
-function afterWeightGoalIsAchieved(user) {}
+function afterWeightGoalIsAchieved(user) {
+  // wat do when we achieve our goal
+}
 
 function isWeightGoalAttainable(newUser) {
   const maximum_abs_change_rate_kg = toKG(2);
