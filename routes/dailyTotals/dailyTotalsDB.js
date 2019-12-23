@@ -6,10 +6,11 @@ const { createUpsertQueryCustomSetValuesLogicSql } = require("../../data/helpers
 
 const upsertDailyTotal = data => {
   const table = "daily_nutrition_totals";
+  const alias = "t";
 
   const setColumns = ["total_calories", "fat_calories", "carbs_calories", "protein_calories"];
 
-  const lineStr = e => `${e}=${e}+EXCLUDED.${e}`;
+  const lineStr = e => `${e}=t.${e}+EXCLUDED.${e}`;
   const arrLines = setColumns.map(lineStr);
   const setColumnsStr = arrLines.join(",");
 
@@ -18,7 +19,15 @@ const upsertDailyTotal = data => {
   const columns = [...onConflictColumns, ...setColumns];
 
   try {
-    const querySql = createUpsertQueryCustomSetValuesLogicSql(data, table, columns, onConflictColumns, setColumnsStr);
+    const querySql = createUpsertQueryCustomSetValuesLogicSql(
+      data,
+      table,
+      columns,
+      onConflictColumns,
+      setColumnsStr,
+      alias
+    );
+    console.log(querySql);
 
     return db.any(querySql);
   } catch (e) {

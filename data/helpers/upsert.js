@@ -28,18 +28,24 @@ const createUpsertQueryCustomSetValuesLogicSql = (
   table, // name of table we're upserting to
   columns, // array of columns to be inserted/updated
   onConflictColumns, // set of columns or constraint that defines whether to update or insert
-  setColumnsStr // string that details the values that you want to set if it's an update
+  setColumnsStr, // string that details the values that you want to set if it's an update
   // rather than an insert
+  alias
 ) => {
   const onConflictColumnsStr = onConflictColumns.join(", ");
 
   const columnSet = new pgp.helpers.ColumnSet(columns, { table: table });
   return (
-    pgp.helpers.insert(data, columnSet) +
+    pgp.as.format("INSERT INTO $1 AS $2~ ($3^) VALUES $4^", [
+      columnSet.table,
+      alias,
+      columnSet.names,
+      pgp.helpers.values(data, columnSet)
+    ]) +
     ` ON CONFLICT(${onConflictColumnsStr}) DO UPDATE SET ` +
     setColumnsStr +
     " RETURNING *"
   );
 };
 
-module.exports = { createUpsertQuerySql, createUpsertQueryAddValuesSql: createUpsertQueryCustomSetValuesLogicSql };
+module.exports = { createUpsertQuerySql, createUpsertQueryCustomSetValuesLogicSql };
