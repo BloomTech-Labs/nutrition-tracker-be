@@ -62,11 +62,13 @@ router.put(
   }
 );
 
-router.delete("/deletefooditem/:foodLogID/user/:user_id", async (req, res) => {
+router.delete("/deletefooditem/:foodLogID/user/:user_id",mapFirebaseIDtoUserID,async (req, res) => {
   const { foodLogID, user_id } = req.params;
 
   try {
     // call to db to delete record;
+    const deletedRecord = await db.deleteFoodItem(foodLogID, user_id);
+    res.status(200).json(deletedRecord);
   } catch ({ message }) {
     res.status(500).json(message);
   }
