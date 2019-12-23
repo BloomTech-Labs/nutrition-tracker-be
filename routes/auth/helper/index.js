@@ -50,12 +50,9 @@ function calculateWeightGoalDates(newUser) {
   console.log("here");
   let { actual_weight_kg, goal_weight_kg, goal_weekly_weight_change_rate } = newUser;
 
-  // const current_goal_end_date = ???
-  // const calculated_potential_new_goal_end_date
-
-  const change_rate_kg = toKG(goal_weekly_weight_change_rate);
+  const weeklyChangeRateKg = toKG(goal_weekly_weight_change_rate);
   const differenceInKG = toPrecision2(actual_weight_kg - goal_weight_kg);
-  const weeksUntilGoal = Math.ceil(Math.abs(differenceInKG / change_rate_kg) * 7) / 7;
+  const daysUntilGoal = Math.ceil(Math.abs(differenceInKG / weeklyChangeRateKg) * 7);
   // rounded up to the nearest day
 
   const goal_start_date = moment()
@@ -64,10 +61,8 @@ function calculateWeightGoalDates(newUser) {
 
   const goal_end_date = moment(goal_start_date)
     .utc()
-    .add(weeksUntilGoal, "w")
+    .add(daysUntilGoal, "d")
     .format();
-
-  const calculated_potential_new_goal_end_date = goal_end_date;
 
   return {
     goal_start_date,
