@@ -16,7 +16,7 @@ const updateFoodItem = async (foodLogId, userID, foodItem) => {
     //update the record with the updated informnation
     console.log('IN THE BACK END HERE IS THE ENDPOINT FOR UPDATE ITEM', foodItem)
     try{
-       const updatedRecord = await db("food_log").where({ id:foodLogId, user_id:userID }).update({"quantity": foodItem.updatedQuantity});
+       const updatedRecord = await db("food_log").where({ id:foodLogId, user_id:userID }).update({"quantity": foodItem.updatedQuantity, "time_consumed_at": foodItem.time_consumed_at});
        return updatedRecord;
     }catch(err){
         return err;
