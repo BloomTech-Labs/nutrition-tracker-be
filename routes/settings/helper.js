@@ -1,4 +1,4 @@
-const moment = require("moment-timezone");
+
 //Converts cm to feet and inches.
 function heightToImperial(n) {
   var realFeet = n * 0.3937 / 12;
@@ -17,103 +17,45 @@ function kgToLbs(kg) {
   return lbs;
 }
 
-function macroRatiosToGrams(
-  caloric_budget,
-  fat_ratio,
-  protein_ratio,
-  carb_ratio
-) {
-  const fatBudget = Math.round(caloric_budget * fat_ratio / 9);
-  const proteinBudget = Math.round(caloric_budget * protein_ratio / 4);
-  const carbBudget = Math.round(caloric_budget * carb_ratio / 4);
+/********************************************************
+ *                   GET CALORIC BUDGET                  *
+ ********************************************************/
+// Calculates a user's caloric budget using the
+// Mifflin-St. Jeor Equation for BMR (Basal Metabolic Rate)
+// mutiplied by an Activity Factor of (1.2 - 1.9)
+// https://www.calculator.net/bmr-calculator.html
+function recalculateCaloricBudget(newUser) {
+  let { sex, activity_level, dob, actual_weight_kg, height_cm } = newUser;
 
-  return { fatBudget, proteinBudget, carbBudget };
+  return Math.round((
+    (10 * actual_weight_kg) 
+    + (6.25 * height_cm) 
+    - (5 * getAge(dob)) 
+    + (sex === "Male" ? 5 : -161)) 
+    * activity_level
+  );
 }
 
 /********************************************************
-*                   APPLY TIMEZONES                     *
-********************************************************/
-// consider refactoring  with moment-js
-function applyTimeZones(dailyLog, timeZoneNameCurrent) {
-  // loops through each log within a 24-hour time-span
-  dailyLog.forEach(log => {
-    // if the user's current time-zone is different from
-    // that which is stored in the log
-    if (timeZoneNameCurrent !== log.timeZoneName) {
-      // creates three properties on the log to denote the time consumed localized to
-      // the user's current time-zone, as well as the current time-zone name and abbreviation
-      log.timeConsumedAtHere = applyTimeZoneOffset(
-        log.timeConsumedAt,
-        timeZoneNameCurrent
-      );
-      log.timeZoneHereName = timeZoneNameCurrent;
-      log.timeZoneHereAbbr = moment
-        .tz(log.timeConsumedAt, timeZoneNameCurrent)
-        .format("z");
-
-      // creates three properties on the log to denote the time consumed localized to
-      // the user's time-zone at the time of logging, as well as the time-zone name
-      // and abbreviation
-      log.timeConsumedAtThere = applyTimeZoneOffset(
-        log.timeConsumedAt,
-        log.timeZoneName
-      );
-      log.timeZoneThereName = log.timeZoneName;
-      log.timeZoneThereAbbr = log.timeZoneAbbr;
-
-      // flags the log as having two, unique, time-zoned entries
-      log.hasTimeZoneDifference = true;
-
-      // deletes properties that won't be used by the client-side application
-      delete log.timeConsumedAt;
-      delete log.timeZoneName;
-      delete log.timeZoneAbbr;
-    } else {
-      // if the user's current time-zone matches that which is stored in the log
-
-      // updates the timeConsumedAt property to return back the UTC time
-      // localized to the time-zone that the user recorded the log
-      log.timeConsumedAt = applyTimeZoneOffset(
-        log.timeConsumedAt,
-        log.timeZoneName
-      );
-    }
-  });
-
-  // localizes a UTC-time to a provided time-zone
-  function applyTimeZoneOffset(timeUTC, timeZoneName) {
-    let timeConsumedUTC = moment.utc(timeUTC);
-    return moment.tz(timeConsumedUTC, timeZoneName).format();
+ *                        GET AGE                        *
+ ********************************************************/
+function getAge(dob) {
+  const today = new Date();
+  const birthDate = new Date(dob);
+  const age = today.getFullYear() - birthDate.getFullYear();
+  const monthDifference = today.getMonth() - birthDate.getMonth();
+  const dayDifference = today.getDate() - birthDate.getDate();
+  // handles edge case where if the user's birth month or birth day
+  // falls after today's date, if that's the case decrement the age by 1
+  // because they haven't yet hit their birthday
+  if (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)) {
+    age--;
   }
-
-  return dailyLog;
-}
-
-function calculateConsumption(dailyLog) {
-  let caloriesConsumed = 0;
-  let fatsConsumed = 0;
-  let carbsConsumed = 0;
-  let proteinConsumed = 0;
-
-  dailyLog.forEach(log => {
-    caloriesConsumed += Number(log.caloriesKcal) * Number(log.quantity);
-    fatsConsumed += Number(log.fatGrams) * Number(log.quantity);
-    carbsConsumed += Number(log.carbsGrams) * Number(log.quantity);
-    proteinConsumed += Number(log.proteinGrams) * Number(log.quantity);
-  });
-
-  return {
-    caloriesConsumed: Math.round(caloriesConsumed),
-    fatsConsumed: Math.round(fatsConsumed),
-    carbsConsumed: Math.round(carbsConsumed),
-    proteinConsumed: Math.round(proteinConsumed)
-  };
+  return age;
 }
 
 module.exports = {
   heightToImperial,
   kgToLbs,
-  macroRatiosToGrams,
-  applyTimeZones,
-  calculateConsumption
+  recalculateCaloricBudget
 };
