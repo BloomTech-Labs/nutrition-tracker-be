@@ -12,7 +12,9 @@ module.exports = {
   findActivityLevelById,
   addActivityLevel,
   getCaloricBudget,
-  getDailyLog
+  getDailyLog,
+  getCaloricBudgetData,
+  updateCaloricBudget
 };
 
 /*
@@ -52,7 +54,7 @@ function findMacroRatiosById(user_id) {
     .whereNotNull("fat_ratio")
     .whereNotNull("protein_ratio")
     .whereNotNull("carb_ratio")
-    .orderBy("start_date", "desc")
+    .orderBy("applicable_date", "desc")
     .first();
 }
 
@@ -68,11 +70,11 @@ async function addMacroRatios(data) {
 
 function findWeightGoalById(user_id) {
   return db("user_budget_data")
-    .select("weekly_goal_rate", "weight_goal_kg")
+    .select("goal_weekly_weight_change_rate", "goal_weight_kg")
     .where({ user_id })
-    .whereNotNull("weekly_goal_rate")
-    .whereNotNull("weight_goal_kg")
-    .orderBy("start_date", "desc")
+    .whereNotNull("goal_weekly_weight_change_rate")
+    .whereNotNull("goal_weight_kg")
+    .orderBy("applicable_date", "desc")
     .first();
 }
 
@@ -91,7 +93,7 @@ function findActivityLevelById(user_id) {
     .select("activity_level")
     .where({ user_id })
     .whereNotNull("activity_level")
-    .orderBy("start_date", "desc")
+    .orderBy("applicable_date", "desc")
     .first();
 }
 
@@ -106,15 +108,16 @@ function addActivityLevel(data) {
  ********************************************************/
 
 function findCurrentWeightById(user_id) {
-  return db("user_metric_history")
-    .select("weight_kg")
+  return db("user_budget_data")
+    .select("actual_weight_kg")
     .where({ user_id })
-    .orderBy("start_date", "desc")
+    .whereNotNull("actual_weight_kg")
+    .orderBy("applicable_date", "desc")
     .first();
 }
 
 function addCurrentWeight(data) {
-  return db("user_metric_history")
+  return db("user_budget_data")
     .insert(data)
     .returning("*");
 }
@@ -151,4 +154,56 @@ function getDailyLog(user_id, from, to) {
     .where("fl.user_id", "=", user_id)
     .whereBetween("fl.time_consumed_at", [from, to])
     .orderBy("fl.time_consumed_at");
+}
+
+/********************************************************
+*                GET USER BUDGET DATA                   *
+********************************************************/
+async function getCaloricBudgetData(id) {
+  const {height_cm, sex, dob} = await db("users")
+    .select(
+      "height_cm",
+      "sex",
+      "dob",
+    )
+    .where({ id })
+    .first();
+
+  const {actual_weight_kg} = await db("user_budget_data")
+      .select("actual_weight_kg")
+      .where({user_id: id})
+      .whereNotNull("actual_weight_kg")
+      .orderBy("applicable_date", "desc")
+      .first();
+
+  const {activity_level} = await db("user_budget_data")
+      .select("activity_level")
+      .where({user_id: id})
+      .whereNotNull("activity_level")
+      .orderBy("applicable_date", "desc")
+      .first();
+
+  return ({
+    height_cm,
+    sex,
+    dob,
+    actual_weight_kg,
+    activity_level
+  });
+}
+
+function updateCaloricBudget(caloric_budget, user_id) {
+  return db("user_budget_data")
+    .insert({
+      user_id,
+      caloric_budget
+    });
+}
+
+/********************************************************
+*                   GET WEIGHT PROGRESS                 *
+********************************************************/
+
+function getWeightProgress() {
+  
 }
