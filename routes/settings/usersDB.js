@@ -1,5 +1,8 @@
 const db = require("../../data/knex");
-const { recalcAndUpdateCaloricBudget } = require("./recalcAndUpdateCaloricBudget");
+const {
+  recalcAndUpdateCaloricBudget
+} = require("./recalcAndUpdateCaloricBudget");
+const updateGoalDateIfNecessary = require("./updateGoalDateIfNecessary");
 
 module.exports = {
   findByUserId,
@@ -38,9 +41,7 @@ async function updateUser(updates, id) {
   // in the future to alert the user of their new target caloric budget.
   const updatedCaloricBudget = await recalcAndUpdateCaloricBudget(id);
 
-  updateWeightGoalIfNecessary();
-
-  console.log("[updatedCaloricBudget]", updatedCaloricBudget);
+  updateGoalDateIfNecessary();
 
   return updatedUser;
 }
@@ -91,7 +92,7 @@ async function addWeightGoal(data) {
     .insert(data)
     .returning("*");
 
-  updateGoalDateIfNecessary();
+  updateGoalDateIfNecessary(data.user_id, "EST");
 
   return updatedWeightGoal;
 }
@@ -165,7 +166,9 @@ async function addCurrentWeight(data) {
 
   // if necessary, calculates and returns the new goal date if our goal weight
   // and previous goal date were unattainable
-  const updatedGoalDate = updateGoalDateIfNecessary();
+  const updatedGoalDate = await updateGoalDateIfNecessary(data.user_id, "EST");
+
+  console.log("[updatedGoalDate]", updatedGoalDate);
 
   return updatedUser;
 }
