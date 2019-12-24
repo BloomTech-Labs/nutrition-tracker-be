@@ -3,6 +3,11 @@ const db = require("./foodItemDB");
 const fetch = require("node-fetch");
 const mapFirebaseIDtoUserID = require("../../middleware/mapFirebaseIDtoUserID");
 
+const dev = true ; 
+const BASE_URL = dev ? "http://localhost:4000" : "https://nutri-journal.herokuapp.com";
+
+
+
 router = express.Router();
 
 const checkStatus = res => {
@@ -27,7 +32,7 @@ router.get(
       try {
         var data;
         await fetch(
-          `http://localhost:4000/fatsecret/get-food/${fatsecret_food_id}` //make a fetch request from our api and and get info
+          `${BASE_URL}/fatsecret/get-food/${fatsecret_food_id}` //make a fetch request from our api and and get info
         )
           .then(checkStatus)
           .then(res => res.json())
