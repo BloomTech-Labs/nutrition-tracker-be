@@ -10,8 +10,7 @@ module.exports = {
   findWeightGoalById,
   addWeightGoal,
   findActivityLevelById,
-  addActivityLevel,
-  getCaloricBudget
+  addActivityLevel
 };
 
 /********************************************************
