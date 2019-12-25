@@ -40,8 +40,9 @@ function validateRequest(req, res, next) {
     newUser.actual_weight_kg &&
     newUser.goal_weight_kg &&
     newUser.height_cm &&
-    // removes occurence of falsey value when rate is 0
-    String(newUser.goal_weekly_weight_change_rate) &&
+    // !isNaN() handles occurrence of falsey value when value of obj property is 0
+    // it will return false if data-type is not a number, i.e. when data-type is undefined
+    !isNaN(newUser.goal_weekly_weight_change_rate) &&
     newUser.email
   ) {
     next();

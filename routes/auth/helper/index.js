@@ -17,7 +17,11 @@ function getCaloricBudget(newUser) {
   let { sex, activity_level, dob, actual_weight_kg, height_cm } = newUser;
 
   return Math.round(
-    (10 * actual_weight_kg + 6.25 * height_cm - 5 * getAge(dob) + (sex === "Male" ? 5 : -161)) * activity_level
+    (10 * actual_weight_kg +
+      6.25 * height_cm -
+      5 * getAge(dob) +
+      (sex === "Male" ? 5 : -161)) *
+      activity_level
   );
 }
 
@@ -48,11 +52,17 @@ function afterWeightGoalIsAchieved(user) {
  ********************************************************/
 function calculateWeightGoalDates(newUser) {
   console.log("here");
-  let { actual_weight_kg, goal_weight_kg, goal_weekly_weight_change_rate } = newUser;
+  let {
+    actual_weight_kg,
+    goal_weight_kg,
+    goal_weekly_weight_change_rate
+  } = newUser;
 
   const weeklyChangeRateKg = toKG(goal_weekly_weight_change_rate);
   const differenceInKG = toPrecision2(actual_weight_kg - goal_weight_kg);
-  const daysUntilGoal = Math.ceil(Math.abs(differenceInKG / weeklyChangeRateKg) * 7);
+  const daysUntilGoal = Math.ceil(
+    Math.abs(differenceInKG / weeklyChangeRateKg) * 7
+  );
   // rounded up to the nearest day
 
   const goal_start_date = moment()
