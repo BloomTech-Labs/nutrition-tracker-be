@@ -3,10 +3,10 @@ const db = require("./foodItemDB");
 const fetch = require("node-fetch");
 const mapFirebaseIDtoUserID = require("../../middleware/mapFirebaseIDtoUserID");
 
-const dev = true ; 
-const BASE_URL = dev ? "http://localhost:4000" : "https://nutri-journal.herokuapp.com";
-
-
+const dev = false;
+const BASE_URL = dev
+  ? "http://localhost:4000"
+  : "https://nutri-journal.herokuapp.com";
 
 router = express.Router();
 
@@ -42,7 +42,6 @@ router.get(
       } catch ({ message }) {
         res.status(404).json(message);
       }
-      //now we that we have that data from the end point we we need to spread in out data from the first call
     } catch ({ message }) {
       res.status(500).json(message);
     }
@@ -53,7 +52,6 @@ router.put(
   "/updatefooditem/:foodLogID/user/:user_id",
   mapFirebaseIDtoUserID,
   async (req, res) => {
-  
     const { foodLogID, user_id } = req.params;
     const updatedRecord = req.body;
 
@@ -67,16 +65,20 @@ router.put(
   }
 );
 
-router.delete("/deletefooditem/:foodLogID/user/:user_id",mapFirebaseIDtoUserID,async (req, res) => {
-  const { foodLogID, user_id } = req.params;
+router.delete(
+  "/deletefooditem/:foodLogID/user/:user_id",
+  mapFirebaseIDtoUserID,
+  async (req, res) => {
+    const { foodLogID, user_id } = req.params;
 
-  try {
-    // call to db to delete record;
-    const deletedRecord = await db.deleteFoodItem(foodLogID, user_id);
-    res.status(200).json(deletedRecord);
-  } catch ({ message }) {
-    res.status(500).json(message);
+    try {
+      // call to db to delete record;
+      const deletedRecord = await db.deleteFoodItem(foodLogID, user_id);
+      res.status(200).json(deletedRecord);
+    } catch ({ message }) {
+      res.status(500).json(message);
+    }
   }
-});
+);
 
 module.exports = router;
