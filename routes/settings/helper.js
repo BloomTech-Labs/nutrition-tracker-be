@@ -9,7 +9,7 @@ function heightToImperial(n) {
   };
 }
 
-//Converts kg to lbs
+// Converts kg to lbs
 function kgToLbs(kg) {
   var nearExact = kg / 0.45359237;
   var lbs = Math.floor(nearExact);
