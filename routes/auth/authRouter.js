@@ -1,7 +1,7 @@
 const express = require("express");
 const Auth = require("./authDB");
 const router = express.Router();
-const { getCaloricBudget, getAge } = require("./helper");
+const { getCaloricBudget } = require("./helper");
 
 /********************************************************
  *                      AUTH/REGISTER                    *
