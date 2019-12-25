@@ -1,10 +1,13 @@
+const moment = require("moment-timezone");
+
 module.exports = {
+  calculateWeightGoalDates,
   getCaloricBudget,
   getAge
 };
 
 /********************************************************
- *                   GET CALORIC BUDGET                  *
+ *                   GET CALORIC BUDGET                 *
  ********************************************************/
 // Calculates a user's caloric budget using the
 // Mifflin-St. Jeor Equation for BMR (Basal Metabolic Rate)
@@ -13,17 +16,13 @@ module.exports = {
 function getCaloricBudget(newUser) {
   let { sex, activity_level, dob, actual_weight_kg, height_cm } = newUser;
 
-  return Math.round((
-    (10 * actual_weight_kg) 
-    + (6.25 * height_cm) 
-    - (5 * getAge(dob)) 
-    + (sex === "male" ? 5 : -161)) 
-    * activity_level
+  return Math.round(
+    (10 * actual_weight_kg + 6.25 * height_cm - 5 * getAge(dob) + (sex === "Male" ? 5 : -161)) * activity_level
   );
 }
 
 /********************************************************
- *                        GET AGE                        *
+ *                        GET AGE                       *
  ********************************************************/
 function getAge(dob) {
   const today = new Date();
@@ -38,4 +37,45 @@ function getAge(dob) {
     age--;
   }
   return age;
+}
+
+function afterWeightGoalIsAchieved(user) {
+  // wat do when we achieve our goal
+}
+
+/********************************************************
+ *                                                      *
+ ********************************************************/
+function calculateWeightGoalDates(newUser) {
+  console.log("here");
+  let { actual_weight_kg, goal_weight_kg, goal_weekly_weight_change_rate } = newUser;
+
+  const weeklyChangeRateKg = toKG(goal_weekly_weight_change_rate);
+  const differenceInKG = toPrecision2(actual_weight_kg - goal_weight_kg);
+  const daysUntilGoal = Math.ceil(Math.abs(differenceInKG / weeklyChangeRateKg) * 7);
+  // rounded up to the nearest day
+
+  const goal_start_date = moment()
+    .utc()
+    .format();
+
+  const goal_end_date = moment(goal_start_date)
+    .utc()
+    .add(daysUntilGoal, "d")
+    .format();
+
+  return {
+    goal_start_date,
+    goal_end_date
+  };
+}
+
+// converts kg to lbs and rounds to nearest 100th's place
+function toKG(lbs) {
+  return toPrecision2(lbs / 2.205);
+}
+
+// rounds to nearest 100th's place
+function toPrecision2(num) {
+  return Math.round(100 * num) / 100;
 }
