@@ -12,20 +12,8 @@ module.exports = {
   findActivityLevelById,
   addActivityLevel,
   getCaloricBudget,
-  getDailyLog,
-  getCaloricBudgetData,
-  updateCaloricBudget
+  getDailyLog
 };
-
-/*
-  TODO:
-    ask will about UPSERT for any inserts into user_budget_data
-    it should be UPSERT in the event that the user updates on
-    the same day, (we don't want to have more than one insert for
-    a single date, so it should just replace the existing one)
-
-    this will be important for RC2
-*/
 
 /********************************************************
  *                  User Queries                        *
@@ -154,56 +142,4 @@ function getDailyLog(user_id, from, to) {
     .where("fl.user_id", "=", user_id)
     .whereBetween("fl.time_consumed_at", [from, to])
     .orderBy("fl.time_consumed_at");
-}
-
-/********************************************************
-*                GET USER BUDGET DATA                   *
-********************************************************/
-async function getCaloricBudgetData(id) {
-  const {height_cm, sex, dob} = await db("users")
-    .select(
-      "height_cm",
-      "sex",
-      "dob",
-    )
-    .where({ id })
-    .first();
-
-  const {actual_weight_kg} = await db("user_budget_data")
-      .select("actual_weight_kg")
-      .where({user_id: id})
-      .whereNotNull("actual_weight_kg")
-      .orderBy("applicable_date", "desc")
-      .first();
-
-  const {activity_level} = await db("user_budget_data")
-      .select("activity_level")
-      .where({user_id: id})
-      .whereNotNull("activity_level")
-      .orderBy("applicable_date", "desc")
-      .first();
-
-  return ({
-    height_cm,
-    sex,
-    dob,
-    actual_weight_kg,
-    activity_level
-  });
-}
-
-function updateCaloricBudget(caloric_budget, user_id) {
-  return db("user_budget_data")
-    .insert({
-      user_id,
-      caloric_budget
-    });
-}
-
-/********************************************************
-*                   GET WEIGHT PROGRESS                 *
-********************************************************/
-
-function getWeightProgress() {
-  
 }
