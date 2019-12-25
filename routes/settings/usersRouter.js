@@ -205,37 +205,4 @@ router.post(
   }
 );
 
-/********************************************************
- *               GET USER/NUTRITION-BUDGETS              *
- ********************************************************/
-router.get("/nutrition-budgets", async (req, res) => {
-  try {
-    const {
-      caloric_budget,
-      fat_ratio,
-      protein_ratio,
-      carb_ratio
-    } = await UserInfo.getCaloricBudget(1);
-
-    const { fatBudget, proteinBudget, carbBudget } = macroRatiosToGrams(
-      caloric_budget,
-      fat_ratio,
-      protein_ratio,
-      carb_ratio
-    );
-
-    res.status(200).json({
-      caloricBudget: Math.round(caloric_budget),
-      fatBudget,
-      carbBudget,
-      proteinBudget
-    });
-  } catch (err) {
-    res.status(500).json({
-      errorMessage: "Internal Server Error",
-      err
-    });
-  }
-});
-
 module.exports = router;

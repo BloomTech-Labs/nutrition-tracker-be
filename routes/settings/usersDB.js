@@ -108,13 +108,3 @@ function addCurrentWeight(data) {
     .insert(data)
     .returning("*");
 }
-
-/***********************************************
- *                   DATABASE QUERIES           *
- ***********************************************/
-function getCaloricBudget(user_id) {
-  return db("user_budget_data")
-    .select("caloric_budget", "fat_ratio", "protein_ratio", "carb_ratio")
-    .where({ user_id })
-    .first();
-}
