@@ -18,6 +18,5 @@ function kgToLbs(kg) {
 
 module.exports = {
   heightToImperial,
-  kgToLbs,
-  recalculateCaloricBudget
+  kgToLbs
 };
