@@ -1,3 +1,4 @@
+const db = require("../../data/knex");
 const { recalcAndUpdateCaloricBudget } = require("./recalcAndUpdateCaloricBudget");
 const updateGoalDateIfNecessary = require("./updateGoalDateIfNecessary");
 
