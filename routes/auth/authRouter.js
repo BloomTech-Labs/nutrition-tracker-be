@@ -4,8 +4,8 @@ const router = express.Router();
 const { getCaloricBudget, getAge } = require("./helper");
 
 /********************************************************
-*                      AUTH/REGISTER                    *
-********************************************************/
+ *                      AUTH/REGISTER                    *
+ ********************************************************/
 router.post("/register", validateRequest, async (req, res) => {
   let newUser = req.body;
 
@@ -25,8 +25,8 @@ router.post("/register", validateRequest, async (req, res) => {
 });
 
 /********************************************************
-*                        MIDDLE-WARE                    *
-********************************************************/
+ *                        MIDDLE-WARE                    *
+ ********************************************************/
 function validateRequest(req, res, next) {
   let newUser = req.body;
   if (
