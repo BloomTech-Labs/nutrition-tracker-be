@@ -11,20 +11,8 @@ module.exports = {
   findWeightGoalById,
   addWeightGoal,
   findActivityLevelById,
-  addActivityLevel,
-  getCaloricBudget,
-  getDailyLog
+  addActivityLevel
 };
-
-/*
-  TODO:
-    ask will about UPSERT for any inserts into user_budget_data
-    it should be UPSERT in the event that the user updates on
-    the same day, (we don't want to have more than one insert for
-    a single date, so it should just replace the existing one)
-
-    this will be important for RC2
-*/
 
 /********************************************************
  *                  User Queries                        *
@@ -53,7 +41,7 @@ function findMacroRatiosById(user_id) {
     .whereNotNull("fat_ratio")
     .whereNotNull("protein_ratio")
     .whereNotNull("carb_ratio")
-    .orderBy("start_date", "desc")
+    .orderBy("applicable_date", "desc")
     .first();
 }
 
@@ -69,11 +57,11 @@ async function addMacroRatios(data) {
 
 function findWeightGoalById(user_id) {
   return db("user_budget_data")
-    .select("weekly_goal_rate", "weight_goal_kg")
+    .select("goal_weekly_weight_change_rate", "goal_weight_kg")
     .where({ user_id })
-    .whereNotNull("weekly_goal_rate")
-    .whereNotNull("weight_goal_kg")
-    .orderBy("start_date", "desc")
+    .whereNotNull("goal_weekly_weight_change_rate")
+    .whereNotNull("goal_weight_kg")
+    .orderBy("applicable_date", "desc")
     .first();
 }
 
@@ -92,7 +80,7 @@ function findActivityLevelById(user_id) {
     .select("activity_level")
     .where({ user_id })
     .whereNotNull("activity_level")
-    .orderBy("start_date", "desc")
+    .orderBy("applicable_date", "desc")
     .first();
 }
 
@@ -107,49 +95,16 @@ function addActivityLevel(data) {
  ********************************************************/
 
 function findCurrentWeightById(user_id) {
-  return db("user_metric_history")
-    .select("weight_kg")
+  return db("user_budget_data")
+    .select("actual_weight_kg")
     .where({ user_id })
-    .orderBy("start_date", "desc")
+    .whereNotNull("actual_weight_kg")
+    .orderBy("applicable_date", "desc")
     .first();
 }
 
 function addCurrentWeight(data) {
-  return db("user_metric_history")
+  return db("user_budget_data")
     .insert(data)
     .returning("*");
-}
-
-/***********************************************
- *                   DATABASE QUERIES           *
- ***********************************************/
-function getCaloricBudget(user_id) {
-  return db("user_budget_data")
-    .select("caloric_budget", "fat_ratio", "protein_ratio", "carb_ratio")
-    .where({ user_id })
-    .first();
-}
-
-function getDailyLog(user_id, from, to) {
-  return db("food_log as fl")
-    .join("foods as f", {
-      "fl.food_id": "f.id"
-    })
-    .select(
-      "fl.food_id as foodID",
-      "fl.fatsecret_food_id as fatSecretFoodID",
-      "fl.time_consumed_at as timeConsumedAt",
-      "fl.time_zone_name as timeZoneName",
-      "fl.time_zone_abbr as timeZoneAbbr",
-      "fl.quantity",
-      "f.food_name as foodName",
-      "f.serving_desc as servingDescription",
-      "f.calories_kcal as caloriesKcal",
-      "f.fat_g as fatGrams",
-      "f.carbs_g as carbsGrams",
-      "f.protein_g as proteinGrams"
-    )
-    .where("fl.user_id", "=", user_id)
-    .whereBetween("fl.time_consumed_at", [from, to])
-    .orderBy("fl.time_consumed_at");
 }

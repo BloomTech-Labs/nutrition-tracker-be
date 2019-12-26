@@ -13,12 +13,12 @@ module.exports = {
 function getCaloricBudget(newUser) {
   let { sex, activity_level, dob, actual_weight_kg, height_cm } = newUser;
 
-  return Math.round((
-    (10 * actual_weight_kg) 
-    + (6.25 * height_cm) 
-    - (5 * getAge(dob)) 
-    + (sex === "male" ? 5 : -161)) 
-    * activity_level
+  return Math.round(
+    (10 * actual_weight_kg +
+      6.25 * height_cm -
+      5 * getAge(dob) +
+      (sex === "Male" ? 5 : -161)) *
+      activity_level
   );
 }
 
