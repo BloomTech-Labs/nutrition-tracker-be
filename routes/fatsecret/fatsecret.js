@@ -1,7 +1,4 @@
 const express = require("express");
-const axios = require("axios");
-const cors = require("cors");
-const CircularJSON = require("circular-json");
 const oathQueryBuilder = require("./oauthQueryBuilder");
 
 const db = require("./getFoods.js");
@@ -84,11 +81,7 @@ const transformFatSecretData = response => {
     // measurement_description, number_of_units
     // and stores the ones we're interested in,
     // in "without_extra_attributes" constant
-    const {
-      measurement_description,
-      number_of_units,
-      ...without_extra_attributes
-    } = data_first_pass;
+    const { measurement_description, number_of_units, ...without_extra_attributes } = data_first_pass;
 
     return without_extra_attributes;
   }; // END denormalizeFoodData() definition
@@ -119,10 +112,7 @@ const getFatSecretData = async (method, food_id) => {
   return fatSecretFoods;
 };
 
-/********************************************************
- *                 FATSECRET - FOOD.GET                 *
- ********************************************************/
-router.get("/fatsecret/get-food/:food_id", async (req, res) => {
+const getFoodHandler = async (req, res) => {
   const method = "food.get";
   const fatsecretFoodID = req.params.food_id;
 
@@ -153,7 +143,12 @@ router.get("/fatsecret/get-food/:food_id", async (req, res) => {
   }
 
   res.send(foods);
-});
+};
+
+/********************************************************
+ *                 FATSECRET - FOOD.GET                 *
+ ********************************************************/
+router.get("/fatsecret/get-food/:food_id", getFoodHandler);
 
 router.get("/fatsecret/search-food/:search_expression", async (req, res) => {
   const searchExpression = req.params.search_expression;
@@ -193,4 +188,4 @@ router.get("/fatsecret/search-food/:search_expression", async (req, res) => {
   // res.status(200).send(response);
 });
 
-module.exports = router;
+module.exports = { router, getFoodHandler };
