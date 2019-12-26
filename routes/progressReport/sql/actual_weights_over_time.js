@@ -20,7 +20,6 @@ const actual_weights_over_time = (user_id, time_zone, goal_start_date, goal_end_
       d.user_id = ubd.user_id and
       d.applicable_date = ubd.applicable_date
     order by
-      d.user_id,
       d.observation_date
 
 
