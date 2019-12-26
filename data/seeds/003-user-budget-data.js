@@ -1,4 +1,6 @@
 exports.seed = function(knex) {
+  const { presentMinusXDays } = require("../helpers/timestampOffsetFns");
+  const { presentMinusXHours } = require("../helpers/timestampOffsetFns");
   // Deletes ALL existing entries
   return knex("user_budget_data")
     .truncate()
@@ -8,12 +10,12 @@ exports.seed = function(knex) {
         {
           // id: 1,
           user_id: 1,
-          applicable_date: new Date(),
+          applicable_date: presentMinusXDays(0),
           goal_start_date: new Date(),
           goal_end_date: new Date(),
           goal_weekly_weight_change_rate: -1.0,
-          goal_weight_kg: 160.0,
-          actual_weight_kg: 180.0,
+          goal_weight_kg: 140.0,
+          actual_weight_kg: 160.0,
           activity_level: 1.55,
           caloric_budget: 2000.0,
           fat_ratio: 30,
@@ -64,6 +66,31 @@ exports.seed = function(knex) {
           fat_ratio: 30,
           protein_ratio: 20,
           carb_ratio: 50
+        },
+        {
+          user_id: 1,
+          applicable_date: presentMinusXHours(10),
+          actual_weight_kg: 159
+        },
+        {
+          user_id: 1,
+          applicable_date: presentMinusXHours(28),
+          actual_weight_kg: 161
+        },
+        {
+          user_id: 1,
+          applicable_date: presentMinusXHours(43),
+          actual_weight_kg: 164
+        },
+        {
+          user_id: 1,
+          applicable_date: presentMinusXHours(49),
+          actual_weight_kg: 163
+        },
+        {
+          user_id: 1,
+          applicable_date: presentMinusXHours(80),
+          actual_weight_kg: 165
         }
       ]);
     });
