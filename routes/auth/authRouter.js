@@ -47,7 +47,7 @@ function validateRequest(req, res, next) {
   } else {
     res.status(400).json({
       errorMessage:
-        "The request body must contain values for 'firebase_id', 'sex', 'activity_level', 'dob', 'weight_kg', 'height_cm', 'weekly_goal_rate', and 'email'"
+        "The request body must contain values for 'firebase_id', 'sex', 'activity_level', 'dob', 'actual_weight_kg', 'goal_weight_kg', 'height_cm', 'goal_weekly_weight_change_rate', and 'email'"
     });
   }
 }
