@@ -1,8 +1,9 @@
 const dates_in_range = (time_zone, goal_start_date, goal_end_date) => {
+  // returns set of every "observation date" between (inclusive) goal start date and goal end date. also calculates a "end of day" timestamp value, and translates it into a UTC timestamptz value to compare against the values for applicable_date in user_budget_data
   return `
     ( select 
         d.observation_date, 
-        ((d.observation_date + interval '1 day') AT TIME ZONE '${time_zone}' AT TIME ZONE 'UTC')::timestamptz as eod_in_utc
+        ((d.observation_date + interval '1 day') AT TIME ZONE '${time_zone}' AT TIME ZONE 'UTC')::timestamptz as eod_in_utc --"end of day in utc"
     
         -- eg for '2019-12-25', eod = '2019-12-26', with our query saying we want the last (aka max) value 
         -- less than eod.
