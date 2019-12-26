@@ -1,11 +1,11 @@
-const goal_weights_over_time = (user_id, time_zone, goal_start_date, goal_end_date) => {
+const goal_weights_over_time = (user_id, time_zone, start_date, end_date) => {
   //calculates the sql query for: the goal_weight_kg in force at a given observation_date within the date range from "goal start date" to "goal end date"
   // ran by fn in "../weightOverTimeDB"
   const goal_weights_daily_applicable_dates = require("./goal_weights_daily_applicable_dates")(
     user_id,
     time_zone,
-    goal_start_date,
-    goal_end_date
+    start_date,
+    end_date
   );
   return `
 

@@ -1,4 +1,4 @@
-const dates_in_range = (time_zone, goal_start_date, goal_end_date) => {
+const dates_in_range = (time_zone, start_date, end_date) => {
   // returns set of every "observation date" between (inclusive) goal start date and goal end date. also calculates a "end of day" timestamp value, and translates it into a UTC timestamptz value to compare against the values for applicable_date in user_budget_data
   return `
     ( select 
@@ -15,8 +15,8 @@ const dates_in_range = (time_zone, goal_start_date, goal_end_date) => {
       from (
         SELECT date_trunc('day', timeseries)::date as observation_date
         FROM generate_series
-        ('${goal_start_date}'::timestamp 
-        ,'${goal_end_date}'::timestamp
+        ('${start_date}'::timestamp 
+        ,'${end_date}'::timestamp
         ,'1 day'::interval) as timeseries
       ) as d)
     as d
