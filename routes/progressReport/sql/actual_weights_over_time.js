@@ -8,8 +8,6 @@ const actual_weights_over_time = (user_id, time_zone, start_date, end_date) => {
     end_date
   );
   return `
-
-
     select 
       d.user_id,
       d.observation_date,
@@ -23,8 +21,6 @@ const actual_weights_over_time = (user_id, time_zone, start_date, end_date) => {
       ubd.actual_weight_kg is not null
     order by
       d.observation_date
-
-
   `;
 };
 
