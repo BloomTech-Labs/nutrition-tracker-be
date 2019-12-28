@@ -19,6 +19,8 @@ const actual_weights_over_time = (user_id, time_zone, start_date, end_date) => {
     on 
       d.user_id = ubd.user_id and
       d.applicable_date = ubd.applicable_date
+    where
+      ubd.actual_weight_kg is not null
     order by
       d.observation_date
 
