@@ -1,6 +1,16 @@
 const weights_over_time = (user_id, time_zone, start_date, end_date) => {
-  actual_weights_over_time = require("./actual_weights_over_time")(user_id, time_zone, start_date, end_date);
-  goal_weights_over_time = require("./goal_weights_over_time")(user_id, time_zone, start_date, end_date);
+  actual_weights_over_time = require("./actual_weights_over_time")(
+    user_id,
+    time_zone,
+    start_date,
+    end_date
+  );
+  goal_weights_over_time = require("./goal_weights_over_time")(
+    user_id,
+    time_zone,
+    start_date,
+    end_date
+  );
 
   return `
 
