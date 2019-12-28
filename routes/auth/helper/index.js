@@ -43,10 +43,6 @@ function getAge(dob) {
   return age;
 }
 
-function afterWeightGoalIsAchieved(user) {
-  // wat do when we achieve our goal
-}
-
 /********************************************************
  *                                                      *
  ********************************************************/
