@@ -18,8 +18,8 @@ const dates_in_range = (time_zone, start_date, end_date) => {
         ('${start_date}'::timestamp 
         ,'${end_date}'::timestamp
         ,'1 day'::interval) as timeseries
-      ) as d)
-    as d
+      ) as d
+    )
   `;
 };
 

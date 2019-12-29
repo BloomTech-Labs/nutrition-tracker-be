@@ -7,8 +7,8 @@ const goal_rates_user_id_applicable_dates = user_id => {
       from user_budget_data as ubd
       where
         ubd.user_id = ${user_id} and
-        ubd.goal_weekly_weight_change_rate is not null)
-    as a
+        ubd.goal_weekly_weight_change_rate is not null
+    )
   `;
 };
 
