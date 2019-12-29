@@ -12,7 +12,6 @@ const goal_weights_over_time = (user_id, time_zone, start_date, end_date) => {
       d.user_id,
       d.observation_date,
       ubd.goal_weight_kg,
-      ubd.goal_start_date,
       ubd.goal_end_date
     from ${goal_weights_daily_applicable_dates} -- as d
     inner join user_budget_data as ubd
