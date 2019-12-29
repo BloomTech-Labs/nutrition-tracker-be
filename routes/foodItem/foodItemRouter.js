@@ -3,7 +3,7 @@ const db = require("./foodItemDB");
 const fetch = require("node-fetch");
 const mapFirebaseIDtoUserID = require("../../middleware/mapFirebaseIDtoUserID");
 
-const dev = false;
+const dev = true;
 const BASE_URL = dev
   ? "http://localhost:4000"
   : "https://nutri-journal.herokuapp.com";
@@ -31,14 +31,20 @@ router.get(
       //now that we have our data from the db we need to go and get the fatsecret_food_id for this record and return that info.
       try {
         var data;
+        var servingArrayData;
         await fetch(
           `${BASE_URL}/fatsecret/get-food/${fatsecret_food_id}` //make a fetch request from our api and and get info
         )
           .then(checkStatus)
           .then(res => res.json())
-          .then(json => (data = json)); // json is the actaul data being returned from out api call
+          .then(json => (
+                servingArrayData = json.map(item => {
+                  return { serving_id:item.serving_id, serving_qty:item.serving_qty, serving_desc:item.serving_desc };
+              }),
+              data = json
+              )); // json is the actaul data being returned from out api call
         const dataAtIndexOne = data[0];
-        res.status(200).json({ ...dataAtIndexOne, ...foodItem }); // return the api call json data and combine with local db data
+        res.status(200).json({ ...dataAtIndexOne, ...foodItem, servingArrayData }); // return the api call json data and combine with local db data
       } catch ({ message }) {
         res.status(404).json(message);
       }
