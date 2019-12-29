@@ -27,7 +27,7 @@ router.get(
 
     try {
       const [foodItem] = await db.getFoodItem(foodlogID, user_id);
-      const { fatsecret_food_id } = foodItem;
+      const { fatsecret_food_id, serving_id } = foodItem;
       //now that we have our data from the db we need to go and get the fatsecret_food_id for this record and return that info.
       try {
         var data;
@@ -41,10 +41,9 @@ router.get(
                 servingArrayData = json.map(item => {
                   return { serving_id:item.serving_id, serving_qty:item.serving_qty, serving_desc:item.serving_desc };
               }),
-              data = json
+              data = json.find(item => item.serving_id === serving_id ) //Finds the record from API call to match the serving_description saved in our local DB
               )); // json is the actaul data being returned from out api call
-        const dataAtIndexOne = data[0];
-        res.status(200).json({ ...dataAtIndexOne, ...foodItem, servingArrayData }); // return the api call json data and combine with local db data
+        res.status(200).json({ ...data, ...foodItem, servingArrayData }); // return the api call json data and combine with local db data
       } catch ({ message }) {
         res.status(404).json(message);
       }

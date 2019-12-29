@@ -25,7 +25,7 @@ function getCaloricBudget(user_id) {
 function getDailyLog(user_id, from, to) {
   return db("food_log as fl")
     .join("foods as f", {
-      "fl.food_id": "f.id"
+      "f.serving_id": "fl.serving_id"
     })
     .select(
       "fl.id as foodLogID",
