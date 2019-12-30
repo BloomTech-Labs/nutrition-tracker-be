@@ -3,8 +3,6 @@ const actual_calories_over_time = (user_id, start_date, end_date) => {
   // ran by fn in "../caloriesOverTimeDB"
   const observation_dates = require("./observation_dates")(start_date, end_date);
   return `
-
-
     select 
       ${user_id} as user_id,
       od.observation_date,
@@ -13,9 +11,6 @@ const actual_calories_over_time = (user_id, start_date, end_date) => {
     left join (select date, total_calories from daily_nutrition_totals where user_id = ${user_id}) as d_n_t
     on 
       od.observation_date = d_n_t.date
-
-
-
   `;
 };
 

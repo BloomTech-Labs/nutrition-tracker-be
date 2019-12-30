@@ -1,6 +1,6 @@
 const user_id = 1;
 const time_zone = `CST`;
-const start_date = `2019-12-15`;
+const start_date = `2019-12-20`;
 const end_date = `2020-01-31`;
 
 // const actualWeightOverTime = require("./actualWeightOverTimeDB");
@@ -22,13 +22,13 @@ async function runWeightOverTime() {
 
 async function runCaloriesOverTime() {
   //executes actualCaloriesOverTime function with some hardcoded example values which creates SQL and runs the query in pg-promise
-  console.log(await actualCaloriesOverTime(user_id, start_date, end_date));
+  // console.log(await actualCaloriesOverTime(user_id, start_date, end_date));
 
   //executes goalCaloriesOverTime function with some hardcoded example values which creates SQL and runs the query in pg-promise
-  // console.log(await goalCaloriesOverTime(user_id, start_date, end_date));
+  // console.log(await goalCaloriesOverTime(user_id, time_zone, start_date, end_date));
 
   //executes caloriesOverTime function with some hardcoded example values which creates SQL and runs the query in pg-promise
-  // console.log(await caloriesOverTime(user_id, start_date, end_date));
+  console.log(await caloriesOverTime(user_id, time_zone, start_date, end_date));
 }
 
 // runWeightOverTime();
