@@ -1,6 +1,6 @@
 const goal_rates_over_time = (user_id, time_zone, start_date, end_date) => {
   //calculates the sql query for: the v in force at a given observation_date within the date range from "goal start date" to "goal end date"
-  const daily_applicable_dates = require("./goal_weights_daily_applicable_dates")(
+  const daily_applicable_dates = require("./goal_rates_daily_applicable_dates")(
     user_id,
     time_zone,
     start_date,
