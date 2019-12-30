@@ -39,7 +39,7 @@ router.get(
           .then(res => res.json())
           .then(json => (
                 servingArrayData = json.map(item => {
-                  return { serving_id:item.serving_id, serving_qty:item.serving_qty, serving_desc:item.serving_desc };
+                  return { serving_id:item.serving_id, serving_qty:item.serving_qty, serving_desc:item.serving_desc, fat_g:item.fat_g, carbs_g:item.carbs_g, protein_g:item.protein_g };
               }),
               data = json.find(item => item.serving_id === serving_id ) //Finds the record from API call to match the serving_description saved in our local DB
               )); // json is the actaul data being returned from out api call
