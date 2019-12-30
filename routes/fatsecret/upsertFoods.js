@@ -57,7 +57,7 @@ function upsertQuery(data) {
     " ON CONFLICT(fatsecret_food_id, serving_id) DO UPDATE SET " +
     columnSet.assignColumns({
       from: "EXCLUDED",
-      skip: ["id", "fatsecret_food_id", "serving_id"]
+      skip: ["fatsecret_food_id", "serving_id"]
     }) +
     " RETURNING *"
   );
