@@ -28,7 +28,6 @@ router.get("/:user_id", mapFirebaseIDtoUserID, async (req, res) => {
 router.put("/:user_id", mapFirebaseIDtoUserID, async (req, res) => {
   const user_id = req.params.user_id;
   const updatedSettings = req.body;
-
   if (!updatedSettings) {
     res.status(400).json({
       message: "Item required for update are missing"
@@ -36,11 +35,8 @@ router.put("/:user_id", mapFirebaseIDtoUserID, async (req, res) => {
   }
   try {
     const updated = await UserInfo.updateUser(updatedSettings, user_id);
-    
     res.status(201).json(updated);
-
   } catch (err) {
-    console.log(err);
     res.status(500).json({ message: "Failed to update user settings" });
   }
 });
@@ -50,35 +46,43 @@ router.put("/:user_id", mapFirebaseIDtoUserID, async (req, res) => {
  ********************************************************/
 
 //Get specific user's macros from user_budget_data table. Returns only fat_ratio, protein_ratio, and carb_ratio
-router.get("/:user_id/macro-ratios", mapFirebaseIDtoUserID, async (req, res) => {
-  const user_id = req.params.user_id;
-  try {
-    const user = await UserInfo.findMacroRatiosById(user_id);
-    res.json(user);
-  } catch (err) {
-    res.status(500).json({ message: "Failed to get user's macro ratios" });
+router.get(
+  "/:user_id/macro-ratios",
+  mapFirebaseIDtoUserID,
+  async (req, res) => {
+    const user_id = req.params.user_id;
+    try {
+      const user = await UserInfo.findMacroRatiosById(user_id);
+      res.json(user);
+    } catch (err) {
+      res.status(500).json({ message: "Failed to get user's macro ratios" });
+    }
   }
-});
+);
 
-//Post new macros to the user_budget_data. 
-router.post("/:user_id/macro-ratios", mapFirebaseIDtoUserID, async (req, res) => {
-  const user_id = req.params.user_id;
-  const newMacros = req.body; 
+//Post new macros to the user_budget_data.
+router.post(
+  "/:user_id/macro-ratios",
+  mapFirebaseIDtoUserID,
+  async (req, res) => {
+    const user_id = req.params.user_id;
+    const newMacros = req.body;
 
-  newMacros.user_id = user_id;
+    newMacros.user_id = user_id;
 
-  if (!newMacros) {
-    res.status(400).json({
-      message: "Item required for update are missing"
-    });
+    if (!newMacros) {
+      res.status(400).json({
+        message: "Item required for update are missing"
+      });
+    }
+    try {
+      const added = await UserInfo.addMacroRatios(newMacros);
+      res.status(201).json(added);
+    } catch (err) {
+      res.status(500).json({ message: "Failed to update use's macro ratios" });
+    }
   }
-  try {
-    const added = await UserInfo.addMacroRatios(newMacros);
-    res.status(201).json(added);
-  } catch (err) {
-    res.status(500).json({ message: "Failed to update use's macro ratios" });
-  }
-});
+);
 
 /********************************************************
  *                Weight Goal Endpoints                 *
@@ -87,10 +91,8 @@ router.post("/:user_id/macro-ratios", mapFirebaseIDtoUserID, async (req, res) =>
 //Get user's weekly_goal_rate and weight_goal_kg from user_budget_data table.
 router.get("/:user_id/weight-goal", mapFirebaseIDtoUserID, async (req, res) => {
   const user_id = req.params.user_id;
-
   try {
     const user = await UserInfo.findWeightGoalById(user_id);
-    user.goal_weight_lbs = kgToLbs(user.goal_weight_kg);
     res.json(user);
   } catch (err) {
     res.status(500).json({ message: "Failed to get user's weight goal" });
@@ -122,17 +124,19 @@ router.post("/:user_id/weight-goal", mapFirebaseIDtoUserID, async (req, res) => 
  ********************************************************/
 
 //Get user's activity_level from user_budget_data table.
-router.get("/:user_id/activity-level", mapFirebaseIDtoUserID, async (req, res) => {
-  const { user_id } = req.params;
-
-
-  try {
-    const user = await UserInfo.findActivityLevelById(user_id);
-    res.json(user);
-  } catch (err) {
-    res.status(500).json({ message: "Failed to get user's activity level" });
+router.get(
+  "/:user_id/activity-level",
+  mapFirebaseIDtoUserID,
+  async (req, res) => {
+    const { user_id } = req.params;
+    try {
+      const user = await UserInfo.findActivityLevelById(user_id);
+      res.json(user);
+    } catch (err) {
+      res.status(500).json({ message: "Failed to get user's activity level" });
+    }
   }
-});
+);
 
 //Post new activity_level to user_budget_data table.
 router.post("/:user_id/activity-level", mapFirebaseIDtoUserID, async (req, res) => {
@@ -161,17 +165,21 @@ router.post("/:user_id/activity-level", mapFirebaseIDtoUserID, async (req, res) 
  ********************************************************/
 
 //Get specific user's weight_kg from the user_metric_history
-router.get("/:user_id/current-weight", mapFirebaseIDtoUserID, async (req, res) => {
-  const { user_id } = req.params;
-  try {
-    const weight = await UserInfo.findCurrentWeightById(user_id);
-    //Calls function from helper file to convert weight in kg to weight in lbs, and adds it to weight obj.
-    weight.actual_weight_lbs = kgToLbs(weight.actual_weight_kg);
-    res.json(weight);
-  } catch (err) {
-    res.status(500).json({ message: "Failed to get user's current weight" });
+router.get(
+  "/:user_id/current-weight",
+  mapFirebaseIDtoUserID,
+  async (req, res) => {
+    const { user_id } = req.params;
+    try {
+      const weight = await UserInfo.findCurrentWeightById(user_id);
+      //Calls function from helper file to convert weight in kg to weight in lbs, and adds it to weight obj.
+      weight.weight_lbs = kgToLbs(weight.weight_kg);
+      res.json(weight);
+    } catch (err) {
+      res.status(500).json({ message: "Failed to get user's current weight" });
+    }
   }
-});
+);
 
 //Post specific user's weight_kg to the user_metric_history
 router.post("/:user_id/current-weight", mapFirebaseIDtoUserID, async (req, res) => {
