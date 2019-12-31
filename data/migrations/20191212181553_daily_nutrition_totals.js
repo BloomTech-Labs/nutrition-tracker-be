@@ -19,6 +19,10 @@ exports.up = function(knex) {
     tbl.decimal("protein_calories");
 
     tbl.unique(["user_id", "date"], constraintName);
+    //these values make it explicit that we can't have multiple records
+    //of a given user_id && date combination
+    //very beneficial for UPSERTing, although it's not explicitly required
+    //to do so
   });
 };
 
