@@ -239,45 +239,4 @@ router.post(
   observation dates --> array that gives you the dates to populate on the chart
 */
 
-router.get(
-  "/:user_id/progress/weight",
-  mapFirebaseIDtoUserID,
-  async (req, res) => {
-    const user_id = req.params.user_id;
-    const { time_zone, start_date, end_date } = req.body;
-
-    console.log({
-      user_id,
-      time_zone,
-      start_date,
-      end_date
-    });
-
-    try {
-      const actualWeights = await actualWeightOverTime(
-        user_id,
-        time_zone,
-        start_date,
-        end_date
-      );
-
-      const goalWeights = await goalWeightOverTime(
-        user_id,
-        time_zone,
-        start_date,
-        end_date
-      );
-
-      res.status(200).json({
-        actualWeights,
-        goalWeights
-      });
-    } catch (err) {
-      res.status(500).json({
-        errorMessage: "ERROR"
-      });
-    }
-  }
-);
-
 module.exports = router;
