@@ -35,7 +35,7 @@ server.use("/auth", authRouter);
 server.use("/user", usersRouter);
 server.use("/log-entry", logEntryRouter);
 server.use("/daily-log", dailyLogRouter);
-server.use("/progress", macroProgressRouter);
+server.use("/progress-reports", macroProgressRouter);
 
 // Test End-Point for Authentication
 server.get("/test/authentication", authenticate, (req, res) => {
