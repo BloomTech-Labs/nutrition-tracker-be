@@ -2,7 +2,11 @@ const express = require("express");
 const router = express.Router();
 const MacroInfo = require("./macroDB");
 const mapFirebaseIDtoUserID = require("../../middleware/mapFirebaseIDtoUserID");
-const moment = require("moment");
+const actualWeightOverTime = require("../progressReport/actualWeightOverTimeDB");
+const goalWeightOverTime = require("../progressReport/goalWeightOverTimeDB");
+const weightOverTime = require("../progressReport/weightOverTimeDB");
+
+const { weightsToLbs, truncateData } = require("./helper/index");
 
 //
 router.get(
@@ -266,6 +270,40 @@ router.get(
       res.status(200).json(returnObj);
     } catch (err) {
       res.status(500).json({ message: "Failed to get macro progress" });
+    }
+  }
+);
+
+/********************************************************
+ *             GET WEIGHT ACTUALS/WEIGHT GOALS           *
+ ********************************************************/
+router.post(
+  "/:user_id/weight/:period",
+  mapFirebaseIDtoUserID,
+  async (req, res) => {
+    const user_id = req.params.user_id;
+    const period = req.params.period;
+    const { time_zone, start_date, end_date } = req.body;
+
+    try {
+      let weightsOverTime = await weightOverTime(
+        user_id,
+        time_zone,
+        start_date,
+        end_date
+      );
+
+      weightsOverTime = weightsToLbs(weightsOverTime);
+      weightsOverTime = truncateData(weightsOverTime, period);
+
+      res.status(200).json({
+        weightsOverTime
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        errorMessage: "ERROR"
+      });
     }
   }
 );
