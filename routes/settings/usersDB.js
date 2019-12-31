@@ -12,18 +12,8 @@ module.exports = {
   findActivityLevelById,
   addActivityLevel,
   getCaloricBudget,
-  getDailyLog
+  getDailyLog,
 };
-
-/*
-  TODO:
-    ask will about UPSERT for any inserts into user_budget_data
-    it should be UPSERT in the event that the user updates on
-    the same day, (we don't want to have more than one insert for
-    a single date, so it should just replace the existing one)
-
-    this will be important for RC2
-*/
 
 /********************************************************
  *                  User Queries                        *
@@ -34,15 +24,17 @@ function findByUserId(id) {
     .first();
 }
 
-function updateUser(updates, id) {
-  return db("users")
+async function updateUser(updates, id) {
+  //To prevent update returning as an array, we destructure and return updatedUser
+  const [updatedUser] = await db("users")
     .where({ id })
     .update(updates)
-    .returning("*");
+    .returning("*")
+    return updatedUser;
 }
 
 /********************************************************
- *                  Macro Queries                        *
+ *                  Macro Queries                       *
  ********************************************************/
 
 function findMacroRatiosById(user_id) {

@@ -4,10 +4,7 @@ const UserInfo = require("./usersDB");
 const mapFirebaseIDtoUserID = require("../../middleware/mapFirebaseIDtoUserID");
 const {
   heightToImperial,
-  macroRatiosToGrams,
-  applyTimeZones,
-  calculateConsumption,
-  kgToLbs,
+  kgToLbs
 } = require("./helper");
 
 /********************************************************
@@ -31,6 +28,7 @@ router.get("/:user_id", mapFirebaseIDtoUserID, async (req, res) => {
 router.put("/:user_id", mapFirebaseIDtoUserID, async (req, res) => {
   const user_id = req.params.user_id;
   const updatedSettings = req.body;
+
   if (!updatedSettings) {
     res.status(400).json({
       message: "Item required for update are missing"
@@ -38,8 +36,11 @@ router.put("/:user_id", mapFirebaseIDtoUserID, async (req, res) => {
   }
   try {
     const updated = await UserInfo.updateUser(updatedSettings, user_id);
+    
     res.status(201).json(updated);
+
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: "Failed to update user settings" });
   }
 });
@@ -86,6 +87,7 @@ router.post("/:user_id/macro-ratios", mapFirebaseIDtoUserID, async (req, res) =>
 //Get user's weekly_goal_rate and weight_goal_kg from user_budget_data table.
 router.get("/:user_id/weight-goal", mapFirebaseIDtoUserID, async (req, res) => {
   const user_id = req.params.user_id;
+
   try {
     const user = await UserInfo.findWeightGoalById(user_id);
     user.goal_weight_lbs = kgToLbs(user.goal_weight_kg);
@@ -122,6 +124,8 @@ router.post("/:user_id/weight-goal", mapFirebaseIDtoUserID, async (req, res) => 
 //Get user's activity_level from user_budget_data table.
 router.get("/:user_id/activity-level", mapFirebaseIDtoUserID, async (req, res) => {
   const { user_id } = req.params;
+
+
   try {
     const user = await UserInfo.findActivityLevelById(user_id);
     res.json(user);
@@ -134,6 +138,7 @@ router.get("/:user_id/activity-level", mapFirebaseIDtoUserID, async (req, res) =
 router.post("/:user_id/activity-level", mapFirebaseIDtoUserID, async (req, res) => {
   const { user_id } = req.params;
   const activityLevel = req.body;
+
   activityLevel.user_id = user_id;
   if (!activityLevel) {
     res.status(400).json({
@@ -144,7 +149,8 @@ router.post("/:user_id/activity-level", mapFirebaseIDtoUserID, async (req, res) 
     const added = await UserInfo.addActivityLevel(activityLevel);
     res.status(201).json(added);
   } catch (err) {
-    res.status(500).json({ message: "Failed to update user's activity level" });
+    console.log(err);
+    res.status(500).json({ message: "Failed to update user's activity level" });  
   }
 });
 
@@ -171,6 +177,10 @@ router.get("/:user_id/current-weight", mapFirebaseIDtoUserID, async (req, res) =
 router.post("/:user_id/current-weight", mapFirebaseIDtoUserID, async (req, res) => {
   const { user_id } = req.params;
   const newCurrentWeight = req.body;
+  console.log(newCurrentWeight)
+  /*
+    recalculate goal end-date
+  */
   newCurrentWeight.user_id = user_id;
   if (!newCurrentWeight) {
     res.status(400).json({
@@ -179,94 +189,11 @@ router.post("/:user_id/current-weight", mapFirebaseIDtoUserID, async (req, res) 
   }
   try {
     const added = await UserInfo.addCurrentWeight(newCurrentWeight);
+
     res.status(201).json(added);
   } catch (err) {
     res.status(500).json({ message: "Failed to update user's current weight" });
   }
 });
-
-/********************************************************
-*               GET USER/NUTRITION-BUDGETS              *
-********************************************************/
-router.get("/nutrition-budgets", async (req, res) => {
-  try {
-    const {
-      caloric_budget,
-      fat_ratio,
-      protein_ratio,
-      carb_ratio
-    } = await UserInfo.getCaloricBudget(1);
-
-    const { fatBudget, proteinBudget, carbBudget } = macroRatiosToGrams(
-      caloric_budget,
-      fat_ratio,
-      protein_ratio,
-      carb_ratio
-    );
-
-    res.status(200).json({
-      caloricBudget: Math.round(caloric_budget),
-      fatBudget,
-      carbBudget,
-      proteinBudget
-    });
-  } catch (err) {
-    res.status(500).json({
-      errorMessage: "Internal Server Error",
-      err
-    });
-  }
-});
-
-/********************************************************
-*                   GET USER/DAILY-LOG                  *
-********************************************************/
-router.get("/daily-log/:date/:tz_name_current", async (req, res) => {
-  const timeZoneNameCurrent = decodeURIComponent(req.params.tz_name_current);
-  const date = req.params.date;
-  // 'from' and 'to' represent the upper and lower boundaries of a single
-  // 24-hour time-span beginning at time 00:00 of 'date' and ending
-  // 00:00 the following day, and are stored as UTC time-stamps, localized
-  // to the user's current time-zone
-  const from = moment.tz(date, timeZoneNameCurrent).utc().format();
-  const to = moment.tz(date, timeZoneNameCurrent).utc().add(1, "d").format();
-
-  try {
-    // fetches all logs between 'from' and 'to' 
-    let dailyLog = await UserInfo.getDailyLog(1, from, to);
-
-    // calculates the total calories and macro nutrients from each log
-    const {
-      caloriesConsumed,
-      fatsConsumed,
-      carbsConsumed,
-      proteinConsumed
-    } = calculateConsumption(dailyLog);
-
-    // localizes all UTC time-stamps stored in the log
-    dailyLog = applyTimeZones(dailyLog, timeZoneNameCurrent);
-
-    res.status(200).json({
-      caloriesConsumed,
-      fatsConsumed,
-      carbsConsumed,
-      proteinConsumed,
-      dailyLog
-    });
-  } catch (err) {
-    res.status(500).json({
-      errorMessage: "Internal Server Error",
-      err
-    });
-  }
-});
-
-/*
-  FRONT-END THINGS:
-
-  const date = new Date();
-  const offsetMinutes = new Date().getTimezoneOffset();
-  date.setMinutes(date.getMinutes() + offsetMinutes);
-*/
 
 module.exports = router;
