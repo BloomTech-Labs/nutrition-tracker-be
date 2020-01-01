@@ -5,6 +5,11 @@ const mapFirebaseIDtoUserID = require("../../middleware/mapFirebaseIDtoUserID");
 
 const { heightToImperial, kgToLbs } = require("./helper");
 
+const actualWeightOverTime = require("../progressReport/actualWeightOverTimeDB");
+const goalWeightOverTime = require("../progressReport/goalWeightOverTimeDB");
+const weightOverTime = require("../progressReport/weightOverTimeDB");
+const main = require("../progressReport/devRun");
+
 /********************************************************
  *                   User Endpoints                     *
  ********************************************************/
@@ -223,23 +228,15 @@ router.post(
 */
 
 /*
-    TODO:
-
-      Time-Zone will be passed in
+  const actualWeightOverTime = require("./actualWeightOverTimeDB");
+  const goalWeightOverTime = require("./goalWeightOverTimeDB");
+  const weightOverTime = require("./weightOverTimeDB");
 */
 
-router.post("/:user_id/progress/weight", async (req, res) => {
-  const { start_date, end_date } = req.body;
-
-  try {
-    res.status(200).json({
-      message: "OK"
-    });
-  } catch (err) {
-    res.status(500).json({
-      errorMessage: "ERROR"
-    });
-  }
-});
+/*
+  goal_weight_kg --> array that plots the slope
+  actual_weight_kg ==> array that contains all the data points
+  observation dates --> array that gives you the dates to populate on the chart
+*/
 
 module.exports = router;

@@ -36,6 +36,14 @@ exports.seed = function(knex) {
           height_cm: 161.54,
           sex: "Female",
           dob: "1982-10-10"
+        },
+        {
+          // id: 5,
+          firebase_id: "sDs3omvkWje9Lgv8wEteFkhZpVa2",
+          email: "mcbride967@gmail.com",
+          height_cm: 178,
+          sex: "Male",
+          dob: "1991-02-04"
         }
       ]);
     });
