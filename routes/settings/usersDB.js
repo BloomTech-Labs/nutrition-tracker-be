@@ -28,7 +28,7 @@ function findByUserId(id) {
 }
 
 async function updateUser(updates, id) {
-  const updatedUser = await db("users")
+  const [updatedUser] = await db("users")
     .where({ id })
     .update(updates)
     .returning("*");
@@ -46,7 +46,7 @@ async function updateUser(updates, id) {
 }
 
 /********************************************************
- *                  Macro Queries                        *
+ *                  Macro Queries                       *
  ********************************************************/
 function findMacroRatiosById(user_id) {
   return db("user_budget_data")
