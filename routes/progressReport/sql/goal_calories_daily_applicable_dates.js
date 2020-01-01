@@ -1,7 +1,7 @@
-const goal_weights_daily_applicable_dates = (user_id, time_zone, start_date, end_date) => {
-  //calculates "applicable_date" in user_budget_data that corresponds to the applicable record in that table that contains the goal_weight_kg in force at a given observation_date
+const goal_calories_daily_applicable_dates = (user_id, time_zone, start_date, end_date) => {
+  //calculates "applicable_date" in user_budget_data that corresponds to the applicable record in that table that contains the caloric budget in effect at a given observation_date
   const observation_dates = require("./observation_dates_with_eod")(time_zone, start_date, end_date);
-  const user_id_applicable_dates = require("./goal_weights_user_id_applicable_dates")(user_id);
+  const user_id_applicable_dates = require("./goal_calories_user_id_applicable_dates")(user_id);
   return `
     (
       select 
@@ -20,4 +20,4 @@ const goal_weights_daily_applicable_dates = (user_id, time_zone, start_date, end
   `;
 };
 
-module.exports = goal_weights_daily_applicable_dates;
+module.exports = goal_calories_daily_applicable_dates;

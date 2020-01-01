@@ -1,13 +1,18 @@
 const user_id = 1;
 const time_zone = `CST`;
-const start_date = `2019-12-15`;
+const start_date = `2019-12-20`;
 const end_date = `2020-01-31`;
 
 const actualWeightOverTime = require("./actualWeightOverTimeDB");
 const goalWeightOverTime = require("./goalWeightOverTimeDB");
+const targetGoalWeightOverTimeDB = require("./targetGoalWeightOverTimeDB");
 const weightOverTime = require("./weightOverTimeDB");
 
-async function main() {
+const actualCaloriesOverTime = require("./actualCaloriesOverTimeDB");
+const goalCaloriesOverTime = require("./goalCaloriesOverTimeDB");
+const caloriesOverTime = require("./caloriesOverTimeDB");
+
+async function runWeightOverTime() {
   //executes actualWeightOverTime function with some hardcoded example values which creates SQL and runs the query in pg-promise
 
   const actual_weight_over_time = await actualWeightOverTime(
@@ -36,6 +41,9 @@ async function main() {
   // //executes goalWeightOverTime function with some hardcoded example values which creates SQL and runs the query in pg-promise
   // console.log("goalWeightOverTime:\n", goal_weight_over_time);
 
+  //executes targetGoalWeightOverTimeDB function with some hardcoded example values which creates SQL and runs the query in pg-promise
+  // console.log(await targetGoalWeightOverTimeDB(user_id, time_zone, start_date, end_date));
+
   //executes weightOverTime function with some hardcoded example values which creates SQL and runs the query in pg-promise
   console.log("weightOverTime:\n", weight_over_time);
 
@@ -44,6 +52,16 @@ async function main() {
   console.log("weight_over_time:", weight_over_time.length);
 }
 
-// main();
+async function runCaloriesOverTime() {
+  //executes actualCaloriesOverTime function with some hardcoded example values which creates SQL and runs the query in pg-promise
+  // console.log(await actualCaloriesOverTime(user_id, start_date, end_date));
 
-module.exports = main;
+  //executes goalCaloriesOverTime function with some hardcoded example values which creates SQL and runs the query in pg-promise
+  // console.log(await goalCaloriesOverTime(user_id, time_zone, start_date, end_date));
+
+  //executes caloriesOverTime function with some hardcoded example values which creates SQL and runs the query in pg-promise
+  console.log(await caloriesOverTime(user_id, time_zone, start_date, end_date));
+}
+
+runWeightOverTime();
+runCaloriesOverTime();
