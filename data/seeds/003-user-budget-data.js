@@ -18,11 +18,11 @@ exports.seed = function(knex) {
           actual_weight_kg: 160.0,
           activity_level: 1.55,
           caloric_budget: 2000.0,
-          fat_ratio: 30,
+          fat_ratio: 0.3,
           // fat_ratio: 70,
-          protein_ratio: 20,
+          protein_ratio: 0.2,
           // protein_ratio: 20,
-          carb_ratio: 50
+          carb_ratio: 0.5
           // carb_ratio: 10
         },
         {
@@ -36,9 +36,9 @@ exports.seed = function(knex) {
           actual_weight_kg: 180.0,
           activity_level: 1.55,
           caloric_budget: 2000.0,
-          fat_ratio: 30,
-          protein_ratio: 20,
-          carb_ratio: 50
+          fat_ratio: 0.3,
+          protein_ratio: 0.2,
+          carb_ratio: 0.5
         },
         {
           // id: 3,
@@ -51,9 +51,9 @@ exports.seed = function(knex) {
           actual_weight_kg: 180.0,
           activity_level: 1.55,
           caloric_budget: 2000.0,
-          fat_ratio: 30,
-          protein_ratio: 20,
-          carb_ratio: 50
+          fat_ratio: 0.3,
+          protein_ratio: 0.2,
+          carb_ratio: 0.5
         },
         {
           // id: 4,
@@ -66,9 +66,9 @@ exports.seed = function(knex) {
           actual_weight_kg: 180.0,
           activity_level: 1.55,
           caloric_budget: 2000.0,
-          fat_ratio: 30,
-          protein_ratio: 20,
-          carb_ratio: 50
+          fat_ratio: 0.3,
+          protein_ratio: 0.2,
+          carb_ratio: 0.5
         },
         {
           user_id: 1,
