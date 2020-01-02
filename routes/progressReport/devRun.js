@@ -63,5 +63,5 @@ async function runCaloriesOverTime() {
   console.log(await caloriesOverTime(user_id, time_zone, start_date, end_date));
 }
 
-runWeightOverTime();
-runCaloriesOverTime();
+// runWeightOverTime();
+// runCaloriesOverTime();
