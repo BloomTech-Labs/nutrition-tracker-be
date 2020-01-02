@@ -4,6 +4,7 @@ const MacroInfo = require("./macroDB");
 const mapFirebaseIDtoUserID = require("../../middleware/mapFirebaseIDtoUserID");
 const actualWeightOverTime = require("../progressReport/actualWeightOverTimeDB");
 const goalWeightOverTime = require("../progressReport/goalWeightOverTimeDB");
+const averageMacrosOverTime = require("../progressReport/averageMacrosOverTimeDB");
 const weightOverTime = require("../progressReport/weightOverTimeDB");
 
 const { weightsToLbs, truncateData } = require("./helper/index");
@@ -303,6 +304,34 @@ router.post(
       console.log(err);
       res.status(500).json({
         errorMessage: "ERROR"
+      });
+    }
+  }
+);
+
+module.exports = router;
+
+/********************************************************
+ *             GET AVERAGE MACROS OVER TIME             *
+ ********************************************************/
+router.post(
+  "/:user_id/macros/average",
+  mapFirebaseIDtoUserID,
+  async (req, res) => {
+    const user_id = req.params.user_id;
+    const start_date = req.body.start_date;
+
+    try {
+      const [averageMacros] = await averageMacrosOverTime(user_id, start_date);
+
+      res.status(200).json({
+        averageMacros
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        errorMessage: "ERROR",
+        err
       });
     }
   }
