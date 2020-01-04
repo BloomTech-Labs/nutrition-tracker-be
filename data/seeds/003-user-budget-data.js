@@ -79,9 +79,9 @@ exports.seed = function(knex) {
           actual_weight_kg: 77.0,
           activity_level: 1.55,
           caloric_budget: 2000.0,
-          fat_ratio: 70,
-          protein_ratio: 20,
-          carb_ratio: 10
+          fat_ratio: 0.7,
+          protein_ratio: 0.2,
+          carb_ratio: 0.1
         }
       ]);
     });

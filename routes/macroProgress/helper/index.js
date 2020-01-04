@@ -1,28 +1,56 @@
-// macros tab
-// each graph has a baseline
-// db is taking track of calories from macro
-// add all three calories together, 100% in total
-// need percentage of each calorie per category... ie, fat, protein, carbs
-// break each one up into a percentage
+module.exports = {
+  weightsToLbs,
+  truncateData
+};
 
-// ie target carbs vs actual carbs, etc
-// daily nutrition goals is daily goal
-// get route for each macro
-// maybe make a helper that spits back out all three macros
+/********************************************************
+ *                     WEIGHTS TO LBS                    *
+ ********************************************************/
+function weightsToLbs(dataset) {
+  return dataset.map(data => {
+    data.actual_weight_lbs = kgToLbs(data.actual_weight_kg);
+    data.target_goal_weight_lbs = kgToLbs(data.target_goal_weight_kg);
 
-//applicable start date is today's date
+    delete data.actual_weight_kg;
+    delete data.target_goal_weight_kg;
 
-// daily cal: 2000, daily fat: 400, daily carb: 600, daily protein: 1000
+    return data;
+  });
+}
 
-// daily macro / total daily cals
-// how are we going to return the data across time
+/********************************************************
+ *                       KG TO LBS                       *
+ ********************************************************/
+function kgToLbs(kg) {
+  return Math.round(kg * 2.2046226218 * 100) / 100;
+}
 
-// endpoint will serve an object:
-/*
-dates: [],
-fats: [],
-protein: [],
-carbs: []
+/********************************************************
+ *                     TRUNCATE DATA                     *
+ ********************************************************/
+function truncateData(dataset, period) {
+  let interval, cutoff;
 
+  switch (period) {
+    case "weekly":
+      interval = 1;
+      cutoff = -7;
+      break;
+    case "monthly":
+      interval = 3;
+      cutoff = -30;
+      break;
+    case "quarterly":
+      interval = 6;
+      cutoff = -90;
+      break;
+    case "biannual":
+      interval = 20;
+      cutoff = -180;
+      break;
+    default:
+      interval = 7;
+  }
 
-*/
+  return dataset.slice(cutoff).filter((_, i) => i % interval == 0);
+}
