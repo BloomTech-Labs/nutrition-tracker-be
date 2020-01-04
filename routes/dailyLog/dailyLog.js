@@ -51,7 +51,6 @@ router.get("/:user_id/:date/:tz_name_current", mapFirebaseIDtoUserID, async (req
     });
 
   } catch (err) {
-    console.log("daily-log", err);
     res.status(500).json({
       errorMessage: "Internal Server Error",
       err
@@ -86,7 +85,6 @@ router.get("/:user_id/nutrition-budgets/", mapFirebaseIDtoUserID, async (req, re
       proteinBudget
     });
   } catch (err) {
-    console.log("nutrition-budgets", err);
     res.status(500).json({
       errorMessage: "Internal Server Error",
       err

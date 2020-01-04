@@ -26,7 +26,7 @@ function kgToLbs(kg) {
 }
 
 /********************************************************
- *                     TRUNCATE DATA                     *
+ *                     TRUNCATE DATA                    *
  ********************************************************/
 function truncateData(dataset, period) {
   let interval, cutoff;
@@ -50,7 +50,8 @@ function truncateData(dataset, period) {
       break;
     default:
       interval = 7;
+      cutoff = -7;
   }
 
-  return dataset.slice(cutoff).filter((_, i) => i % interval == 0);
+  return dataset.slice(cutoff).filter((_, i) => i % interval === 0);
 }

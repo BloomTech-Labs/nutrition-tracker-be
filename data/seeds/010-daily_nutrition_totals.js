@@ -1,13 +1,11 @@
 exports.seed = function(knex) {
+  const { presentMinusXDays } = require("../helpers/timestampOffsetFns");
+
   // Deletes ALL existing entries
   return knex("daily_nutrition_totals")
     .truncate()
     .then(function() {
       // Inserts seed entries
-      const currDateTime = new Date();
-      // takes current date and subtracts off x number of days
-      const presentMinusXDays = x =>
-        new Date(currDateTime - 1000 * 60 * 60 * 24 * x);
 
       return knex("daily_nutrition_totals").insert([
         {
