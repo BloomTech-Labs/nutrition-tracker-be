@@ -12,6 +12,9 @@ const carbsMacrosOverTime = require("../progressReport/carbsMacrosOverTimeDB");
 const proteinMacrosOverTime = require("../progressReport/proteinMacrosOverTimeDB");
 const { weightsToLbs, truncateData } = require("./helper/index");
 
+/********************************************************
+ *                 GET FATS OVER TIME                    *
+ ********************************************************/
 router.post(
   "/:user_id/macros/fats/:period",
   mapFirebaseIDtoUserID,
@@ -42,6 +45,9 @@ router.post(
   }
 );
 
+/********************************************************
+ *                 GET CARBS OVER TIME                   *
+ ********************************************************/
 router.post(
   "/:user_id/macros/carbs/:period",
   mapFirebaseIDtoUserID,
@@ -72,6 +78,9 @@ router.post(
   }
 );
 
+/********************************************************
+ *                GET PROTEIN OVER TIME                  *
+ ********************************************************/
 router.post(
   "/:user_id/macros/protein/:period",
   mapFirebaseIDtoUserID,
@@ -103,7 +112,7 @@ router.post(
 );
 
 /********************************************************
- *             GET WEIGHT ACTUALS/WEIGHT GOALS           *
+ *             GET WEIGHT ACTUALS/WEIGHT GOALS          *
  ********************************************************/
 router.post(
   "/:user_id/weight/:period",
