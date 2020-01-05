@@ -1,4 +1,4 @@
-const goal_calories_daily_applicable_dates = (
+const goal_carbs_macros_daily_applicable_dates = (
   user_id,
   time_zone,
   start_date,
@@ -10,7 +10,7 @@ const goal_calories_daily_applicable_dates = (
     start_date,
     end_date
   );
-  const user_id_applicable_dates = require("./goal_calories_user_id_applicable_dates")(
+  const user_id_applicable_dates = require("./goal_carbs_ratio_user_id_applicable_dates")(
     user_id
   );
   return `
@@ -31,4 +31,4 @@ const goal_calories_daily_applicable_dates = (
   `;
 };
 
-module.exports = goal_calories_daily_applicable_dates;
+module.exports = goal_carbs_macros_daily_applicable_dates;

@@ -1,6 +1,19 @@
 const calories_over_time = (user_id, time_zone, start_date, end_date) => {
-  actual_calories_over_time = require("./actual_calories_over_time")(user_id, start_date, end_date);
-  goal_calories_over_time = require("./goal_calories_over_time")(user_id, time_zone, start_date, end_date);
+  actual_calories_over_time = require("./actual_calories_over_time")(
+    user_id,
+    start_date,
+    end_date
+  );
+  goal_calories_over_time = require("./goal_calories_over_time")(
+    user_id,
+    time_zone,
+    start_date,
+    end_date
+  );
+
+  console.log(actual_calories_over_time);
+  console.log("***********************");
+  console.log(goal_calories_over_time);
 
   return `
 
