@@ -12,7 +12,10 @@ const carbsMacrosOverTime = require("../progressReport/carbsMacrosOverTimeDB");
 const proteinMacrosOverTime = require("../progressReport/proteinMacrosOverTimeDB");
 const { weightsToLbs, truncateData } = require("./helper/index");
 
-const { presentMinusXDays } = require("../../data/helpers/timestampOffsetFns");
+const {
+  presentMinusXDays,
+  tomorrow
+} = require("../../data/helpers/timestampOffsetFns");
 
 /********************************************************
  *            GET MACRO BREAKDOWN OVER TIME              *
@@ -25,6 +28,7 @@ router.post(
     const period = req.params.period;
     const { time_zone, start_date, end_date } = req.body;
     console.log("START DATE:", presentMinusXDays(181));
+    console.log("TOMORROW:", tomorrow);
     try {
       let fatMacros = await fatMacrosOverTime(
         user_id,

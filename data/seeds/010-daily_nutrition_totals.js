@@ -1,5 +1,8 @@
 exports.seed = function(knex) {
-  const { presentMinusXDays } = require("../helpers/timestampOffsetFns");
+  const {
+    presentMinusXDays,
+    tomorrow
+  } = require("../helpers/timestampOffsetFns");
 
   // Deletes ALL existing entries
   return knex("daily_nutrition_totals")
@@ -1517,6 +1520,14 @@ exports.seed = function(knex) {
         {
           user_id: 5,
           date: presentMinusXDays(0),
+          total_calories: 2156,
+          fat_calories: 1378,
+          protein_calories: 2204 - 1378 - 221,
+          carbs_calories: 221
+        },
+        {
+          user_id: 5,
+          date: tomorrow,
           total_calories: 2156,
           fat_calories: 1378,
           protein_calories: 2204 - 1378 - 221,
