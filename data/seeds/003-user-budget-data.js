@@ -10,8 +10,8 @@ exports.seed = function(knex) {
         {
           // id: 1,
           user_id: 1,
-          applicable_date: presentMinusXDays(0),
-          goal_start_date: new Date(),
+          applicable_date: presentMinusXDays(4),
+          goal_start_date: presentMinusXDays(4),
           goal_end_date: new Date(),
           goal_weekly_weight_change_rate: -1.0,
           goal_weight_kg: 150.0,
@@ -73,8 +73,8 @@ exports.seed = function(knex) {
         {
           // id: 5,
           user_id: 5,
-          applicable_date: new Date(),
-          goal_start_date: new Date(),
+          applicable_date: presentMinusXDays(181),
+          goal_start_date: presentMinusXDays(181),
           goal_end_date: new Date(),
           goal_weekly_weight_change_rate: 0,
           goal_weight_kg: 77.0,

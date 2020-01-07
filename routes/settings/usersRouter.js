@@ -5,11 +5,6 @@ const mapFirebaseIDtoUserID = require("../../middleware/mapFirebaseIDtoUserID");
 
 const { heightToImperial, kgToLbs } = require("./helper");
 
-const actualWeightOverTime = require("../progressReport/actualWeightOverTimeDB");
-const goalWeightOverTime = require("../progressReport/goalWeightOverTimeDB");
-const weightOverTime = require("../progressReport/weightOverTimeDB");
-const main = require("../progressReport/devRun");
-
 /********************************************************
  *                   User Endpoints                     *
  ********************************************************/
