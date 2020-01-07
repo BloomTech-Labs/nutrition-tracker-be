@@ -16,7 +16,7 @@ const transformFatSecretData = response => {
     food_data = response.data.food;
     serving_measures = food_data.servings.serving;
   } catch (err) {
-    res.status(500).json({
+    console.error({
       err: err,
       message: "Internal Server Error"
     });
@@ -118,6 +118,67 @@ const getFatSecretData = async (method, food_id) => {
     });
   return fatSecretFoods;
 };
+
+/********************************************************
+ *                 FATSECRET - FOOD.FIND_ID_FOR_BARCODE                 *
+ ********************************************************/
+
+router.get("/fatsecret/scanner/get-food/:bar_code", async (req, res) => {
+  const barCode = req.params.bar_code;
+  const method = "food.find_id_for_barcode";
+
+  oathQueryBuilder({
+    method,
+    barcode: barCode
+  })
+    .get()
+    .then(async response => {
+      const fatSecretFoodId = response.data.food_id.value;
+      if (fatSecretFoodId === "0") {
+        return res.status(404).json({
+          message: `No found item found with code ${barCode}`
+        });
+      }
+      let foods;
+      try {
+        foods = await db.getServingsByFatsecretFoodId(
+          parseInt(fatSecretFoodId)
+        );
+
+        if (!foods.length) {
+          // i am straight up not having a good time!
+          // we don't have the food data in our fridge (Foods table), or it's ***NOT FRESH***
+          try {
+            // grab some ***FRESH*** food
+            const fatsecretFoods = await getFatSecretData(
+              "food.get",
+              parseInt(fatSecretFoodId)
+            );
+
+            // UPSERT the fresh food into Foods table
+            foods = await upsertFoods(fatsecretFoods);
+          } catch (err) {
+            res.status(500).json({
+              err: err,
+              message: "Failed to get food data"
+            });
+          }
+        }
+      } catch (err) {
+        res.status(500).json({
+          err: err,
+          message: "Failed to get food data 2"
+        });
+      }
+
+      res.send(foods);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+
+  // res.status(200).send(response);
+});
 
 /********************************************************
  *                 FATSECRET - FOOD.GET                 *
