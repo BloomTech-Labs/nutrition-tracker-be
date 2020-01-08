@@ -1414,6 +1414,14 @@ exports.seed = function(knex) {
         },
         {
           user_id: 5,
+          date: presentMinusXDays(14),
+          total_calories: 2134,
+          fat_calories: 1400,
+          protein_calories: 2134 - 1400 - 200,
+          carbs_calories: 200
+        },
+        {
+          user_id: 5,
           date: presentMinusXDays(13),
           total_calories: 2134,
           fat_calories: 1400,
