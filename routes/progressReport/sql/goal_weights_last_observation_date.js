@@ -8,7 +8,6 @@ const actual_weights_last_observation_date = (user_id, time_zone, start_date, en
         --earliest observation date where we have a new applicable date. NB: an actual weight record
       from ${applicable_dates} as ad
       where ad.applicable_date = (select max(d.applicable_date) from ${applicable_dates} as d)
-      limit 1
     )
   `;
 };
