@@ -1,19 +1,21 @@
 const db = require("../../data/knex");
 const dbPgp = require("../../data/pg-promise");
 
-const getFoodItem = async foodLogID => {
+const getFoodLogID = async foodLogId => {
   try {
     return await dbPgp.any(`
       select *
       from food_log
-      where id = ${foodLogID}
+      where id = ${foodLogId}
     `);
   } catch (err) {
     return err;
   }
 };
 
-const updateFoodItem = async (foodLogId, data) => {
+const updateFoodLogID = async (foodLogId, data) => {
+
+  //updates daily_nutrition_totals, and then updates actual food log entry
 
   //using sql UNION to produce a set of records
   //that are then used to update the values in daily nutrition totals
@@ -30,7 +32,48 @@ const updateFoodItem = async (foodLogId, data) => {
 
   //this section just here for human readability.
 
+  //expects "food_log as fl", and "foods as f"
+  const calculated_fields_sql = 
+     `fl.daily_nutrition_totals_date as date, 
+      f.calories_kcal * fl.quantity as total_calories,
+      f.fat_g * fl.quantity * 9 as fat_calories,
+      f.protein_g * fl.quantity * 4 as protein_calories,
+      f.carbs_g * fl.quantity * 4 as carbs_calories`
 
+  const current_values = 
+   `select 
+      ${calculated_fields_sql}
+    from food_log as fl 
+    inner join foods as f on 
+      f.id = fl.food_id
+    where fl.id = ${foodLogId}`
+
+  const synthetic_food_log_record_new_values = `
+    select 
+      fl.food_id,
+      '${data.daily_nutrition_totals_date}' as daily_nutrition_totals_date, 
+      ${data.quantity} as quantity,
+    from 
+      (select food_id from food_log where id = ${foodLogId}) as fl
+  `
+
+  const new_values = `
+    select 
+      ${calculated_fields_sql}
+    from (${synthetic_food_log_record_new_values}) as fl 
+    inner join foods as f on f.id = fl.food_id
+
+  `
+
+
+  const daily_nutrition_totals_updated = `
+  select 
+    f.calories_kcal * ${data.quantity} as total_calories,
+    fat_calories = f.fat_g * 9 * ${data.quantity},
+    protein_calories = f.protein_g * 4 * ${data.quantity},
+    carbs_calories = f.carbs_g * 4 * ${data.quantity}
+  from 
+  `
 
 // Calories - CHANGED
 //     Date - NOT CHANGED
@@ -40,18 +83,16 @@ const updateFoodItem = async (foodLogId, data) => {
   applicableQueries.push(`
     update daily_nutrition_totals as dnt_update
     set 
-      total_calories = f.calories_kcal * ${data.quantity},
-      fat_calories = f.fat_g * 9 * ${data.quantity},
-      protein_calories = f.protein_g * 4 * ${data.quantity},
-      carbs_calories = f.carbs_g * 4 * ${data.quantity}
+
     from daily_nutrition_totals as dnt_current
     inner join (select fl.*, f.calories_kcal * fl.quantity from food_log as fl inner join foods as f on f.id = fl.food_id) as log_data
     on
       dnt_current.user_id = food_log.user_id AND
       dnt_current.date = food_log.daily_nutrition_totals_date
-
     where
       dnt_current.id = dnt_update.id AND
+      (dnt_current.quantity != ${data.quantity} OR dnt_current.serving_id != ${data.serving_id}) AND
+      dnt_current.daily_nutrition_totals '${data.daily_nutrition_totals_date}'
 
     where 
       dnt.daily_nutrition_totals '${data.daily_nutrition_totals_date}'
@@ -124,7 +165,7 @@ const updateFoodItem = async (foodLogId, data) => {
   }
 };
 
-const deleteFoodItem = foodLogId => {
+const deleteFoodLogID = foodLogId => {
   return await dbPgp.any(`
     delete from food_log
     where id = ${foodLogId}
@@ -133,7 +174,7 @@ const deleteFoodItem = foodLogId => {
 };
 
 module.exports = {
-  getFoodItem,
-  updateFoodItem,
-  deleteFoodItem
+  getFoodLogID,
+  updateFoodLogID,
+  deleteFoodLogID
 };
