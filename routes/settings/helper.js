@@ -1,7 +1,7 @@
 const moment = require("moment-timezone");
 //Converts cm to feet and inches.
 function heightToImperial(n) {
-  var realFeet = n * 0.3937 / 12;
+  var realFeet = (n * 0.3937) / 12;
   var convFeet = Math.floor(realFeet);
   var convInches = Math.round((realFeet - convFeet) * 12);
   return {
@@ -23,16 +23,16 @@ function macroRatiosToGrams(
   protein_ratio,
   carb_ratio
 ) {
-  const fatBudget = Math.round(caloric_budget * fat_ratio / 9);
-  const proteinBudget = Math.round(caloric_budget * protein_ratio / 4);
-  const carbBudget = Math.round(caloric_budget * carb_ratio / 4);
+  const fatBudget = Math.round((caloric_budget * fat_ratio) / 9);
+  const proteinBudget = Math.round((caloric_budget * protein_ratio) / 4);
+  const carbBudget = Math.round((caloric_budget * carb_ratio) / 4);
 
   return { fatBudget, proteinBudget, carbBudget };
 }
 
 /********************************************************
-*                   APPLY TIMEZONES                     *
-********************************************************/
+ *                   APPLY TIMEZONES                     *
+ ********************************************************/
 // consider refactoring  with moment-js
 function applyTimeZones(dailyLog, timeZoneNameCurrent) {
   // loops through each log within a 24-hour time-span
@@ -110,10 +110,19 @@ function calculateConsumption(dailyLog) {
   };
 }
 
+function to13BarCode(number) {
+  if (number.toString().length < 13) {
+    return `${"0".repeat(13 - number.toString().length)}${number}`;
+  } else {
+    return number;
+  }
+}
+
 module.exports = {
   heightToImperial,
   kgToLbs,
   macroRatiosToGrams,
   applyTimeZones,
-  calculateConsumption
+  calculateConsumption,
+  to13BarCode
 };

@@ -3,7 +3,7 @@ const axios = require("axios");
 const cors = require("cors");
 const CircularJSON = require("circular-json");
 const oathQueryBuilder = require("./oauthQueryBuilder");
-
+const { to13BarCode } = require("../settings/helper");
 const db = require("./getFoods.js");
 const { upsertFoods } = require("./upsertFoods.js");
 
@@ -124,9 +124,9 @@ const getFatSecretData = async (method, food_id) => {
  ********************************************************/
 
 router.get("/fatsecret/scanner/get-food/:bar_code", async (req, res) => {
-  const barCode = req.params.bar_code;
+  const barCode = to13BarCode(req.params.bar_code);
   const method = "food.find_id_for_barcode";
-
+  console.log(barCode);
   oathQueryBuilder({
     method,
     barcode: barCode
