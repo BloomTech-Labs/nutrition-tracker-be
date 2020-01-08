@@ -7,7 +7,7 @@ const goal_weights_over_time = (user_id, time_zone, start_date, end_date) => {
     start_date,
     end_date
   );
-  const last_observation_date = require("./actual_weights_last_observation_date")(
+  const last_observation_date = require("./goal_weights_last_observation_date")(
     user_id,
     time_zone,
     start_date,
