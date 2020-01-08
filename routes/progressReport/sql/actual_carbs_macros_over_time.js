@@ -10,9 +10,9 @@ const actual_carbs_macros_over_time = (user_id, start_date, end_date) => {
     select 
       ${user_id} as user_id,
       od.observation_date,
-      COALESCE(ROUND(d_n_t.carbs_calories / 4, 2), 0) as actual_carbs_macros
+      COALESCE(ROUND(d_n_t.carbs_calories / d_n_t.total_calories * 100), 0) as actual_carbs_macros
     from ${observation_dates} as od
-    left join (select date, carbs_calories from daily_nutrition_totals where user_id = ${user_id}) as d_n_t
+    left join (select date, carbs_calories, total_calories from daily_nutrition_totals where user_id = ${user_id}) as d_n_t
     on 
       od.observation_date = d_n_t.date
   `;
