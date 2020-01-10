@@ -3,6 +3,14 @@ function heightToImperial(n) {
   var realFeet = (n * 0.3937) / 12;
   var convFeet = Math.floor(realFeet);
   var convInches = Math.round((realFeet - convFeet) * 12);
+  if(convInches === 12){
+    convFeet = convFeet + 1
+    convInches = 0
+    return {
+      feet: convFeet,
+      inches: convInches
+    }
+  }
   return {
     feet: convFeet,
     inches: convInches

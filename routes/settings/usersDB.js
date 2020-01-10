@@ -23,15 +23,17 @@ function findByUserId(id) {
     .first();
 }
 
-function updateUser(updates, id) {
-  return db("users")
+async function updateUser(updates, id) {
+  //To prevent update returning as an array, we destructure and return updatedUser
+  const [updatedUser] = await db("users")
     .where({ id })
     .update(updates)
-    .returning("*");
+    .returning("*")
+    return updatedUser;
 }
 
 /********************************************************
- *                  Macro Queries                        *
+ *                  Macro Queries                       *
  ********************************************************/
 
 function findMacroRatiosById(user_id) {
