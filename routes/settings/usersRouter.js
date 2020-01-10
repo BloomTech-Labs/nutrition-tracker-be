@@ -2,10 +2,8 @@ const express = require("express");
 const router = express.Router();
 const UserInfo = require("./usersDB");
 const mapFirebaseIDtoUserID = require("../../middleware/mapFirebaseIDtoUserID");
-const {
-  heightToImperial,
-  kgToLbs
-} = require("./helper");
+
+const { heightToImperial, kgToLbs } = require("./helper");
 
 /********************************************************
  *                   User Endpoints                     *
@@ -35,8 +33,10 @@ router.put("/:user_id", mapFirebaseIDtoUserID, async (req, res) => {
   }
   try {
     const updated = await UserInfo.updateUser(updatedSettings, user_id);
+
     res.status(201).json(updated);
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: "Failed to update user settings" });
   }
 });
@@ -100,24 +100,28 @@ router.get("/:user_id/weight-goal", mapFirebaseIDtoUserID, async (req, res) => {
 });
 
 //Post new weekly_goal_rate and/or weight_goal_kg to user_budget_data table.
-router.post("/:user_id/weight-goal", mapFirebaseIDtoUserID, async (req, res) => {
-  const user_id = req.params.user_id;
-  const newWeightGoal = req.body;
-  
-  newWeightGoal.user_id = user_id;
+router.post(
+  "/:user_id/weight-goal",
+  mapFirebaseIDtoUserID,
+  async (req, res) => {
+    const user_id = req.params.id;
+    const newWeightGoal = req.body;
 
-  if (!newWeightGoal) {
-    res.status(400).json({
-      message: "Item required for update are missing"
-    });
+    newWeightGoal.user_id = user_id;
+
+    if (!newWeightGoal) {
+      res.status(400).json({
+        message: "Item required for update are missing"
+      });
+    }
+    try {
+      const added = await UserInfo.addWeightGoal(newWeightGoal);
+      res.status(201).json(added);
+    } catch (err) {
+      res.status(500).json({ message: "Failed to update user's weight goal" });
+    }
   }
-  try {
-    const added = await UserInfo.addWeightGoal(newWeightGoal);
-    res.status(201).json(added);
-  } catch (err) {
-    res.status(500).json({ message: "Failed to update user's weight goal" });
-  }
-});
+);
 
 /********************************************************
  *                Activity Level Endpoints              *
@@ -139,26 +143,30 @@ router.get(
 );
 
 //Post new activity_level to user_budget_data table.
-router.post("/:user_id/activity-level", mapFirebaseIDtoUserID, async (req, res) => {
-  const { user_id } = req.params;
-  const activityLevel = req.body;
+router.post(
+  "/:user_id/activity-level",
+  mapFirebaseIDtoUserID,
+  async (req, res) => {
+    const { user_id } = req.params;
+    const activityLevel = req.body;
 
-  activityLevel.user_id = user_id;
-  if (!activityLevel) {
-    res.status(400).json({
-      message: "Item required for update are missing"
-    });
+    activityLevel.user_id = user_id;
+    if (!activityLevel) {
+      res.status(400).json({
+        message: "Item required for update are missing"
+      });
+    }
+    try {
+      const added = await UserInfo.addActivityLevel(activityLevel);
+      res.status(201).json(added);
+    } catch (err) {
+      console.log(err);
+      res
+        .status(500)
+        .json({ message: "Failed to update user's activity level" });
+    }
   }
-  try {
-    const added = await UserInfo.addActivityLevel(activityLevel);
-    res.status(201).json(added);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Failed to update user's activity level" });  
-  }
-});
-
-
+);
 
 /********************************************************
  *                Current Weight Endpoints              *
@@ -173,7 +181,7 @@ router.get(
     try {
       const weight = await UserInfo.findCurrentWeightById(user_id);
       //Calls function from helper file to convert weight in kg to weight in lbs, and adds it to weight obj.
-      weight.weight_lbs = kgToLbs(weight.weight_kg);
+      weight.actual_weight_lbs = kgToLbs(weight.actual_weight_kg);
       res.json(weight);
     } catch (err) {
       res.status(500).json({ message: "Failed to get user's current weight" });
@@ -182,25 +190,57 @@ router.get(
 );
 
 //Post specific user's weight_kg to the user_metric_history
-router.post("/:user_id/current-weight", mapFirebaseIDtoUserID, async (req, res) => {
-  const { user_id } = req.params;
-  const newCurrentWeight = req.body;
-  console.log(newCurrentWeight)
-  /*
-    recalculate goal end-date
-  */
-  newCurrentWeight.user_id = user_id;
-  if (!newCurrentWeight) {
-    res.status(400).json({
-      message: "Item required for update are missing"
-    });
-  }
-  try {
-    const added = await UserInfo.addCurrentWeight(newCurrentWeight);
+router.post(
+  "/:user_id/current-weight",
+  mapFirebaseIDtoUserID,
+  async (req, res) => {
+    const { user_id } = req.params;
+    const newCurrentWeight = req.body;
+    newCurrentWeight.user_id = user_id;
+    if (!newCurrentWeight) {
+      res.status(400).json({
+        message: "Item required for update are missing"
+      });
+    }
+    try {
+      const added = await UserInfo.addCurrentWeight(newCurrentWeight);
 
-    res.status(201).json(added);
+      res.status(201).json(added);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        message: "Failed to update user's current weight"
+      });
+    }
+  }
+);
+
+/********************************************************
+ *             POST USER/:USER_ID/PROGRESS/WEIGHT        *
+ ********************************************************/
+/*
+  TODO:
+    1) flag to the user what date their weight goal was applicable to
+        figure out implemented
+*/
+
+/*
+    TODO:
+
+      Time-Zone will be passed in
+*/
+
+router.post("/:user_id/progress/weight", async (req, res) => {
+  const { start_date, end_date } = req.body;
+
+  try {
+    res.status(200).json({
+      message: "OK"
+    });
   } catch (err) {
-    res.status(500).json({ message: "Failed to update user's current weight" });
+    res.status(500).json({
+      errorMessage: "ERROR"
+    });
   }
 });
 

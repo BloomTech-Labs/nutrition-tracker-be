@@ -6,7 +6,6 @@ const db = require("../data/knex");
 module.exports = async (req, res, next) => {
   const firebaseID = req.params.user_id;
   let user;
-  console.log("firebaseID", firebaseID);
   try {
     user = await getUserID(firebaseID);
   } catch (err) {
@@ -16,7 +15,6 @@ module.exports = async (req, res, next) => {
   }
 
   if (!user) {
-    console.log("user.id", user)
     res.status(400).json({
       errorMessage: `A user with firebaseID: ${firebaseID} could not be found.`
     });

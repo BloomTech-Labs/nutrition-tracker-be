@@ -48,13 +48,7 @@ function upsertFoods(data) {
   const skipUpdateColumns = [...skipInsertColumns, ...onConflictColumns];
 
   try {
-    const querySql = createUpsertQuerySql(
-      data,
-      table,
-      columns,
-      onConflictColumns,
-      skipUpdateColumns
-    );
+    const querySql = createUpsertQuerySql(data, table, columns, onConflictColumns, skipUpdateColumns);
 
     return db.any(querySql);
   } catch (e) {
