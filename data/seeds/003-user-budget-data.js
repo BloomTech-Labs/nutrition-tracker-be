@@ -78,7 +78,7 @@ exports.seed = function(knex) {
           goal_end_date: new Date(),
           goal_weekly_weight_change_rate: 0,
           goal_weight_kg: 77.0,
-          actual_weight_kg: 77.0,
+          actual_weight_kg: 83.0,
           activity_level: 1.55,
           caloric_budget: 2000.0,
           fat_ratio: 0.7,
@@ -134,6 +134,36 @@ exports.seed = function(knex) {
           user_id: 1,
           applicable_date: presentMinusXHours(71),
           goal_weight_kg: 135
+        },
+        {
+          user_id: 5,
+          applicable_date: presentMinusXDays(140),
+          actual_weight_kg: 82.0
+        },
+        {
+          user_id: 5,
+          applicable_date: presentMinusXDays(100),
+          actual_weight_kg: 81.0
+        },
+        {
+          user_id: 5,
+          applicable_date: presentMinusXDays(60),
+          actual_weight_kg: 80.0
+        },
+        {
+          user_id: 5,
+          applicable_date: presentMinusXDays(30),
+          actual_weight_kg: 79.0
+        },
+        {
+          user_id: 5,
+          applicable_date: presentMinusXDays(15),
+          actual_weight_kg: 78.0
+        },
+        {
+          user_id: 5,
+          applicable_date: presentMinusXDays(4),
+          actual_weight_kg: 77.0
         }
       ]);
     });
