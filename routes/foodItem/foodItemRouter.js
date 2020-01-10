@@ -2,8 +2,10 @@ const express = require("express");
 const db = require("./foodItemDB");
 const fetch = require("node-fetch");
 const mapFirebaseIDtoUserID = require("../../middleware/mapFirebaseIDtoUserID");
+require("dotenv").config();
 
-const dev = true;
+const dev = process.env.DEV || false;
+
 const BASE_URL = dev
   ? "http://localhost:4000"
   : "https://nutri-journal.herokuapp.com";
@@ -37,12 +39,21 @@ router.get(
         )
           .then(checkStatus)
           .then(res => res.json())
-          .then(json => (
-                servingArrayData = json.map(item => {
-                  return { serving_id:item.serving_id, serving_qty:item.serving_qty, serving_desc:item.serving_desc, fat_g:item.fat_g, carbs_g:item.carbs_g, protein_g:item.protein_g };
-              }),
-              data = json.find(item => item.serving_id === serving_id ) //Finds the record from API call to match the serving_description saved in our local DB
-              )); // json is the actaul data being returned from out api call
+          .then(
+            json => (
+              (servingArrayData = json.map(item => {
+                return {
+                  serving_id: item.serving_id,
+                  serving_qty: item.serving_qty,
+                  serving_desc: item.serving_desc,
+                  fat_g: item.fat_g,
+                  carbs_g: item.carbs_g,
+                  protein_g: item.protein_g
+                };
+              })),
+              (data = json.find(item => item.serving_id === serving_id)) //Finds the record from API call to match the serving_description saved in our local DB
+            )
+          ); // json is the actaul data being returned from out api call
         res.status(200).json({ ...data, ...foodItem, servingArrayData }); // return the api call json data and combine with local db data
       } catch ({ message }) {
         res.status(404).json(message);
