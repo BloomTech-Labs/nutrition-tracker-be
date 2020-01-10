@@ -149,6 +149,7 @@ router.post(
   async (req, res) => {
     const { user_id } = req.params;
     const activityLevel = req.body;
+
     activityLevel.user_id = user_id;
     if (!activityLevel) {
       res.status(400).json({
@@ -159,6 +160,7 @@ router.post(
       const added = await UserInfo.addActivityLevel(activityLevel);
       res.status(201).json(added);
     } catch (err) {
+      console.log(err);
       res
         .status(500)
         .json({ message: "Failed to update user's activity level" });

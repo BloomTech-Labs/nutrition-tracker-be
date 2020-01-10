@@ -1,5 +1,7 @@
 const db = require("../../data/knex");
-const { recalcAndUpdateCaloricBudget } = require("./recalcAndUpdateCaloricBudget");
+const {
+  recalcAndUpdateCaloricBudget
+} = require("./recalcAndUpdateCaloricBudget");
 const updateGoalDateIfNecessary = require("./updateGoalDateIfNecessary");
 
 module.exports = {
@@ -44,7 +46,7 @@ async function updateUser(updates, id) {
 }
 
 /********************************************************
- *                  Macro Queries                        *
+ *                  Macro Queries                       *
  ********************************************************/
 function findMacroRatiosById(user_id) {
   return db("user_budget_data")

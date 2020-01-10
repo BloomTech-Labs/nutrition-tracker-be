@@ -29,11 +29,11 @@ function getCaloricBudget(newUser) {
  *                        GET AGE                       *
  ********************************************************/
 function getAge(dob) {
-  const today = new Date();
-  const birthDate = new Date(dob);
-  const age = today.getFullYear() - birthDate.getFullYear();
-  const monthDifference = today.getMonth() - birthDate.getMonth();
-  const dayDifference = today.getDate() - birthDate.getDate();
+  let today = new Date();
+  let birthDate = new Date(dob);
+  let age = today.getFullYear() - birthDate.getFullYear();
+  let monthDifference = today.getMonth() - birthDate.getMonth();
+  let dayDifference = today.getDate() - birthDate.getDate();
   // handles edge case where if the user's birth month or birth day
   // falls after today's date, if that's the case decrement the age by 1
   // because they haven't yet hit their birthday
