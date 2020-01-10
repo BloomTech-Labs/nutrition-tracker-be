@@ -130,13 +130,12 @@ const getFoodHandler = async (req, res) => {
       try {
         // grab some ***FRESH*** food
         const fatsecretFoods = await getFatSecretData(method, fatsecretFoodID);
-
         // UPSERT the fresh food into Foods table
         foods = await upsertFoods(fatsecretFoods);
       } catch (err) {
         res.status(500).json({
           err: err,
-          message: "Failed to get food data"
+          message: "Failed to get food data from Fat Secret"
         });
       }
     }
