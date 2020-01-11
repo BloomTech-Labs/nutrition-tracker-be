@@ -77,7 +77,6 @@ async function addLogEntry(data) {
       return await t.any(addFoodLogSql);
     })
     .catch(error => {
-      console.log(error);
       return error;
     });
 }
@@ -234,7 +233,6 @@ UNION
       return await t.any(updateFoodLogSql);
     })
     .catch(error => {
-      console.log(error);
       return error;
     });
 }
