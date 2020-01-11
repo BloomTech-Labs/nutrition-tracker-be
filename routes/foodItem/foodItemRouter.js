@@ -2,8 +2,10 @@ const express = require("express");
 const db = require("../logentry/logEntryDB");
 const fetch = require("node-fetch");
 const mapFirebaseIDtoUserID = require("../../middleware/mapFirebaseIDtoUserID");
+require("dotenv").config();
 
-const dev = true;
+const dev = process.env.DEV || false;
+
 const BASE_URL = dev ? "http://localhost:4000" : "https://nutri-journal.herokuapp.com";
 
 router = express.Router();

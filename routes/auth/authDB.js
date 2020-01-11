@@ -46,14 +46,19 @@ function insertUserBudgetData(newUser, trx) {
     goal_weekly_weight_change_rate,
     caloric_budget,
     actual_weight_kg,
-    goal_weight_kg
+    goal_weight_kg,
+    goal_start_date,
+    goal_end_date
   } = newUser;
+
   return trx("user_budget_data").insert({
     user_id,
     activity_level,
     goal_weekly_weight_change_rate,
     actual_weight_kg,
     goal_weight_kg,
+    goal_start_date,
+    goal_end_date,
     caloric_budget,
     // USDA Recommended Macronutrient Ratios
     carb_ratio: 0.5,
