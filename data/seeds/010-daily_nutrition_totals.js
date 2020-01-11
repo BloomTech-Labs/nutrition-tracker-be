@@ -6,7 +6,6 @@ exports.seed = function(knex) {
     .truncate()
     .then(function() {
       // Inserts seed entries
-
       return knex("daily_nutrition_totals").insert([
         {
           // id: 1,
