@@ -6,18 +6,17 @@ exports.seed = function(knex) {
       // Inserts seed entries
       const currDateTime = new Date();
       // takes current date and subtracts off x number of days
-      const presentMinusXDays = x =>
-        new Date(currDateTime - 1000 * 60 * 60 * 24 * x);
+      const presentMinusXDays = x => new Date(currDateTime - 1000 * 60 * 60 * 24 * x);
 
       return knex("daily_nutrition_totals").insert([
         {
           // id: 1,
           user_id: 1,
-          date: presentMinusXDays(0),
-          total_calories: 1000,
-          fat_calories: 502,
-          protein_calories: 5,
-          carbs_calories: 1000 - 502 - 5
+          date: "2019-11-24",
+          total_calories: 40 * 2,
+          fat_calories: 0.49 * 9 * 2,
+          protein_calories: 1.15 * 4 * 2,
+          carbs_calories: 7.59 * 4 * 2
         },
         {
           // id: 2,
