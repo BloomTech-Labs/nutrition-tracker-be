@@ -15,25 +15,26 @@ module.exports = {
 // https://www.calculator.net/bmr-calculator.html
 function getCaloricBudget(newUser) {
   let { sex, activity_level, dob, actual_weight_kg, height_cm } = newUser;
-
-  return Math.round(
+  const budget = Math.round(
     (10 * actual_weight_kg +
       6.25 * height_cm -
       5 * getAge(dob) +
       (sex === "Male" ? 5 : -161)) *
       activity_level
   );
+  return budget;
 }
 
 /********************************************************
  *                        GET AGE                       *
  ********************************************************/
 function getAge(dob) {
-  const today = new Date();
-  const birthDate = new Date(dob);
-  const age = today.getFullYear() - birthDate.getFullYear();
-  const monthDifference = today.getMonth() - birthDate.getMonth();
-  const dayDifference = today.getDate() - birthDate.getDate();
+  let today = new Date();
+  let birthDate = new Date(dob);
+  let age = today.getFullYear() - birthDate.getFullYear();
+  let monthDifference = today.getMonth() - birthDate.getMonth();
+  let dayDifference = today.getDate() - birthDate.getDate();
+
   // handles edge case where if the user's birth month or birth day
   // falls after today's date, if that's the case decrement the age by 1
   // because they haven't yet hit their birthday
@@ -47,7 +48,6 @@ function getAge(dob) {
  *                                                      *
  ********************************************************/
 function calculateWeightGoalDates(newUser) {
-  console.log("here");
   let {
     actual_weight_kg,
     goal_weight_kg,
