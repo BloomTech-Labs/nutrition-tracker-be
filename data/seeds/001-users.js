@@ -44,6 +44,14 @@ exports.seed = function(knex) {
           height_cm: 178,
           sex: "Male",
           dob: "1991-02-04"
+        },
+        {
+          // id: 5,
+          firebase_id: "dave",
+          email: "dave@dave.com",
+          height_cm: 180,
+          sex: "Male",
+          dob: "1987-09-29"
         }
       ]);
     });
