@@ -20,8 +20,6 @@ async function getLogEntry(foodLogId) {
 }
 
 async function addLogEntry(data) {
-  console.log("addLogEntry");
-
   const daily_nutrition_totals_values = `
     select 
       ${data.user_id} as user_id,
@@ -79,6 +77,7 @@ async function addLogEntry(data) {
       return await t.any(addFoodLogSql);
     })
     .catch(error => {
+      console.log(error);
       return error;
     });
 }
@@ -235,6 +234,7 @@ UNION
       return await t.any(updateFoodLogSql);
     })
     .catch(error => {
+      console.log(error);
       return error;
     });
 }
