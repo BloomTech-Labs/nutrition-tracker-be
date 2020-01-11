@@ -1,17 +1,17 @@
 const express = require("express");
 const db = require("../logentry/logEntryDB");
 const fetch = require("node-fetch");
-const mapFirebaseIDtoUserID = require("../../middleware/mapFirebaseIDtoUserID");
 require("dotenv").config();
 
-const dev = process.env.DEV || false;
+const dev = Boolean(process.env.DEV) || false;
 
-const BASE_URL = dev ? "http://localhost:4000" : "https://nutri-journal.herokuapp.com";
+const BASE_URL = dev
+  ? "http://localhost:4000"
+  : "https://nutri-journal.herokuapp.com";
 
 router = express.Router();
 
 const checkStatus = res => {
-  //Error Check
   if (res.ok) {
     return res;
   } else {
@@ -19,7 +19,7 @@ const checkStatus = res => {
   }
 };
 
-router.get("/getfooditem/:foodlogID", mapFirebaseIDtoUserID, async (req, res) => {
+router.get("/getfooditem/:foodlogID", async (req, res) => {
   const { foodlogID } = req.params;
 
   try {
@@ -27,8 +27,8 @@ router.get("/getfooditem/:foodlogID", mapFirebaseIDtoUserID, async (req, res) =>
     const { fatsecret_food_id, serving_id } = foodItem;
     //now that we have our data from the db we need to go and get the fatsecret_food_id for this record and return that info.
     try {
-      var data;
-      var servingArrayData;
+      let data;
+      let servingArrayData;
       await fetch(
         `${BASE_URL}/fatsecret/get-food/${fatsecret_food_id}` //make a fetch request from our api and and get info
       )
@@ -58,7 +58,7 @@ router.get("/getfooditem/:foodlogID", mapFirebaseIDtoUserID, async (req, res) =>
   }
 });
 
-router.put("/updatefooditem/:foodLogID", mapFirebaseIDtoUserID, async (req, res) => {
+router.put("/updatefooditem/:foodLogID", async (req, res) => {
   const { foodLogID } = req.params;
   const updatedRecord = req.body;
 
@@ -72,7 +72,7 @@ router.put("/updatefooditem/:foodLogID", mapFirebaseIDtoUserID, async (req, res)
   }
 });
 
-router.delete("/deletefooditem/:foodLogID", mapFirebaseIDtoUserID, async (req, res) => {
+router.delete("/deletefooditem/:foodLogID", async (req, res) => {
   const { foodLogID } = req.params;
 
   try {
