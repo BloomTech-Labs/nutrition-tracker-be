@@ -1,5 +1,5 @@
 const express = require("express");
-const db = require("./foodItemDB");
+const db = require("../logentry/logEntryDB");
 const fetch = require("node-fetch");
 const mapFirebaseIDtoUserID = require("../../middleware/mapFirebaseIDtoUserID");
 
@@ -17,11 +17,11 @@ const checkStatus = res => {
   }
 };
 
-router.get("/getfooditem/:foodlogID/user/:user_id", mapFirebaseIDtoUserID, async (req, res) => {
-  const { user_id, foodlogID } = req.params;
+router.get("/getfooditem/:foodlogID", mapFirebaseIDtoUserID, async (req, res) => {
+  const { foodlogID } = req.params;
 
   try {
-    const [foodItem] = await db.getFoodItem(foodlogID, user_id);
+    const [foodItem] = await db.getLogEntry(foodlogID);
     const { fatsecret_food_id, serving_id } = foodItem;
     //now that we have our data from the db we need to go and get the fatsecret_food_id for this record and return that info.
     try {
@@ -56,87 +56,26 @@ router.get("/getfooditem/:foodlogID/user/:user_id", mapFirebaseIDtoUserID, async
   }
 });
 
-router.put("/updatefooditem/:foodLogID/user/:user_id", mapFirebaseIDtoUserID, async (req, res) => {
-  const { foodLogID, user_id } = req.params;
+router.put("/updatefooditem/:foodLogID", mapFirebaseIDtoUserID, async (req, res) => {
+  const { foodLogID } = req.params;
   const updatedRecord = req.body;
-
-  let exampleBody = {
-    updatedFoodLogRecord: null,
-
-    updatedDailyNutritionTotalsDate: true,
-    updatedDailyNutritionTotalsAmount: false,
-
-    changeNutritionalAmounts: {
-      total_calories: 140,
-      fat_calories: 116,
-      carbs_calories: 0,
-      protein_calories: 24
-    },
-    existingNutritionalAmounts: {
-      total_calories: 500,
-      fat_calories: 400,
-      carbs_calories: 10,
-      protein_calories: 90
-    }
-  };
-
-  if (!updatedDailyNutritionTotalsDate && !updatedDailyNutritionTotalsAmount) {
-    //do nothing with daily nutrition totals
-    //ie the food log entry had its time updated, but not its date
-  }
-
-  if (!updatedDailyNutritionTotalsDate && updatedDailyNutritionTotalsAmount) {
-    //increase/decrease the amount in daily nutrition totals for the current date
-    //upsert the values in {changeNutritionalAmounts}
-  }
-
-  if (updatedDailyNutritionTotalsDate && !updatedDailyNutritionTotalsAmount) {
-    //decrease the calories etc on the _original_ date in daily nutrition totals
-    //by the amount of {existingNutritionalAmounts},
-    //aka the amount of the (unchanged in quantity) food log entry
-    //upsert the calories of {existingNutritionalAmounts} into the _new_ date
-  }
-
-  if (updatedDailyNutritionTotalsDate && updatedDailyNutritionTotalsAmount) {
-    //decrease the calories etc on the _original_ date in daily nutrition totals
-    //by the amount of {existingNutritionalAmounts},
-    //aka the amount of the _original_ food log entry
-    //upsert the values in {changeNutritionalAmounts}
-    //aka the calories of the _new_ food log entry, into the _new_ date
-  }
-
-  let exampleDailyNutritionTotalsData = [
-    {
-      daily_nutrition_totals_date: "1/6/2020",
-      total_calories: 1000,
-      fat_calories: 500,
-      carbs_calories: 50,
-      protein_calories: 450
-    },
-    {
-      daily_nutrition_totals_date: "1/5/2020",
-      total_calories: 200,
-      fat_calories: 105,
-      carbs_calories: 50,
-      protein_calories: 45
-    }
-  ];
 
   try {
     //call to db to update item;
-    const item = await db.updateFoodItem(foodLogID, user_id, updatedRecord);
+    const item = await db.updateLogEntry(foodLogID, updatedRecord);
+
     res.status(201).json(item);
   } catch ({ message }) {
     res.status(500).json(message);
   }
 });
 
-router.delete("/deletefooditem/:foodLogID/user/:user_id", mapFirebaseIDtoUserID, async (req, res) => {
-  const { foodLogID, user_id } = req.params;
+router.delete("/deletefooditem/:foodLogID", mapFirebaseIDtoUserID, async (req, res) => {
+  const { foodLogID } = req.params;
 
   try {
     // call to db to delete record;
-    const deletedRecord = await db.deleteFoodItem(foodLogID, user_id);
+    const deletedRecord = await db.removeLogEntry(foodLogID);
     res.status(200).json(deletedRecord);
   } catch ({ message }) {
     res.status(500).json(message);
