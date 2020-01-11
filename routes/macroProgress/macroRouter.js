@@ -3,14 +3,13 @@ const router = express.Router();
 const MacroInfo = require("./macroDB");
 const mapFirebaseIDtoUserID = require("../../middleware/mapFirebaseIDtoUserID");
 const actualWeightOverTime = require("../progressReport/actualWeightOverTimeDB");
-const goalWeightOverTime = require("../progressReport/goalWeightOverTimeDB");
+const targetGoalWeightOverTimeDB = require("../progressReport/targetGoalWeightOverTimeDB");
 const averageMacrosOverTime = require("../progressReport/averageMacrosOverTimeDB");
-const weightOverTime = require("../progressReport/weightOverTimeDB");
 const caloriesOverTime = require("../progressReport/caloriesOverTimeDB");
 const fatMacrosOverTime = require("../progressReport/fatMacrosOverTimeDB");
 const carbsMacrosOverTime = require("../progressReport/carbsMacrosOverTimeDB");
 const proteinMacrosOverTime = require("../progressReport/proteinMacrosOverTimeDB");
-const { weightsToLbs, truncateData } = require("./helper/index");
+const { weightsToLbs, truncateData, extendDate } = require("./helper/index");
 
 /********************************************************
  *                 GET FATS OVER TIME                    *
@@ -114,8 +113,15 @@ router.post(
 /********************************************************
  *             GET WEIGHT ACTUALS/WEIGHT GOALS          *
  ********************************************************/
+/*
+  const actualWeightOverTime = require("../progressReport/actualWeightOverTimeDB");
+  const goalWeightOverTime = require("../progressReport/goalWeightOverTimeDB");
+*/
+
+// CREATE TWO SEPARATE ROUTERS... YOU NEED DIFFERENT LOGIC FOR ACTUALS AND GOALS..
+
 router.post(
-  "/:user_id/weight/:period",
+  "/:user_id/weight-actuals/:period",
   mapFirebaseIDtoUserID,
   async (req, res) => {
     const user_id = req.params.user_id;
@@ -123,23 +129,56 @@ router.post(
     const { time_zone, start_date, end_date } = req.body;
 
     try {
-      let weightsOverTime = await weightOverTime(
+      let actualWeights = await actualWeightOverTime(
         user_id,
         time_zone,
         start_date,
         end_date
       );
 
-      weightsOverTime = weightsToLbs(weightsOverTime);
-      weightsOverTime = truncateData(weightsOverTime, period);
+      actualWeights = weightsToLbs(actualWeights, "actuals");
+      actualWeights = truncateData(actualWeights, period);
 
       res.status(200).json({
-        weightsOverTime
+        actualWeightsLength: actualWeights.length,
+        actualWeights
       });
     } catch (err) {
       console.log(err);
       res.status(500).json({
-        errorMessage: "ERROR"
+        errorMessage: "Could not retrieve user's goal actuals"
+      });
+    }
+  }
+);
+
+router.post(
+  "/:user_id/weight-goals/:period",
+  mapFirebaseIDtoUserID,
+  async (req, res) => {
+    const user_id = req.params.user_id;
+    const period = req.params.period;
+    const { time_zone, start_date, end_date } = req.body;
+
+    try {
+      let goalWeights = await targetGoalWeightOverTimeDB(
+        user_id,
+        time_zone,
+        start_date,
+        end_date
+      );
+
+      // goalWeights = weightsToLbs(goalWeights, "goals");
+      // goalWeights = truncateData(goalWeights, period);
+
+      res.status(200).json({
+        goalWeightsLength: goalWeights.length,
+        goalWeights
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        errorMessage: "Could not retrieve user's goal weights."
       });
     }
   }
@@ -164,7 +203,7 @@ router.post(
         end_date
       );
 
-      // calories = truncateData(calories, period);
+      calories = truncateData(calories, period);
 
       res.status(200).json({
         calories
