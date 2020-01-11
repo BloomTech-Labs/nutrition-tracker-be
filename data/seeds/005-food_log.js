@@ -12,6 +12,7 @@ exports.seed = function(knex) {
           fatsecret_food_id: 9876,
           serving_id: 10,
           time_consumed_at: "2019-11-24T08:14:00.000Z",
+          daily_nutrition_totals_date: "2019-11-24",
           time_zone_name: "America/New_York",
           time_zone_abbr: "EST",
           quantity: 2.0
@@ -23,6 +24,7 @@ exports.seed = function(knex) {
           fatsecret_food_id: 8765,
           serving_id: 11,
           time_consumed_at: "2019-11-24T08:14:00.000Z",
+          daily_nutrition_totals_date: "2019-11-24",
           time_zone_name: "America/New_York",
           time_zone_abbr: "EST",
           quantity: 1.0
@@ -34,6 +36,7 @@ exports.seed = function(knex) {
           fatsecret_food_id: 7654,
           serving_id: 12,
           time_consumed_at: "2019-11-24T12:01:00.000Z",
+          daily_nutrition_totals_date: "2019-11-24",
           time_zone_name: "America/New_York",
           time_zone_abbr: "EST",
           quantity: 4.0
@@ -45,6 +48,7 @@ exports.seed = function(knex) {
           fatsecret_food_id: 6543,
           serving_id: 13,
           time_consumed_at: "2019-11-24T13:16:00.000Z",
+          daily_nutrition_totals_date: "2019-11-24",
           time_zone_name: "America/New_York",
           time_zone_abbr: "EST",
           quantity: 2.0
@@ -56,6 +60,7 @@ exports.seed = function(knex) {
           fatsecret_food_id: 5432,
           serving_id: 14,
           time_consumed_at: "2019-11-26T13:16:00.000Z",
+          daily_nutrition_totals_date: "2019-11-24",
           time_zone_name: "America/New_York",
           time_zone_abbr: "EST",
           quantity: 2.0
@@ -67,6 +72,7 @@ exports.seed = function(knex) {
           fatsecret_food_id: 4321,
           serving_id: 15,
           time_consumed_at: "2019-11-24T15:30:00.000Z",
+          daily_nutrition_totals_date: "2019-11-24",
           time_zone_name: "America/New_York",
           time_zone_abbr: "EST",
           quantity: 1.0
@@ -78,6 +84,7 @@ exports.seed = function(knex) {
           fatsecret_food_id: 3210,
           serving_id: 16,
           time_consumed_at: "2019-11-24T15:30:00.000Z",
+          daily_nutrition_totals_date: "2019-11-24",
           time_zone_name: "America/New_York",
           time_zone_abbr: "EST",
           quantity: 1.5
@@ -89,6 +96,7 @@ exports.seed = function(knex) {
           fatsecret_food_id: 5735,
           serving_id: 21131,
           time_consumed_at: "2019-11-24T15:30:00.000Z",
+          daily_nutrition_totals_date: "2019-11-24",
           time_zone_name: "America/New_York",
           time_zone_abbr: "EST",
           quantity: 2
