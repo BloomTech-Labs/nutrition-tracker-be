@@ -19,7 +19,6 @@ router.post("/:user_id", mapFirebaseIDtoUserID, validateRequest, async (req, res
       logEntry
     });
   } catch (err) {
-    console.log(err);
     res.status(500).json({
       errorMessage: "Internal Server Error"
     });
