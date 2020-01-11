@@ -17,6 +17,7 @@ const authRouter = require("./routes/auth/authRouter");
 const logEntryRouter = require("./routes/logentry/logEntry");
 const dailyLogRouter = require("./routes/dailyLog/dailyLog");
 const macroProgressRouter = require("./routes/macroProgress/macroRouter");
+const foodItemRouter = require("./routes/foodItem/foodItemRouter");
 /*
 morgan("dev"):
 Concise output colored by response status for development use. 
@@ -36,6 +37,7 @@ server.use("/user", usersRouter);
 server.use("/log-entry", logEntryRouter);
 server.use("/daily-log", dailyLogRouter);
 server.use("/progress-reports", macroProgressRouter);
+server.use("/food-item", foodItemRouter);
 
 // Test End-Point for Authentication
 server.get("/test/authentication", authenticate, (req, res) => {

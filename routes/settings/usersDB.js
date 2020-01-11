@@ -28,7 +28,7 @@ function findByUserId(id) {
 }
 
 async function updateUser(updates, id) {
-  const [updatedUser] = await db("users")
+  const updatedUser = await db("users")
     .where({ id })
     .update(updates)
     .returning("*");

@@ -7,12 +7,7 @@ const goal_weights_over_time = (user_id, time_zone, start_date, end_date) => {
     start_date,
     end_date
   );
-  const last_observation_date = require("./goal_weights_last_observation_date")(
-    user_id,
-    time_zone,
-    start_date,
-    end_date
-  );
+
   return `
     select 
       d_a_d.user_id,
@@ -26,7 +21,7 @@ const goal_weights_over_time = (user_id, time_zone, start_date, end_date) => {
       d_a_d.applicable_date = ubd.applicable_date
     where
       ubd.goal_weight_kg is not null AND
-      d_a_d.observation_date <= ${last_observation_date}
+      ubd.goal_end_date > d_a_d.eod_in_utc
     order by
       d_a_d.observation_date
   `;

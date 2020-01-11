@@ -34,7 +34,6 @@ function getAge(dob) {
   let age = today.getFullYear() - birthDate.getFullYear();
   let monthDifference = today.getMonth() - birthDate.getMonth();
   let dayDifference = today.getDate() - birthDate.getDate();
-
   // handles edge case where if the user's birth month or birth day
   // falls after today's date, if that's the case decrement the age by 1
   // because they haven't yet hit their birthday
