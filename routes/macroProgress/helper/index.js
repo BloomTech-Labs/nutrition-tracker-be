@@ -3,18 +3,27 @@ const moment = require("moment-timezone");
 module.exports = {
   weightsToLbs,
   truncateData,
-  extendDate
+  extendDate,
+  formatDates
 };
 
 /********************************************************
  *                     WEIGHTS TO LBS                    *
  ********************************************************/
 function weightsToLbs(dataset, type) {
-  const propertyName = type === "actuals" ? "actual_weight" : "goal_weight";
+  const propertyName =
+    type === "actuals" ? "actual_weight" : "target_goal_weight";
 
   return dataset.map(data => {
     data[`${propertyName}_lbs`] = kgToLbs(data[`${propertyName}_kg`]);
     delete data[`${propertyName}_kg`];
+    return data;
+  });
+}
+
+function formatDates(dataset) {
+  return dataset.map(data => {
+    data.observation_date = moment(data.observation_date).format("MM/DD");
     return data;
   });
 }
@@ -29,29 +38,29 @@ function kgToLbs(kg) {
 /********************************************************
  *                     TRUNCATE DATA                    *
  ********************************************************/
-function truncateData(dataset, period) {
+function truncateData(dataset, period, type) {
   let interval, cutoff;
 
   switch (period) {
     case "weekly":
       interval = 1;
-      cutoff = -7;
+      cutoff = type === "targets" ? -10 : -7;
       break;
     case "monthly":
       interval = 3;
-      cutoff = -30;
+      cutoff = type === "targets" ? -39 : -30;
       break;
     case "quarterly":
       interval = 6;
-      cutoff = -90;
+      cutoff = type === "targets" ? -108 : -90;
       break;
     case "biannual":
       interval = 20;
-      cutoff = -180;
+      cutoff = type === "targets" ? -240 : -180;
       break;
     default:
       interval = 7;
-      cutoff = -7;
+      cutoff = type === "targets" ? -10 : -7;
   }
 
   return dataset.slice(cutoff).filter((_, i) => i % interval === 0);

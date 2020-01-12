@@ -9,7 +9,12 @@ const caloriesOverTime = require("../progressReport/caloriesOverTimeDB");
 const fatMacrosOverTime = require("../progressReport/fatMacrosOverTimeDB");
 const carbsMacrosOverTime = require("../progressReport/carbsMacrosOverTimeDB");
 const proteinMacrosOverTime = require("../progressReport/proteinMacrosOverTimeDB");
-const { weightsToLbs, truncateData, extendDate } = require("./helper/index");
+const {
+  weightsToLbs,
+  truncateData,
+  extendDate,
+  formatDates
+} = require("./helper/index");
 
 /********************************************************
  *                 GET FATS OVER TIME                    *
@@ -138,6 +143,7 @@ router.post(
 
       actualWeights = weightsToLbs(actualWeights, "actuals");
       actualWeights = truncateData(actualWeights, period);
+      actualWeights = formatDates(actualWeights);
 
       res.status(200).json({
         actualWeightsLength: actualWeights.length,
@@ -153,7 +159,7 @@ router.post(
 );
 
 router.post(
-  "/:user_id/weight-goals/:period",
+  "/:user_id/weight-targets/:period",
   mapFirebaseIDtoUserID,
   async (req, res) => {
     const user_id = req.params.user_id;
@@ -161,19 +167,20 @@ router.post(
     const { time_zone, start_date, end_date } = req.body;
 
     try {
-      let goalWeights = await targetGoalWeightOverTimeDB(
+      let targetWeights = await targetGoalWeightOverTimeDB(
         user_id,
         time_zone,
         start_date,
-        end_date
+        extendDate(end_date, period)
       );
 
-      // goalWeights = weightsToLbs(goalWeights, "goals");
-      // goalWeights = truncateData(goalWeights, period);
+      targetWeights = weightsToLbs(targetWeights, "targets");
+      targetWeights = truncateData(targetWeights, period, "targets");
+      targetWeights = formatDates(targetWeights);
 
       res.status(200).json({
-        goalWeightsLength: goalWeights.length,
-        goalWeights
+        targetWeightsLength: targetWeights.length,
+        targetWeights
       });
     } catch (err) {
       console.log(err);
@@ -204,6 +211,7 @@ router.post(
       );
 
       calories = truncateData(calories, period);
+      calories = formatDates(calories);
 
       res.status(200).json({
         calories
