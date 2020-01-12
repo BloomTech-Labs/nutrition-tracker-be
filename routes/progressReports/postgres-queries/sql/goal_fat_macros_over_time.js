@@ -1,4 +1,4 @@
-const goal_carbs_macros_goal_over_time = (
+const goal_fat_macros_goal_over_time = (
   user_id,
   time_zone,
   start_date,
@@ -6,7 +6,7 @@ const goal_carbs_macros_goal_over_time = (
 ) => {
   //calculates the sql query for: the caloric budget in effect at a given observation_date within the date range from "start date" to "end date"
   // ran by fn in "../caloriesOverTimeDB"
-  const daily_applicable_dates = require("./goal_carbs_macros_daily_applicable_dates")(
+  const daily_applicable_dates = require("./goal_fat_macros_daily_applicable_dates")(
     user_id,
     time_zone,
     start_date,
@@ -16,7 +16,7 @@ const goal_carbs_macros_goal_over_time = (
     select 
       d_a_d.user_id,
       d_a_d.observation_date,
-      ROUND(ubd.carb_ratio::decimal * ubd.caloric_budget / 4, 2) as goal_carbs_macros
+      ROUND(ubd.fat_ratio::decimal * 100) as goal_fat_macros
     from ${daily_applicable_dates} as d_a_d
     inner join user_budget_data as ubd
     on 
@@ -29,4 +29,4 @@ const goal_carbs_macros_goal_over_time = (
   `;
 };
 
-module.exports = goal_carbs_macros_goal_over_time;
+module.exports = goal_fat_macros_goal_over_time;

@@ -1,4 +1,4 @@
-const { db: pgPromiseDb } = require("../../data/pg-promise.js");
+const { db: pgPromiseDb } = require("../../../data/pg-promise.js");
 
 const proteinMacrosOverTime = async (
   user_id,

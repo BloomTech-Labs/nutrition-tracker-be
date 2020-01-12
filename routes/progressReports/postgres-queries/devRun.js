@@ -14,16 +14,42 @@ const caloriesOverTime = require("./caloriesOverTimeDB");
 
 async function runWeightOverTime() {
   //executes actualWeightOverTime function with some hardcoded example values which creates SQL and runs the query in pg-promise
-  // console.log(await actualWeightOverTime(user_id, time_zone, start_date, end_date));
 
-  //executes goalWeightOverTime function with some hardcoded example values which creates SQL and runs the query in pg-promise
-  // console.log(await goalWeightOverTime(user_id, time_zone, start_date, end_date));
+  const actual_weight_over_time = await actualWeightOverTime(
+    user_id,
+    time_zone,
+    start_date,
+    end_date
+  );
+
+  const goal_weight_over_time = await goalWeightOverTime(
+    user_id,
+    time_zone,
+    start_date,
+    end_date
+  );
+
+  const weight_over_time = await weightOverTime(
+    user_id,
+    time_zone,
+    start_date,
+    end_date
+  );
+
+  // console.log("actualWeightOverTime:\n", actual_weight_over_time);
+
+  // //executes goalWeightOverTime function with some hardcoded example values which creates SQL and runs the query in pg-promise
+  // console.log("goalWeightOverTime:\n", goal_weight_over_time);
 
   //executes targetGoalWeightOverTimeDB function with some hardcoded example values which creates SQL and runs the query in pg-promise
   // console.log(await targetGoalWeightOverTimeDB(user_id, time_zone, start_date, end_date));
 
   //executes weightOverTime function with some hardcoded example values which creates SQL and runs the query in pg-promise
-  console.log(await weightOverTime(user_id, time_zone, start_date, end_date));
+  console.log("weightOverTime:\n", weight_over_time);
+
+  // console.log("actual_weight_over_time:", actual_weight_over_time.length);
+  // console.log("goal_weight_over_time:", goal_weight_over_time.length);
+  console.log("weight_over_time:", weight_over_time.length);
 }
 
 async function runCaloriesOverTime() {
@@ -37,5 +63,5 @@ async function runCaloriesOverTime() {
   console.log(await caloriesOverTime(user_id, time_zone, start_date, end_date));
 }
 
-runWeightOverTime();
-runCaloriesOverTime();
+// runWeightOverTime();
+// runCaloriesOverTime();

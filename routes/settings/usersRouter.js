@@ -104,7 +104,7 @@ router.post(
   "/:user_id/weight-goal",
   mapFirebaseIDtoUserID,
   async (req, res) => {
-    const user_id = req.params.id;
+    const user_id = req.params.user_id;
     const newWeightGoal = req.body;
 
     newWeightGoal.user_id = user_id;
@@ -225,23 +225,15 @@ router.post(
 */
 
 /*
-    TODO:
-
-      Time-Zone will be passed in
+  const actualWeightOverTime = require("./actualWeightOverTimeDB");
+  const goalWeightOverTime = require("./goalWeightOverTimeDB");
+  const weightOverTime = require("./weightOverTimeDB");
 */
 
-router.post("/:user_id/progress/weight", async (req, res) => {
-  const { start_date, end_date } = req.body;
-
-  try {
-    res.status(200).json({
-      message: "OK"
-    });
-  } catch (err) {
-    res.status(500).json({
-      errorMessage: "ERROR"
-    });
-  }
-});
+/*
+  goal_weight_kg --> array that plots the slope
+  actual_weight_kg ==> array that contains all the data points
+  observation dates --> array that gives you the dates to populate on the chart
+*/
 
 module.exports = router;

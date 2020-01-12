@@ -16,7 +16,7 @@ const goal_protein_macros_goal_over_time = (
     select 
       d_a_d.user_id,
       d_a_d.observation_date,
-      ROUND(ubd.protein_ratio::decimal * ubd.caloric_budget / 4, 2) as goal_protein_macros
+      ROUND(ubd.protein_ratio::decimal * 100) as goal_protein_macros
     from ${daily_applicable_dates} as d_a_d
     inner join user_budget_data as ubd
     on 

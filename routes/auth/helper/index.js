@@ -15,14 +15,14 @@ module.exports = {
 // https://www.calculator.net/bmr-calculator.html
 function getCaloricBudget(newUser) {
   let { sex, activity_level, dob, actual_weight_kg, height_cm } = newUser;
-
-  return Math.round(
+  const budget = Math.round(
     (10 * actual_weight_kg +
       6.25 * height_cm -
       5 * getAge(dob) +
       (sex === "Male" ? 5 : -161)) *
       activity_level
   );
+  return budget;
 }
 
 /********************************************************
@@ -43,15 +43,10 @@ function getAge(dob) {
   return age;
 }
 
-function afterWeightGoalIsAchieved(user) {
-  // wat do when we achieve our goal
-}
-
 /********************************************************
  *                                                      *
  ********************************************************/
 function calculateWeightGoalDates(newUser) {
-  console.log("here");
   let {
     actual_weight_kg,
     goal_weight_kg,
