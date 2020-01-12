@@ -1,14 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const MacroInfo = require("./macroDB");
 const mapFirebaseIDtoUserID = require("../../middleware/mapFirebaseIDtoUserID");
-const actualWeightOverTime = require("../progressReport/actualWeightOverTimeDB");
-const targetGoalWeightOverTimeDB = require("../progressReport/targetGoalWeightOverTimeDB");
-const averageMacrosOverTime = require("../progressReport/averageMacrosOverTimeDB");
-const caloriesOverTime = require("../progressReport/caloriesOverTimeDB");
-const fatMacrosOverTime = require("../progressReport/fatMacrosOverTimeDB");
-const carbsMacrosOverTime = require("../progressReport/carbsMacrosOverTimeDB");
-const proteinMacrosOverTime = require("../progressReport/proteinMacrosOverTimeDB");
+const actualWeightOverTime = require("./postgres-queries/actualWeightOverTimeDB");
+const targetGoalWeightOverTimeDB = require("./postgres-queries/targetGoalWeightOverTimeDB");
+const averageMacrosOverTime = require("./postgres-queries/averageMacrosOverTimeDB");
+const caloriesOverTime = require("./postgres-queries/caloriesOverTimeDB");
+const fatMacrosOverTime = require("./postgres-queries/fatMacrosOverTimeDB");
+const carbsMacrosOverTime = require("./postgres-queries/carbsMacrosOverTimeDB");
+const proteinMacrosOverTime = require("./postgres-queries/proteinMacrosOverTimeDB");
 const {
   weightsToLbs,
   truncateData,
@@ -16,17 +15,21 @@ const {
   formatDates
 } = require("./helper/index");
 
+const {
+  presentMinusXDays,
+  tomorrow
+} = require("../../data/helpers/timestampOffsetFns");
+
 /********************************************************
- *                 GET FATS OVER TIME                    *
+ *            GET MACRO BREAKDOWN OVER TIME              *
  ********************************************************/
 router.post(
-  "/:user_id/macros/fats/:period",
+  "/:user_id/macros-breakdown/:period",
   mapFirebaseIDtoUserID,
   async (req, res) => {
     const user_id = req.params.user_id;
     const period = req.params.period;
     const { time_zone, start_date, end_date } = req.body;
-
     try {
       let fatMacros = await fatMacrosOverTime(
         user_id,
@@ -35,32 +38,8 @@ router.post(
         end_date
       );
 
-      fatMacros = truncateData(fatMacros, period);
+      fatMacros = truncateData(fatMacros, period, "targets");
 
-      res.status(200).json({
-        fatMacros
-      });
-    } catch (err) {
-      console.log(err);
-      res.status(500).json({
-        errorMessage: "ERROR"
-      });
-    }
-  }
-);
-
-/********************************************************
- *                 GET CARBS OVER TIME                   *
- ********************************************************/
-router.post(
-  "/:user_id/macros/carbs/:period",
-  mapFirebaseIDtoUserID,
-  async (req, res) => {
-    const user_id = req.params.user_id;
-    const period = req.params.period;
-    const { time_zone, start_date, end_date } = req.body;
-
-    try {
       let carbMacros = await carbsMacrosOverTime(
         user_id,
         time_zone,
@@ -68,32 +47,8 @@ router.post(
         end_date
       );
 
-      carbMacros = truncateData(carbMacros, period);
+      carbMacros = truncateData(carbMacros, period, "targets");
 
-      res.status(200).json({
-        carbMacros
-      });
-    } catch (err) {
-      console.log(err);
-      res.status(500).json({
-        errorMessage: "ERROR"
-      });
-    }
-  }
-);
-
-/********************************************************
- *                GET PROTEIN OVER TIME                  *
- ********************************************************/
-router.post(
-  "/:user_id/macros/protein/:period",
-  mapFirebaseIDtoUserID,
-  async (req, res) => {
-    const user_id = req.params.user_id;
-    const period = req.params.period;
-    const { time_zone, start_date, end_date } = req.body;
-
-    try {
       let proteinMacros = await proteinMacrosOverTime(
         user_id,
         time_zone,
@@ -101,13 +56,14 @@ router.post(
         end_date
       );
 
-      proteinMacros = truncateData(proteinMacros, period);
+      proteinMacros = truncateData(proteinMacros, period, "targets");
 
       res.status(200).json({
+        fatMacros,
+        carbMacros,
         proteinMacros
       });
     } catch (err) {
-      console.log(err);
       res.status(500).json({
         errorMessage: "ERROR"
       });
@@ -118,13 +74,6 @@ router.post(
 /********************************************************
  *             GET WEIGHT ACTUALS/WEIGHT GOALS          *
  ********************************************************/
-/*
-  const actualWeightOverTime = require("../progressReport/actualWeightOverTimeDB");
-  const goalWeightOverTime = require("../progressReport/goalWeightOverTimeDB");
-*/
-
-// CREATE TWO SEPARATE ROUTERS... YOU NEED DIFFERENT LOGIC FOR ACTUALS AND GOALS..
-
 router.post(
   "/:user_id/weight-actuals/:period",
   mapFirebaseIDtoUserID,
@@ -194,6 +143,7 @@ router.post(
 /********************************************************
  *             GET WEIGHT ACTUALS/WEIGHT GOALS          *
  ********************************************************/
+
 router.post(
   "/:user_id/calories/:period",
   mapFirebaseIDtoUserID,

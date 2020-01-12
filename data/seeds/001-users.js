@@ -47,8 +47,8 @@ exports.seed = function(knex) {
         },
         {
           // id: 5,
-          firebase_id: "dave",
-          email: "dave@dave.com",
+          firebase_id: "paxnAEqEsPTWJs2DdPEHYjDa4uq2",
+          email: "billy@thekid.com",
           height_cm: 180,
           sex: "Male",
           dob: "1987-09-29"

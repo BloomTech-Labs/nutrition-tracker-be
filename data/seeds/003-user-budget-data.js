@@ -81,9 +81,9 @@ exports.seed = function(knex) {
           actual_weight_kg: 81.64,
           activity_level: 1.55,
           caloric_budget: 2000.0,
-          fat_ratio: 0.3,
+          fat_ratio: 0.7,
           protein_ratio: 0.2,
-          carb_ratio: 0.5
+          carb_ratio: 0.1
         },
         {
           user_id: 6,
