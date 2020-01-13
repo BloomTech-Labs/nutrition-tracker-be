@@ -30,7 +30,7 @@ router.get("/getfooditem/:foodlogID", async (req, res) => {
       let data;
       let servingArrayData;
       await fetch(
-        "https://nutri-journal.herokuapp.com/fatsecret/get-food/${fatsecret_food_id}" //make a fetch request from our api and and get info
+        `https://nutri-journal.herokuapp.com/fatsecret/get-food/${fatsecret_food_id}` //make a fetch request from our api and and get info
       )
         .then(checkStatus)
         .then(res => res.json())
