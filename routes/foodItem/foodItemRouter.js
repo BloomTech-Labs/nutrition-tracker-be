@@ -1,13 +1,8 @@
 const express = require("express");
 const db = require("../logentry/logEntryDB");
 const fetch = require("node-fetch");
-require("dotenv").config();
 
-const dev = Boolean(process.env.DEV) || false;
-
-const BASE_URL = dev
-  ? "http://localhost:4000"
-  : "https://nutri-journal.herokuapp.com";
+const { backendURL } = require("../../config/backendUrlPort.js");
 
 router = express.Router();
 
@@ -30,7 +25,7 @@ router.get("/getfooditem/:foodlogID", async (req, res) => {
       let data;
       let servingArrayData;
       await fetch(
-        `https://nutri-journal.herokuapp.com/fatsecret/get-food/${fatsecret_food_id}` //make a fetch request from our api and and get info
+        `${backendURL}/fatsecret/get-food/${fatsecret_food_id}` //make a fetch request from our api and and get info
       )
         .then(checkStatus)
         .then(res => res.json())
