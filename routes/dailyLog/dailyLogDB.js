@@ -1,27 +1,34 @@
 const db = require("../../data/knex");
 
 module.exports = {
-	getCaloricBudget,
-	getDailyLog
+  getCaloricBudget,
+  getDailyLog
 };
 
 /********************************************************
-*                    GET CALORIC BUDGETS                *
-********************************************************/
-function getCaloricBudget(user_id) {
-  return db("user_budget_data")
-    .select(
-      "caloric_budget", 
-      "fat_ratio", 
-      "protein_ratio", 
-      "carb_ratio")
+ *                    GET CALORIC BUDGETS                *
+ ********************************************************/
+async function getCaloricBudget(user_id) {
+  const { caloric_budget } = await db("user_budget_data")
+    .select("caloric_budget")
     .where({ user_id })
+    .whereNotNull("caloric_budget")
+    .orderBy("applicable_date", "desc")
     .first();
+  const { fat_ratio, protein_ratio, carb_ratio } = await db("user_budget_data")
+    .select("fat_ratio", "protein_ratio", "carb_ratio")
+    .where({ user_id })
+    .whereNotNull("fat_ratio")
+    .whereNotNull("protein_ratio")
+    .whereNotNull("carb_ratio")
+    .orderBy("applicable_date", "desc")
+    .first();
+  return { caloric_budget, fat_ratio, protein_ratio, carb_ratio };
 }
 
 /********************************************************
-*                      GET DAILY LOG                    *
-********************************************************/
+ *                      GET DAILY LOG                    *
+ ********************************************************/
 function getDailyLog(user_id, from, to) {
   return db("food_log as fl")
     .join("foods as f", {
