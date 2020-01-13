@@ -4,10 +4,6 @@ exports.seed = function(knex) {
   return knex.raw("TRUNCATE TABLE foods RESTART IDENTITY CASCADE").then(() => {
     // Inserts seed entries
     return knex("foods").insert([
-      // *** do not manually specify "ID" ***
-      // it can cause issues when data is inserted later that does not specify the id to be generated.
-      // if you want id's to see visually which record it corresponds to, just comment it out.
-
       {
         // "id": 1,
         fatsecret_food_id: 3433,
@@ -148,7 +144,8 @@ exports.seed = function(knex) {
         food_name: "Spam Classic",
         food_type: "Brand",
         brand_name: "Hormel",
-        serving_url: "https://www.fatsecret.com/calories-nutrition/hormel/spam-classic",
+        serving_url:
+          "https://www.fatsecret.com/calories-nutrition/hormel/spam-classic",
         serving_desc: "2 oz",
         serving_qty: "1.00",
         serving_unit: "serving",
@@ -312,7 +309,8 @@ exports.seed = function(knex) {
         food_name: "Coca-Cola Classic (20 oz)",
         food_type: "Brand",
         brand_name: "Coca-Cola",
-        serving_url: "https://www.fatsecret.com/calories-nutrition/coca-cola/coca-cola-classic-(20-oz)",
+        serving_url:
+          "https://www.fatsecret.com/calories-nutrition/coca-cola/coca-cola-classic-(20-oz)",
         serving_desc: "1 bottle",
         serving_qty: "1.00",
         serving_unit: "serving",
