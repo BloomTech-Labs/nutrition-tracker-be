@@ -229,12 +229,12 @@ exports.seed = function(knex) {
         {
           user_id: 1,
           applicable_date: presentMinusXDays(71),
-          actual_weight_kg: 78.9499999999999
+          actual_weight_kg: 79.9499999999999
         },
         {
           user_id: 1,
           applicable_date: presentMinusXDays(70),
-          actual_weight_kg: 78.88571428571419
+          actual_weight_kg: 81.88571428571419
         },
         {
           user_id: 1,
@@ -319,7 +319,7 @@ exports.seed = function(knex) {
         {
           user_id: 1,
           applicable_date: presentMinusXDays(53),
-          actual_weight_kg: 77.792857142857
+          actual_weight_kg: 76.792857142857
         },
         {
           user_id: 1,
@@ -404,12 +404,12 @@ exports.seed = function(knex) {
         {
           user_id: 1,
           applicable_date: presentMinusXDays(36),
-          actual_weight_kg: 76.69999999999982
+          actual_weight_kg: 75.69999999999982
         },
         {
           user_id: 1,
           applicable_date: presentMinusXDays(35),
-          actual_weight_kg: 76.6357142857141
+          actual_weight_kg: 75.6357142857141
         },
         {
           user_id: 1,
@@ -499,7 +499,7 @@ exports.seed = function(knex) {
         {
           user_id: 1,
           applicable_date: presentMinusXDays(17),
-          actual_weight_kg: 75.4785714285712
+          actual_weight_kg: 76.4785714285712
         },
         {
           user_id: 1,
