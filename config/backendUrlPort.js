@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-export const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4000;
 
 const environment = process.env.ENVIRONMENT || "production";
 
@@ -26,4 +26,6 @@ const backendURLs = {
 //                     or development, simply edit the `.env` file, eg set:
 //                     REACT_APP_backendURL=http://the-backend-you-want-to-use.com
 
-export const backendURL = process.env.REACT_APP_backendURL || backendURLs[environment];
+const backendURL = process.env.REACT_APP_backendURL || backendURLs[environment];
+
+module.exports = { PORT, backendURL };
