@@ -7,7 +7,7 @@ const dev = Boolean(process.env.DEV) || false;
 
 const BASE_URL = dev
   ? "http://localhost:4000"
-  : "https://nutri-journal.herokuapp.com";
+  : "https://nutri-journal-staging.herokuapp.com";
 
 router = express.Router();
 
