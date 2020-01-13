@@ -1,7 +1,7 @@
 require("dotenv").config();
 const server = require("./server");
 const Sentry = require("@sentry/node");
-const PORT = process.env.PORT || 4000;
+const { PORT } = require("./config/backendUrlPort.js");
 const DSN = process.env.SENTRY_DSN;
 const MIXPANEL_TOKEN = process.env.MIXPANEL_TOKEN;
 const Mixpanel = require("mixpanel");
