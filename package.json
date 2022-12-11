@@ -20,7 +20,7 @@
     "circular-json": "^0.5.9",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "firebase-admin": "^8.7.0",
     "helmet": "^3.21.2",
     "hmacsha1": "^1.0.0",
